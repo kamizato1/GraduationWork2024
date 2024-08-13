@@ -1,10 +1,16 @@
 #include"DxLib.h"
 #include"CombatCharacterBase.h"
 
-CombatCharacterBase::CombatCharacterBase(DATA location, DATA size, int hp, int mp, int attack_power, int defense_power) : 
-CharacterBase(location, size),
-hp(hp), mp(mp), max_hp(hp), max_mp(mp), attack_power(attack_power), defense_power(defense_power),is_dead(false)
+CombatCharacterBase::CombatCharacterBase(F_VECTOR2 array_location, F_VECTOR2 tile_size, int hp, int mp, int attack_power, int defense_power) : CharacterBase(array_location, tile_size)
 {
+    this->hp = hp;
+    this->mp = mp;
+    max_hp = hp;
+    max_mp = mp;
+    this->attack_power = attack_power;
+    this->defense_power = defense_power;
+    is_dead = false;
+
     OutputDebugString("CombatCharacterBaseコンストラクタ呼ばれました。\n");
 }
 

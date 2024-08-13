@@ -1,15 +1,25 @@
 #pragma once
-#include"ObjectBase.h"
+#include"define.h"
 
-class CharacterBase : public ObjectBase
+class CharacterBase //オブジェクトの基底クラス
 {
+private:
+	F_VECTOR2 array_location;//配列上の座標
+	F_VECTOR2 location;//オブジェクトの座標
+
 protected:
-    class BattleField* battle_field;
-    class PlayerManager* player_manager;
-    class EnemyManager* enemy_manager;
-    class AttackManager* attack_manager;
+
+	void SetArrayLocation(F_VECTOR2 array_location);
+
+	F_VECTOR2 GetArrayLocation()const;
+	void UpdateLocation();
 
 public:
-    CharacterBase(F_VECTOR2 array_location, F_VECTOR2 block_size);
-    ~CharacterBase();
+
+	CharacterBase(F_VECTOR2 array_location, F_VECTOR2 tile_size);
+	~CharacterBase();
+
+	virtual void Update(float delta_time) = 0;
+	virtual void Draw()const = 0;
 };
+

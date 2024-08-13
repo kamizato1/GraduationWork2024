@@ -16,41 +16,8 @@
     <Filter Include="ソース ファイル\Scene">
       <UniqueIdentifier>{c2fa4900-b3bd-4b16-aeff-2ea9721c4fd5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Character">
-      <UniqueIdentifier>{63b3bd9f-a882-4eca-a799-b4b12d387dad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Character\Player">
-      <UniqueIdentifier>{2180383d-1554-4566-a437-0c616604446e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Character\Enemy">
-      <UniqueIdentifier>{a8d351fe-9c9f-412a-af0c-f731a000886c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Block">
-      <UniqueIdentifier>{c97e63d0-6b50-4fed-b0bb-b883e6917a37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Character">
-      <UniqueIdentifier>{3c38099c-dba8-489d-aeb6-5483e0b10c4a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Character\Enemy">
-      <UniqueIdentifier>{56cce4dc-8a81-40bf-a73a-0df9af624216}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Character\Player">
-      <UniqueIdentifier>{4fb8731f-53bf-4c1c-98a9-b4ea19ca8a0a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Scene">
       <UniqueIdentifier>{d8020643-a341-470d-935d-42b449bf13e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Character\Enemy\Boss">
-      <UniqueIdentifier>{98de1463-bc53-42be-b60f-0612ead249d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Character\Enemy\Boss">
-      <UniqueIdentifier>{17416cc9-d2d1-440e-90de-b29c202d2365}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\ObjectBase">
-      <UniqueIdentifier>{d9311036-07aa-49d7-bce2-a1467d6650a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\ObjectBase">
-      <UniqueIdentifier>{df8763e2-09eb-468a-a58d-681e7cc45f6b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,24 +26,6 @@
     </ClInclude>
     <ClInclude Include="Key.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectBase.h">
-      <Filter>ヘッダー ファイル\ObjectBase</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterBase.h">
-      <Filter>ヘッダー ファイル\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBase.h">
-      <Filter>ヘッダー ファイル\Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Hero.h">
-      <Filter>ヘッダー ファイル\Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Slime.h">
-      <Filter>ヘッダー ファイル\Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="GameMainScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
@@ -93,50 +42,17 @@
     <ClInclude Include="TitleScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Bird.h">
-      <Filter>ヘッダー ファイル\Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerManager.h">
-      <Filter>ヘッダー ファイル\Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Attack.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Flower.h">
-      <Filter>ヘッダー ファイル\Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Warrior.h">
-      <Filter>ヘッダー ファイル\Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Wizard.h">
-      <Filter>ヘッダー ファイル\Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Monk.h">
-      <Filter>ヘッダー ファイル\Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="AttackManager.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Fairy.h">
-      <Filter>ヘッダー ファイル\Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Ui.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Message.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BlackMage.h">
-      <Filter>ヘッダー ファイル\Character\Enemy\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="TalkUi.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>ヘッダー ファイル\Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBase.h">
-      <Filter>ヘッダー ファイル\Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="HelpScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
@@ -147,16 +63,10 @@
     <ClInclude Include="GameClearScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="CombatCharacterBase.h">
-      <Filter>ヘッダー ファイル\Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="NpcBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="King.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="NpcManager.h">
@@ -165,19 +75,31 @@
     <ClInclude Include="BattleField.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="CombatCharacterBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AppMain.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Key.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectBase.cpp">
-      <Filter>ソース ファイル\ObjectBase</Filter>
     </ClCompile>
     <ClCompile Include="GameMainScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
@@ -191,65 +113,17 @@
     <ClCompile Include="TitleScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterBase.cpp">
-      <Filter>ソース ファイル\Character</Filter>
-    </ClCompile>
-    <ClCompile Include="Slime.cpp">
-      <Filter>ソース ファイル\Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>ソース ファイル\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBase.cpp">
-      <Filter>ソース ファイル\Character\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Hero.cpp">
-      <Filter>ソース ファイル\Character\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Bird.cpp">
-      <Filter>ソース ファイル\Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerManager.cpp">
-      <Filter>ソース ファイル\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Attack.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Flower.cpp">
-      <Filter>ソース ファイル\Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Warrior.cpp">
-      <Filter>ソース ファイル\Character\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Wizard.cpp">
-      <Filter>ソース ファイル\Character\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Monk.cpp">
-      <Filter>ソース ファイル\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="AttackManager.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Fairy.cpp">
-      <Filter>ソース ファイル\Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Ui.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Message.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BlackMage.cpp">
-      <Filter>ソース ファイル\Character\Enemy\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="TalkUi.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>ソース ファイル\Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBase.cpp">
-      <Filter>ソース ファイル\Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="HelpScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
@@ -260,22 +134,40 @@
     <ClCompile Include="GameClearScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="CombatCharacterBase.cpp">
-      <Filter>ソース ファイル\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="NpcBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="King.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="NpcManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="BattleField.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatCharacterBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="AppMain.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

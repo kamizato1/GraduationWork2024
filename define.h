@@ -24,11 +24,3 @@ struct I_VECTOR2 //配列の座標などに使う(int型)
 {
     int x, y;
 };
-
-enum class PLAYER_JOB//プレイヤー職業
-{
-    HERO,//勇者
-    WARRIOR,//戦士
-    WIZARD,//魔法使い
-    MONK//僧侶
-};

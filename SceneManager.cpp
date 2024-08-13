@@ -1,7 +1,6 @@
 #include"DxLib.h"
 #include"SceneManager.h"
 #include"TitleScene.h"
-#include"TalkUi.h"
 #include"HelpScene.h"
 #include"CreditScene.h"
 #include"GameMainScene.h"
@@ -132,8 +131,6 @@ SceneBase* SceneManager::CreateScene(SCENE_TYPE scene_type)
 	{
 	case SCENE_TYPE::TITLE:
 		return new TitleScene;
-	case SCENE_TYPE::TALKUI:
-		return new TalkUi;
 	case SCENE_TYPE::HELPSCENE:
 		return new HelpScene;
 	case SCENE_TYPE::CREDITSCENE:

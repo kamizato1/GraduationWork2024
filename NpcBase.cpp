@@ -1,22 +1,21 @@
 #include"DxLib.h"
 #include"NpcBase.h"
 
-
-NpcBase::NpcBase(DATA location, DATA size, const char* text_data_name) : CharacterBase(location, size)
+NpcBase::NpcBase(F_VECTOR2 array_location, F_VECTOR2 block_size, const char* text_data_name) : CharacterBase(array_location, block_size)
 {
-    strcpy_s(this->text_data_name, sizeof(this->text_data_name), text_data_name);
+    //this->text_data_name = new std::string(text_data_name);
    
     OutputDebugString("NpcBaseコンストラクタ呼ばれました。\n");
 }
 
 NpcBase::~NpcBase()
 {
-    for (int i = 0; i < 4; i++)DeleteGraph(npc_image[i]);
+    delete text_data_name;
 
     OutputDebugString("NpcBaseデストラクタが呼ばれました。\n");
 }
 
-const char* NpcBase::GetTextDataName()const
+std::string NpcBase::GetTextDataName()const
 {
-    return text_data_name;
+    return *text_data_name;
 }

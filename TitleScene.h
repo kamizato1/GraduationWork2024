@@ -1,14 +1,11 @@
 #pragma once
 #include "SceneBase.h"
-#include"TalkUi.h"
 
 #define MENU_NUM 4
 
 class TitleScene : public SceneBase
 {
 private:
-
-    TalkUi talkUi; // TalkUIのインスタンスをメンバ変数として保持
 
     static const int CHARACTER_COUNT = 4; // キャラクターの数を4に変更
     int characterImages[CHARACTER_COUNT][5];

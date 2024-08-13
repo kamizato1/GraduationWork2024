@@ -1,16 +1,12 @@
 #pragma once
 #include"SceneBase.h"
-#include"Stage.h"
+#include"Field.h"
 
 class GameMainScene :public SceneBase
 {
 private:
-
-	Stage* stage;
+	class Field* field;
 	
-	int bgm;
-	bool is_pause;//ポーズ画面表示するか？
-
 public:
 	GameMainScene();
 	virtual ~GameMainScene();
@@ -18,8 +14,8 @@ public:
 	void Initialize() override;
 	void Finalize() override;
 
-	virtual SCENE_TYPE Update(float delta_time) override;
-	virtual void Draw() const override;
+	SCENE_TYPE Update(float delta_time) override;
+	void Draw() const override;
 	
-	virtual SCENE_TYPE GetNowScene() const override;
+	SCENE_TYPE GetNowScene() const override;
 };

@@ -117,7 +117,7 @@ void Message::Draw() const
     int draw_line_text_num = this->draw_line_text_num;
 
     // •¶Žš‚Ì•\Ž¦ˆÊ’u
-    DATA text_location = { DRAW_TEXT_LOCATION_X, DRAW_TEXT_LOCATION_Y };
+    F_VECTOR2 text_location = { DRAW_TEXT_LOCATION_X, DRAW_TEXT_LOCATION_Y };
 
     for (int i = draw_start_text_line; i < text_line.size(); i++)
     {

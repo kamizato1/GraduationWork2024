@@ -1,32 +1,22 @@
-#include"DxLib.h"
+#include"dxlib.h"
 #include"CharacterBase.h"
 
-CharacterBase::CharacterBase(F_VECTOR2 array_location, F_VECTOR2 block_size) : ObjectBase(array_location, block_size)
+CharacterBase::CharacterBase(F_VECTOR2 array_location, F_VECTOR2 tile_size)
 {
-    OutputDebugString("CharacterBaseコンストラクタ呼ばれました。\n");
-}
+	this->array_location = array_location; //配列座標
 
-void CharacterBase::SetPointer(class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager, class AttackManager* attack_manager)
-{
-    this->stage = stage;
-    this->player_manager = player_manager;
-    this->enemy_manager = enemy_manager;
-    this->attack_manager = attack_manager;
+	this->location.x = array_location.x * tile_size.x;//座標
+	this->location.y = array_location.y * tile_size.y;
+
+	OutputDebugString("ObjectBaseコンストラクタが呼ばれました。\n");
 }
 
 CharacterBase::~CharacterBase()
 {
-    OutputDebugString("CharacterBaseデストラクタが呼ばれました。\n");
+	OutputDebugString("ObjectBaseデストラクタが呼ばれました。\n");
 }
 
-
-//-----------------------------------
-//キャラクター間の距離を測る
-//-----------------------------------
-float CharacterBase::CalculateDistance(DATA target_location)const
+void CharacterBase::SetArrayLocation(F_VECTOR2 array_location)
 {
-    float dx = target_location.x - location.x;
-    float dy = target_location.y - location.y;
-    return (float)sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
-}
 
+}

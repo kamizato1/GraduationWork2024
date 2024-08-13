@@ -1,21 +1,21 @@
 #pragma once
 #include"CharacterBase.h"
-#include"Stage.h"
+#include <string>
 
 class NpcBase : public CharacterBase
 {
 private:
-    char text_data_name[256];
+    std::string* text_data_name;//メッセージ1桁
 
 protected:
-    int npc_image[4];
 
 public:
-    NpcBase(DATA location, DATA size, const char* text_data_name);
+
+    NpcBase(F_VECTOR2 array_location, F_VECTOR2 block_size, const char* text_data_name);
     ~NpcBase();
 
-    virtual void Update() = 0;
-    virtual void Draw()const = 0;
+    void Update(float delta_time) override {};
+    void Draw()const override {};
 
-    const char* GetTextDataName()const;
+    std::string GetTextDataName()const;
 };

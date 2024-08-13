@@ -108,10 +108,6 @@ void TitleScene::Finalize()
 
     StopSoundMem(bgm);
     DeleteSoundMem(bgm);
-
-
-    // TalkUIの終了処理
-    talkUi.Finalize();
 }
 
 SCENE_TYPE TitleScene::Update(float delta_time)
@@ -169,96 +165,96 @@ SCENE_TYPE TitleScene::Update(float delta_time)
 
 
     // メニューのスクロール完了後の操作処理
-    if (!isMenuScrolling)
-    {
-       
-        // メニュー選択
-        if (!credit && !help)
-        {
-            // Aボタンで各シーンに移行
-            if (key->KeyDown(KEY_TYPE::A) && select_menu == 0 && (currentTime - lastAPressTime) > 500)
-            {
-                lastAPressTime = currentTime; // 「A」ボタンが押された時間を更新
-                PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
-                while (CheckSoundMem(decision_se) == 1) {}
-                talkUi.Initialize();
-                return SCENE_TYPE::MAIN;
-            }
-            else if (key->KeyDown(KEY_TYPE::A) && select_menu == 1 && (currentTime - lastAPressTime) > 500)
-            {
-                lastAPressTime = currentTime; // 「A」ボタンが押された時間を更新
-                PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
-                return SCENE_TYPE::HELPSCENE;
-            }
-            else if (key->KeyDown(KEY_TYPE::A) && select_menu == 2 && (currentTime - lastAPressTime) > 500)
-            {
-                lastAPressTime = currentTime; // 「A」ボタンが押された時間を更新
-                PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
-                return SCENE_TYPE::CREDITSCENE;
-            }
-            else if (key->KeyDown(KEY_TYPE::A) && select_menu == 3 && (currentTime - lastAPressTime) > 500)
-            {
-                lastAPressTime = currentTime; // 「A」ボタンが押された時間を更新
-                PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
-                DxLib_End();
-            }
-          
-        }
+    //if (!isMenuScrolling)
+    //{
+    //   
+    //    // メニュー選択
+    //    if (!credit && !help)
+    //    {
+    //        // Aボタンで各シーンに移行
+    //        if (key->KeyDown(KEY_TYPE::A) && select_menu == 0 && (currentTime - lastAPressTime) > 500)
+    //        {
+    //            lastAPressTime = currentTime; // 「A」ボタンが押された時間を更新
+    //            PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
+    //            while (CheckSoundMem(decision_se) == 1) {}
+    //            talkUi.Initialize();
+    //            return SCENE_TYPE::MAIN;
+    //        }
+    //        else if (key->KeyDown(KEY_TYPE::A) && select_menu == 1 && (currentTime - lastAPressTime) > 500)
+    //        {
+    //            lastAPressTime = currentTime; // 「A」ボタンが押された時間を更新
+    //            PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
+    //            return SCENE_TYPE::HELPSCENE;
+    //        }
+    //        else if (key->KeyDown(KEY_TYPE::A) && select_menu == 2 && (currentTime - lastAPressTime) > 500)
+    //        {
+    //            lastAPressTime = currentTime; // 「A」ボタンが押された時間を更新
+    //            PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
+    //            return SCENE_TYPE::CREDITSCENE;
+    //        }
+    //        else if (key->KeyDown(KEY_TYPE::A) && select_menu == 3 && (currentTime - lastAPressTime) > 500)
+    //        {
+    //            lastAPressTime = currentTime; // 「A」ボタンが押された時間を更新
+    //            PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
+    //            DxLib_End();
+    //        }
+    //      
+    //    }
 
-        // ヘルプメニュー処理
-        if (help)
-        {
-            if (++input_time > INPUT_ACCEPTANCE_TIME)
-            {
-                if (key->GetStickAngle(KEY_TYPE::L).x > 0)
-                {
-                    PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
-                    if (++help_menu == 3) help_menu = 0;
-                    input_time = 1;
-                }
-                else if (key->GetStickAngle(KEY_TYPE::L).x < 0)
-                {
-                    PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
-                    if (--help_menu < 0) help_menu = 2;
-                    input_time = 1;
-                }
-            }
+    //    // ヘルプメニュー処理
+    //    if (help)
+    //    {
+    //        if (++input_time > INPUT_ACCEPTANCE_TIME)
+    //        {
+    //            if (key->GetStickAngle(KEY_TYPE::L).x > 0)
+    //            {
+    //                PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
+    //                if (++help_menu == 3) help_menu = 0;
+    //                input_time = 1;
+    //            }
+    //            else if (key->GetStickAngle(KEY_TYPE::L).x < 0)
+    //            {
+    //                PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
+    //                if (--help_menu < 0) help_menu = 2;
+    //                input_time = 1;
+    //            }
+    //        }
 
-            if (key->KeyDown(KEY_TYPE::A))
-            {
-                input_time = 1;
-                help_menu = 0;
-                help = false;
-            }
-        }
-        // クレジットメニュー処理
-        else if (credit)
-        {
-            if (key->KeyDown(KEY_TYPE::A))
-            {
-                credit = false;
-            }
-        }
-        // 通常メニュー処理
-        else
-        {
-            if (++input_time > INPUT_ACCEPTANCE_TIME)
-            {
-                if ((key->GetStickAngle(KEY_TYPE::L).y > 0) || (key->KeyDown(KEY_TYPE::DOWN)))
-                {
-                    PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
-                    if (++select_menu == 4) select_menu = 0;
-                    input_time = 1;
-                }
-                else if ((key->GetStickAngle(KEY_TYPE::L).y < 0) || (key->KeyDown(KEY_TYPE::UP)))
-                {
-                    PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
-                    if (--select_menu < 0) select_menu = 3;
-                    input_time = 1;
-                }
-            }
-        }
-    }
+    //        if (key->KeyDown(KEY_TYPE::A))
+    //        {
+    //            input_time = 1;
+    //            help_menu = 0;
+    //            help = false;
+    //        }
+    //    }
+    //    // クレジットメニュー処理
+    //    else if (credit)
+    //    {
+    //        if (key->KeyDown(KEY_TYPE::A))
+    //        {
+    //            credit = false;
+    //        }
+    //    }
+    //    // 通常メニュー処理
+    //    else
+    //    {
+    //        if (++input_time > INPUT_ACCEPTANCE_TIME)
+    //        {
+    //            if ((key->GetStickAngle(KEY_TYPE::L).y > 0) || (key->KeyDown(KEY_TYPE::DOWN)))
+    //            {
+    //                PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
+    //                if (++select_menu == 4) select_menu = 0;
+    //                input_time = 1;
+    //            }
+    //            else if ((key->GetStickAngle(KEY_TYPE::L).y < 0) || (key->KeyDown(KEY_TYPE::UP)))
+    //            {
+    //                PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
+    //                if (--select_menu < 0) select_menu = 3;
+    //                input_time = 1;
+    //            }
+    //        }
+    //    }
+    //}
 
     return GetNowScene();
 }

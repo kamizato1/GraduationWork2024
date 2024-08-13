@@ -66,9 +66,9 @@ bool Key::KeyDown(KEY_TYPE key_type)//âüÇµÇΩèuä‘
 	else return FALSE;
 }
 
-DATA Key::GetStickAngle(KEY_TYPE key)
+F_VECTOR2 Key::GetStickAngle(KEY_TYPE key)
 {
-	DATA sa = { 0.0f,0.0f };
+	F_VECTOR2 sa = { 0.0f,0.0f };
 
 	if (key == KEY_TYPE::L)
 	{

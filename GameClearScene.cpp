@@ -97,7 +97,7 @@ SCENE_TYPE GameClearScene::Update(float delta_time)
 		is_moving = true;
 	}
 	// 左スティックの入力処理
-	DATA l_stick = Key::GetStickAngle(KEY_TYPE::L);
+	F_VECTOR2 l_stick = Key::GetStickAngle(KEY_TYPE::L);
 	if (l_stick.x < -500)
 	{
 		hero_x -= stick_move_speed;

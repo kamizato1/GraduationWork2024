@@ -46,5 +46,5 @@ public:
 	static bool KeyUp(KEY_TYPE key_type);//ó£ÇµÇΩÇ∆Ç´
 	static bool KeyDown(KEY_TYPE key_type);//âüÇµÇΩèuä‘
 
-	static DATA GetStickAngle(KEY_TYPE key);
+	static F_VECTOR2 GetStickAngle(KEY_TYPE key);
 };
