@@ -1,7 +1,8 @@
 //#include"DxLib.h"
 //#include"PlayerBase.h"
 //#include"Stage.h"
-//#include"Key.h"
+//#include"
+// .h"
 //
 //#define PI 3.14159265358979323846// pi
 //

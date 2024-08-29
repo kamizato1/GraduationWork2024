@@ -32,7 +32,7 @@ void SceneManager::Initialize()
 		throw("ウィンドウモードで起動できませんでした\n");
 	}
 
-	SetGraphMode(1280, 720, 32);
+	SetGraphMode(720, 720, 32);
 
 	//DXライブラリの初期化
 	if (DxLib_Init() == -1)
@@ -78,6 +78,37 @@ void SceneManager::Update()
 		if (delta_second > (GetNowCount() - start_time))WaitTimer(delta_second - (GetNowCount() - start_time));
 		delta_time = GetNowCount() - start_time;
 	}
+
+
+
+	//int start_time = GetNowCount();//処理開始時の時間
+
+	//while (ProcessMessage() != -1)//メインループ
+	//{
+	//	int now_time = GetNowCount();//現在時間を取得
+
+	//	if ((now_time - start_time) >= delta_second)
+	//	{
+	//		// 入力更新
+	//		Key::Update();
+
+	//		//更新処理
+	//		SCENE_TYPE next_scene = current_scene->Update((float)(now_time - start_time) / 1000);
+
+	//		start_time = now_time;//フレーム開始時間を更新
+
+	//		//エンドが選択されていたらゲームを終了する
+	//		if (next_scene == SCENE_TYPE::GAME_END)break;
+
+	//		//現在のシーンと次のシーンが違っていたらシーンを変える
+	//		if (next_scene != current_scene->GetNowScene())ChangeScene(next_scene);
+
+	//		//描画処理
+	//		Draw();
+
+	//	}
+	//}
+
 }
 
 //シーンマネージャー機能：終了時処理

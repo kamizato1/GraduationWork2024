@@ -24,22 +24,22 @@ void Key::Update()
 		key[i].now_flg = FALSE;
 	}
 
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_A))key[static_cast<int>(KEY_TYPE::A)].now_flg = TRUE;//Aボタンが押されているか
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B)) key[static_cast<int>(KEY_TYPE::B)].now_flg = TRUE;//Bボタンが押されているか
-	//if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_6))key[static_cast<int>(KEY_TYPE::X)].now_flg = TRUE;//Aボタンが押されているか
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_4)) key[static_cast<int>(KEY_TYPE::Y)].now_flg = TRUE;//Bボタンが押されているか
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_6)) key[static_cast<int>(KEY_TYPE::R)].now_flg = TRUE;//Rボタンが押されているか
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_5)) key[static_cast<int>(KEY_TYPE::L)].now_flg = TRUE;//Lボタンが押されているか
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_UP))key[static_cast<int>(KEY_TYPE::UP)].now_flg = TRUE;//UPボタンが押されているか
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_DOWN))key[static_cast<int>(KEY_TYPE::DOWN)].now_flg = TRUE;//DOWNボタンが押されているか
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_RIGHT))key[static_cast<int>(KEY_TYPE::RIGHT)].now_flg = TRUE;//RIGHTボタンが押されているか
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_LEFT))key[static_cast<int>(KEY_TYPE::LEFT)].now_flg = TRUE;//LEFTボタンが押されているか
-	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_8)) key[static_cast<int>(KEY_TYPE::START)].now_flg = TRUE;//スタートボタンが押されているか
+	//if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_A))key[static_cast<int>(KEY_TYPE::A)].now_flg = TRUE;//Aボタンが押されているか
+	//if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B)) key[static_cast<int>(KEY_TYPE::B)].now_flg = TRUE;//Bボタンが押されているか
+	//if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_6)) key[static_cast<int>(KEY_TYPE::R)].now_flg = TRUE;//Rボタンが押されているか
+	//if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_5)) key[static_cast<int>(KEY_TYPE::L)].now_flg = TRUE;//Lボタンが押されているか
+	//if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_UP))key[static_cast<int>(KEY_TYPE::UP)].now_flg = TRUE;//UPボタンが押されているか
+	//if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_DOWN))key[static_cast<int>(KEY_TYPE::DOWN)].now_flg = TRUE;//DOWNボタンが押されているか
+	//if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_RIGHT))key[static_cast<int>(KEY_TYPE::RIGHT)].now_flg = TRUE;//RIGHTボタンが押されているか
+	//if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_LEFT))key[static_cast<int>(KEY_TYPE::LEFT)].now_flg = TRUE;//LEFTボタンが押されているか
+	//if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_8)) key[static_cast<int>(KEY_TYPE::START)].now_flg = TRUE;//スタートボタンが押されているか
 
 	if (CheckHitKey(KEY_INPUT_D))key[static_cast<int>(KEY_TYPE::RIGHT)].now_flg = TRUE;//RIGHTボタンが押されているか
 	if (CheckHitKey(KEY_INPUT_A))key[static_cast<int>(KEY_TYPE::LEFT)].now_flg = TRUE;//LEFTボタンが押されているか
-	if (CheckHitKey(KEY_INPUT_SPACE))key[static_cast<int>(KEY_TYPE::A)].now_flg = TRUE;//Aボタンが押されているか
-	if (CheckHitKey(KEY_INPUT_LSHIFT))key[static_cast<int>(KEY_TYPE::B)].now_flg = TRUE;//Aボタンが押されているか
+	if (CheckHitKey(KEY_INPUT_S))key[static_cast<int>(KEY_TYPE::DOWN)].now_flg = TRUE;//RIGHTボタンが押されているか
+	if (CheckHitKey(KEY_INPUT_W))key[static_cast<int>(KEY_TYPE::UP)].now_flg = TRUE;//RIGHTボタンが押されているか
+	//if (CheckHitKey(KEY_INPUT_SPACE))key[static_cast<int>(KEY_TYPE::A)].now_flg = TRUE;//Aボタンが押されているか
+	//if (CheckHitKey(KEY_INPUT_LSHIFT))key[static_cast<int>(KEY_TYPE::B)].now_flg = TRUE;//Aボタンが押されているか
 
 
 

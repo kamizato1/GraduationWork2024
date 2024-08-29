@@ -240,7 +240,8 @@ SCENE_TYPE TitleScene::Update(float delta_time)
     //    {
     //        if (++input_time > INPUT_ACCEPTANCE_TIME)
     //        {
-    //            if ((key->GetStickAngle(KEY_TYPE::L).y > 0) || (key->KeyDown(KEY_TYPE::DOWN)))
+    //            if ((
+    // ->GetStickAngle(KEY_TYPE::L).y > 0) || (key->KeyDown(KEY_TYPE::DOWN)))
     //            {
     //                PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE);
     //                if (++select_menu == 4) select_menu = 0;

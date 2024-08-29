@@ -2,14 +2,14 @@
 
 #define FONT_SIZE 35 // 文字の大きさ
 
-#define SCREEN_SIZE_X 1280 //横画面サイズ
+#define SCREEN_SIZE_X 720 //横画面サイズ
 #define SCREEN_SIZE_Y 720 //縦画面サイズ
 
-#define HALF_SCREEN_SIZE_X 640
+#define HALF_SCREEN_SIZE_X 360
 #define HALF_SCREEN_SIZE_Y 360
 
-#define STAGE_BLOCK_NUM_Y 15 //ステージの縦ブロックの数
-#define STAGE_BLOCK_NUM_X 276 //ステージの横ブロックの数
+#define FIELD_TILE_NUM_X 256
+#define FIELD_TILE_NUM_Y 256
 
 #define BLOCK_TYPE_NUM 17//ブロックの種類
 
@@ -24,3 +24,4 @@ struct I_VECTOR2 //配列の座標などに使う(int型)
 {
     int x, y;
 };
+
