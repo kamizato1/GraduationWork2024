@@ -1,22 +1,44 @@
-#include"dxlib.h"
+#include"DxLib.h"
 #include"CharacterBase.h"
 
-CharacterBase::CharacterBase(F_VECTOR2 array_location, F_VECTOR2 tile_size)
+CharacterBase::CharacterBase(const std::string& name, int hp, int mp, int attack_power, int defense_power, int speed)
 {
-	this->array_location = array_location; //配列座標
+	this->name = name;
+	this->hp = hp;
+	this->mp = mp;
+	this->attack_power = attack_power;
+	this->defense_power = defense_power;
+	this->speed = speed;
 
-	this->location.x = array_location.x * tile_size.x;//座標
-	this->location.y = array_location.y * tile_size.y;
-
-	OutputDebugString("ObjectBaseコンストラクタが呼ばれました。\n");
+	OutputDebugString("CharacterBaseコンストラクタ呼ばれました。\n");
 }
 
 CharacterBase::~CharacterBase()
 {
-	OutputDebugString("ObjectBaseデストラクタが呼ばれました。\n");
+	OutputDebugString("CharacterBaseデストラクタ呼ばれました。\n");
 }
 
-void CharacterBase::SetArrayLocation(F_VECTOR2 array_location)
+int CharacterBase::GetHp()const
 {
+	return hp;
+}
 
+int CharacterBase::GetMp()const
+{
+	return mp;
+}
+
+int CharacterBase::SetHp(int hp)
+{
+	return 0;
+}
+
+int CharacterBase::SetMp(int mp)
+{
+	return 0;
+}
+
+const char* CharacterBase::GetName()const
+{
+	return name.c_str();
 }

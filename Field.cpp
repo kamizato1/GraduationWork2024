@@ -1,29 +1,22 @@
 #include"DxLib.h"
 #include"Field.h"
 #include"Key.h"
+#include"Player.h"
 
-#define TILE_SIZE_X 48
+#define TILE_SIZE_X 48 //ƒ^ƒCƒ‹‚Ì‘å‚«‚³
 #define TILE_SIZE_Y 48
 
-#define DRAW_TILE_NUM_X 17
+#define DRAW_TILE_NUM_X 17 //•\¦‚·‚éƒtƒB[ƒ‹ƒh‚Ìƒ^ƒCƒ‹‚Ì”
 #define DRAW_TILE_NUM_Y 17
 
-#define PLAYER_SPEED 2
+#define PLAYER_SPEED 2 //ƒvƒŒƒCƒ„[‚ÌˆÚ“®‘¬“x
 
-int Clamp(int value, int min, int max)//’l‚ª”ÍˆÍŠO‚É‚È‚ç‚È‚¢‚æ‚¤‚É‚·‚é
-{
-	if (min > max)
-	{
-		int work = min;
-		min = max;
-		max = work;
-	}
-
-	if (value > max) return max;
-	else if (value < min)return min;
-
-	return value;
-}
+#define CHANGE_IMAGE_TIME 10 //‰æ‘œØ‚è‘Ö‚¦ŠÔ
+#define MAX_ENCOUNT_RATE 10 //Å‘åƒGƒ“ƒJƒEƒ“ƒg—¦(Š„‡)
+#define MAX_WALK_ENCOUNT_RATE 7 //•à‚¢‚Ä‚¢‚é‚Æ‚«ã‚ª‚éÅ‘åƒGƒ“ƒJƒEƒ“ƒg—¦iŠ„‡j
+#define SAFE_ENCOUNT_STEP 5 //ƒGƒ“ƒJƒEƒ“ƒg‚µ‚È‚¢•à”
+#define ENCOUNT_BLINKING_TIME_INTERVAL 5 //ƒGƒ“ƒJƒEƒ“ƒg‚Ì‰æ–Ê“_–ÅŠÔŠu
+#define ENCOUNT_BLINKING_COUNT 5 //ƒGƒ“ƒJƒEƒ“ƒg‚Ì“_–Å‰ñ”
 
 int WrapAround(int value, int min, int max)//’l‚ª”ÍˆÍŠO‚É‚È‚Á‚½‚çˆêü‚·‚é‚æ‚¤‚É‚·‚é
 {
@@ -40,30 +33,36 @@ int WrapAround(int value, int min, int max)//’l‚ª”ÍˆÍŠO‚É‚È‚Á‚½‚çˆêü‚·‚é‚æ‚¤‚É‚
 	return value;
 }
 
-Field::Field()
+Field::Field(Player* player)
 {
+	this->player = player;
+
 	SetFontSize(10);
 
-   /* class PlayerManager* player_manager;
-    class EnemyManager* enemy_manager;
-    class AttackManager* attack_manager;
-    class EventManager* event_manager;*/
-
 	if (LoadDivGraph("image/Field/tile.png", TILE_TYPE_NUM, TILE_TYPE_NUM, 1, 16, 16, tile_image) == -1)throw("image/Field/tile.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
+	if (LoadDivGraph("image/Field/Player/walk.png", 5, 5, 1, 50, 50, player_image[1]) == -1)throw("image/Field/Player/walk.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
+	if (LoadDivGraph("image/Field/Player/wait.png", 5, 5, 1, 50, 50, player_image[0]) == -1)throw("image/Field/Player/wait.png.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
 
 	SetField();
 
-	//ƒvƒŒƒCƒ„[‚Ì‰ŠúˆÊ’u‚Ìİ’è
+	//ƒvƒŒƒCƒ„[‚Ìİ’è
+	field_player.target_tile_array.x = 166; //ƒvƒŒƒCƒ„[À•Wi”z—ñj
+	field_player.target_tile_array.y = 60;
 
-	//”z—ñ
-	player.target_tile_array.x = 166;
-	player.target_tile_array.y = 60;
+	field_player.position.x = (field_player.target_tile_array.x * TILE_SIZE_X) + (TILE_SIZE_X / 2); //ƒvƒŒƒCƒ„[À•W
+	field_player.position.y = (field_player.target_tile_array.y * TILE_SIZE_Y) + (TILE_SIZE_Y / 2);
 
-	//À•W
-	player.position.x = (player.target_tile_array.x * TILE_SIZE_X) + (TILE_SIZE_X / 2);
-	player.position.y = (player.target_tile_array.y * TILE_SIZE_Y) + (TILE_SIZE_Y / 2);
+	field_player.speed = 0; //ƒvƒŒƒCƒ„[ƒXƒs[ƒh
 
-	player.speed = 0;
+	//////
+	image_change_time = 0; //‰æ‘œØ‚è‘Ö‚¦ŠÔ
+	draw_player_image_index = 0; //•\¦‚·‚é‰æ‘œ‚Ì”z—ñ”Ô†
+	encount_rate = -SAFE_ENCOUNT_STEP; //ƒGƒ“ƒJƒEƒ“ƒg‚µ‚È‚¢•à”
+
+	//ƒGƒ“ƒJƒEƒ“ƒgƒAƒjƒ[ƒVƒ‡ƒ“•Ï”
+	encount_blinking_count = 0;//‰æ–Ê‚ª“_–Å‚µ‚½‰ñ”
+	encount_blinking_time_interval = 0;//‰æ–Ê‚Ì“_–ÅŠÔ
+	is_encount_blinking = false;//‰æ–Ê‚ğ“_–Å‚³‚¹‚é‚©H
 
     OutputDebugString("FieldƒRƒ“ƒXƒgƒ‰ƒNƒ^ŒÄ‚Î‚ê‚Ü‚µ‚½B\n");
 }
@@ -71,9 +70,13 @@ Field::Field()
 void Field::SetField()
 {
 	FILE* field_data = nullptr;//ƒtƒB[ƒ‹ƒh“Ç‚İ‚İ
+	FILE* enemy_rank_data = nullptr;//oŒ»‚·‚é“G‚Ìƒ‰ƒ“ƒN“Ç‚İ‚İ
 
 	errno_t error_field_data = fopen_s(&field_data, "data/field.txt", "r");
 	if (error_field_data != 0)throw("data/field.txt‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");//ƒGƒ‰[ƒ`ƒFƒbƒN
+
+	errno_t error_enemy_rank_data = fopen_s(&enemy_rank_data, "data/enemyrank.txt", "r");
+	if (error_enemy_rank_data != 0)throw("data/enemyrank.txt‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");//ƒGƒ‰[ƒ`ƒFƒbƒN
 
 	for (int i = 0; i < FIELD_TILE_NUM_Y; i++)
 	{
@@ -82,10 +85,12 @@ void Field::SetField()
 			tile[i][j].position.x = (j * TILE_SIZE_X) + (TILE_SIZE_X / 2);
 			tile[i][j].position.y = (i * TILE_SIZE_Y) + (TILE_SIZE_Y / 2);
 			fscanf_s(field_data, "%d", &tile[i][j].type);
+			fscanf_s(enemy_rank_data, "%d", &tile[i][j].enemy_rank);
 		}
 	}
 
 	fclose(field_data);
+	fclose(enemy_rank_data);
 }
 
 Field::~Field()
@@ -94,51 +99,118 @@ Field::~Field()
 }
 
 
-bool Field::Update(float delta_time)
+int Field::Update(float delta_time)
 {
-	I_VECTOR2 target_position = tile[player.target_tile_array.y][player.target_tile_array.x].position;
-
-	if ((player.position.x == target_position.x) &&
-		(player.position.y == target_position.y))
+	//ƒGƒ“ƒJƒEƒ“ƒg‚µ‚½ê‡
+	if (encount_rate >= MAX_ENCOUNT_RATE)return EncountAnimation();
+	
+	//ƒGƒ“ƒJƒEƒ“ƒg‚µ‚Ä‚¢‚È‚¢ê‡
+	else
 	{
-		I_VECTOR2 player_target_tile_array = player.target_tile_array;
+		//ƒLƒƒƒ‰‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
 
-		if (Key::KeyPressed(KEY_TYPE::UP))
+		if (++image_change_time > CHANGE_IMAGE_TIME)
 		{
-			player.target_tile_array.y = WrapAround(player.target_tile_array.y - 1, 0, FIELD_TILE_NUM_Y - 1), player.speed = -PLAYER_SPEED;
-		}
-		else if (Key::KeyPressed(KEY_TYPE::DOWN))
-		{
-			player.target_tile_array.y = WrapAround(player.target_tile_array.y + 1, 0, FIELD_TILE_NUM_Y - 1), player.speed = PLAYER_SPEED;
-		}
-		else if (Key::KeyPressed(KEY_TYPE::LEFT))
-		{
-			player.target_tile_array.x = WrapAround(player.target_tile_array.x - 1, 0, FIELD_TILE_NUM_X - 1), player.speed = -PLAYER_SPEED;
-		}
-		else if (Key::KeyPressed(KEY_TYPE::RIGHT))
-		{
-			player.target_tile_array.x = WrapAround(player.target_tile_array.x + 1, 0, FIELD_TILE_NUM_X - 1), player.speed = PLAYER_SPEED;
+			image_change_time = 0;
+			if (++draw_player_image_index > 3)draw_player_image_index = 0;
 		}
 
-		//“–‚½‚è”»’è
-		if (tile[player.target_tile_array.y][player.target_tile_array.x].type >= 17)
+		//ƒvƒŒƒCƒ„[‚ªƒ}ƒX‚Ìã‚Å~‚Ü‚Á‚Ä‚¢‚éê‡
+
+		if ((field_player.position.x == tile[field_player.target_tile_array.y][field_player.target_tile_array.x].position.x) &&
+			(field_player.position.y == tile[field_player.target_tile_array.y][field_player.target_tile_array.x].position.y))
 		{
-			player.target_tile_array = player_target_tile_array;
+
+			//“G‚ÆƒGƒ“ƒJƒEƒ“ƒg‚·‚é‚©H
+
+			if (field_player.speed != 0)
+			{
+				field_player.speed = 0;
+
+				if (++encount_rate > MAX_WALK_ENCOUNT_RATE)encount_rate = MAX_WALK_ENCOUNT_RATE;
+
+				if (encount_rate > 0)
+				{
+					if (GetRand(MAX_ENCOUNT_RATE - encount_rate) == 0)encount_rate = MAX_ENCOUNT_RATE;
+				}
+			}
+
+			//ƒvƒŒƒCƒ„[ˆÚ“®iƒ}ƒX’PˆÊ‚ÌˆÚ“®j
+			if(encount_rate != MAX_ENCOUNT_RATE)PlayerMovement();
 		}
+
+		//ƒvƒŒƒCƒ„[‚ªƒ}ƒX‚ğƒXƒNƒ[ƒ‹‚·‚éˆ—
+		else PlayerScroll(); 
+
+	}
+
+    return -1;
+}
+
+void Field::PlayerMovement()
+{
+	I_VECTOR2 player_target_tile_array = field_player.target_tile_array;
+
+	if (Key::KeyPressed(KEY_TYPE::UP))
+	{
+		field_player.target_tile_array.y = WrapAround(field_player.target_tile_array.y - 1, 0, FIELD_TILE_NUM_Y - 1), field_player.speed = -PLAYER_SPEED;
+	}
+	else if (Key::KeyPressed(KEY_TYPE::DOWN))
+	{
+		field_player.target_tile_array.y = WrapAround(field_player.target_tile_array.y + 1, 0, FIELD_TILE_NUM_Y - 1), field_player.speed = PLAYER_SPEED;
+	}
+	else if (Key::KeyPressed(KEY_TYPE::LEFT))
+	{
+		field_player.target_tile_array.x = WrapAround(field_player.target_tile_array.x - 1, 0, FIELD_TILE_NUM_X - 1), field_player.speed = -PLAYER_SPEED;
+	}
+	else if (Key::KeyPressed(KEY_TYPE::RIGHT))
+	{
+		field_player.target_tile_array.x = WrapAround(field_player.target_tile_array.x + 1, 0, FIELD_TILE_NUM_X - 1), field_player.speed = PLAYER_SPEED;
+	}
+
+	//“–‚½‚è”»’è
+	if (tile[field_player.target_tile_array.y][field_player.target_tile_array.x].type >= 17)
+	{
+		field_player.target_tile_array = player_target_tile_array;
+		field_player.speed = 0;
+	}
+}
+
+void Field::PlayerScroll()
+{
+	if (field_player.position.x != tile[field_player.target_tile_array.y][field_player.target_tile_array.x].position.x)
+	{
+		field_player.position.x = WrapAround(field_player.position.x + field_player.speed, 0, (FIELD_TILE_NUM_X * TILE_SIZE_X) - 1);
 	}
 	else
 	{
-		if (player.position.x != target_position.x)
+		field_player.position.y = WrapAround(field_player.position.y + field_player.speed, 0, (FIELD_TILE_NUM_Y * TILE_SIZE_Y) - 1);
+	}
+}
+
+int Field::EncountAnimation()
+{
+	if (++encount_blinking_time_interval > ENCOUNT_BLINKING_TIME_INTERVAL)
+	{
+		is_encount_blinking = false;
+
+		if (encount_blinking_time_interval > (ENCOUNT_BLINKING_TIME_INTERVAL * 2))
 		{
-			player.position.x = WrapAround(player.position.x + player.speed, 0, (FIELD_TILE_NUM_X * TILE_SIZE_X) - 1);
-		}
-		else
-		{
-			player.position.y = WrapAround(player.position.y + player.speed, 0, (FIELD_TILE_NUM_Y * TILE_SIZE_Y) - 1);
+			
+			is_encount_blinking = true;
+			encount_blinking_time_interval = 0;
+			
+			if (++encount_blinking_count == ENCOUNT_BLINKING_COUNT)
+			{
+				encount_rate = -SAFE_ENCOUNT_STEP;
+				encount_blinking_count = 0;
+				is_encount_blinking = false;
+				return tile[field_player.target_tile_array.y][field_player.target_tile_array.x].enemy_rank;
+			}
 		}
 	}
 
-    return false;
+	return -1;
 }
 
 void Field::Draw() const
@@ -147,20 +219,19 @@ void Field::Draw() const
 	{
 		for (int j = 0; j < DRAW_TILE_NUM_X; j++)//‰¡‚ÌŒJ‚è•Ô‚µ
 		{
-			int draw_tile_array_x = WrapAround(player.target_tile_array.x - (DRAW_TILE_NUM_X / 2) + j, 0, FIELD_TILE_NUM_X - 1);
-			int draw_tile_array_y = WrapAround(player.target_tile_array.y - (DRAW_TILE_NUM_Y / 2) + i, 0, FIELD_TILE_NUM_Y - 1);
+			int draw_tile_array_x = WrapAround(field_player.target_tile_array.x - (DRAW_TILE_NUM_X / 2) + j, 0, FIELD_TILE_NUM_X - 1);
+			int draw_tile_array_y = WrapAround(field_player.target_tile_array.y - (DRAW_TILE_NUM_Y / 2) + i, 0, FIELD_TILE_NUM_Y - 1);
 
-			int x = WrapAround(tile[draw_tile_array_y][draw_tile_array_x].position.x - player.position.x + (SCREEN_SIZE_X / 2), -(TILE_SIZE_X / 2), tile[FIELD_TILE_NUM_Y - 1][FIELD_TILE_NUM_X - 1].position.x - 1);
-			int y = WrapAround(tile[draw_tile_array_y][draw_tile_array_x].position.y - player.position.y + (SCREEN_SIZE_Y / 2), -(TILE_SIZE_Y / 2), tile[FIELD_TILE_NUM_Y - 1][FIELD_TILE_NUM_X - 1].position.y - 1);
+			int x = WrapAround(tile[draw_tile_array_y][draw_tile_array_x].position.x - field_player.position.x + (SCREEN_SIZE_X / 2), -(TILE_SIZE_X / 2), tile[FIELD_TILE_NUM_Y - 1][FIELD_TILE_NUM_X - 1].position.x - 1);
+			int y = WrapAround(tile[draw_tile_array_y][draw_tile_array_x].position.y - field_player.position.y + (SCREEN_SIZE_Y / 2), -(TILE_SIZE_Y / 2), tile[FIELD_TILE_NUM_Y - 1][FIELD_TILE_NUM_X - 1].position.y - 1);
 
 			DrawRotaGraph(x, y, 3, 0, tile_image[tile[draw_tile_array_y][draw_tile_array_x].type], FALSE);
-			//DrawFormatString(x - 20, y, 0xffffff, "%d", tile[draw_tile_array_y][draw_tile_array_x].position.y);
 		}
 	}
 
-	DrawFormatString(0, 20, 0xffffff, "target_position x = %d, y = %d", tile[player.target_tile_array.y][player.target_tile_array.x].position.x, tile[player.target_tile_array.y][player.target_tile_array.x].position.y);
-	DrawFormatString(0, 40, 0xffffff, "player_position x = %d, y = %d", player.position.x, player.position.y);
-	//DrawFormatString(0, 60, 0xffffff, "%d", tile[FIELD_TILE_NUM_Y - 1][FIELD_TILE_NUM_X - 1].position.y);
-	//DrawFormatString(0, 80, 0xffffff, "%d", ((FIELD_TILE_NUM_Y - 1) * TILE_SIZE_Y) + (TILE_SIZE_Y / 2));
+	DrawRotaGraph(SCREEN_SIZE_X / 2, SCREEN_SIZE_Y / 2, 2, 0, player_image[1][draw_player_image_index], TRUE);
+	DrawFormatString(0, 20, 0xffffff, "HP = %d", player->GetHp());
 
+	//“_–Å‚Ì•\¦
+	if (is_encount_blinking)DrawBox(0, 0, SCREEN_SIZE_X, SCREEN_SIZE_Y, 0xffffff, TRUE);
 }

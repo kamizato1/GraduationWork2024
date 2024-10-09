@@ -1,11 +1,21 @@
 #pragma once
 #include"SceneBase.h"
-#include"Field.h"
 
 class GameMainScene :public SceneBase
 {
 private:
+
+	enum class GAME_SCENE_TYPE
+	{
+		FIELD, //フィールド
+		BATTLE //バトル
+	};
+
+	GAME_SCENE_TYPE game_scene_type;
+
+	class Player* player;
 	class Field* field;
+	class Battle* battle;
 	
 public:
 	GameMainScene();

@@ -38,7 +38,7 @@ void Key::Update()
 	if (CheckHitKey(KEY_INPUT_A))key[static_cast<int>(KEY_TYPE::LEFT)].now_flg = TRUE;//LEFTボタンが押されているか
 	if (CheckHitKey(KEY_INPUT_S))key[static_cast<int>(KEY_TYPE::DOWN)].now_flg = TRUE;//RIGHTボタンが押されているか
 	if (CheckHitKey(KEY_INPUT_W))key[static_cast<int>(KEY_TYPE::UP)].now_flg = TRUE;//RIGHTボタンが押されているか
-	//if (CheckHitKey(KEY_INPUT_SPACE))key[static_cast<int>(KEY_TYPE::A)].now_flg = TRUE;//Aボタンが押されているか
+	if (CheckHitKey(KEY_INPUT_RETURN))key[static_cast<int>(KEY_TYPE::A)].now_flg = TRUE;//Aボタンが押されているか
 	//if (CheckHitKey(KEY_INPUT_LSHIFT))key[static_cast<int>(KEY_TYPE::B)].now_flg = TRUE;//Aボタンが押されているか
 
 

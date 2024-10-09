@@ -1,8 +1,17 @@
 #include"GameMainScene.h"
+#include"Player.h"
+#include"Field.h"
+#include"Battle.h"
 #include"DxLib.h"
 
-GameMainScene::GameMainScene() : field(nullptr)
+GameMainScene::GameMainScene()
 {
+	//クラスポインター
+	player = nullptr;
+	field = nullptr;
+	battle = nullptr;
+
+	game_scene_type = GAME_SCENE_TYPE::FIELD;
 }
 
 GameMainScene::~GameMainScene()
@@ -12,19 +21,43 @@ GameMainScene::~GameMainScene()
 //初期化処理
 void GameMainScene::Initialize()
 {
-	field = new Field();
+	player = new Player();
+	field = new Field(player);
+	battle = new Battle(player);
 }
 
 //終了時処理
 void GameMainScene::Finalize()
 {
+	delete player;
 	delete field;
+	delete battle;
 }
 
 //更新処理
 SCENE_TYPE GameMainScene::Update(float delta_time)
 {
-	if (field->Update(delta_time))return SCENE_TYPE::GAME_OVER;
+	switch (game_scene_type)
+	{
+	case GAME_SCENE_TYPE::FIELD:
+	{
+		int encount_enemy_rank = field->Update(delta_time);
+
+		if (encount_enemy_rank != -1)
+		{
+			game_scene_type = GAME_SCENE_TYPE::BATTLE;
+			battle->Initialize(encount_enemy_rank);
+		}
+		break;
+	}
+	case GAME_SCENE_TYPE::BATTLE:
+
+		if (battle->Update(delta_time))
+		{
+			game_scene_type = GAME_SCENE_TYPE::FIELD;
+		}
+		break;
+	}
 
 	return GetNowScene();
 }
@@ -32,8 +65,17 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 //描画処理
 void GameMainScene::Draw() const
 {
-	field->Draw();
+	switch (game_scene_type)
+	{
+	case GAME_SCENE_TYPE::FIELD:
+		field->Draw();
+		break;
+	case GAME_SCENE_TYPE::BATTLE:
+		battle->Draw();
+		break;
+	}
 
+	DrawFormatString(0, 50, 0xffffff, "%s", player->GetName());
 	DrawString(0, 0, "gamemain", 0xffffff);
 }
 

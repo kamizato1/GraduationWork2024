@@ -1,25 +1,30 @@
 #pragma once
-#include"define.h"
 
-class CharacterBase //オブジェクトの基底クラス
+#include <string>
+
+class CharacterBase
 {
 private:
-	F_VECTOR2 array_location;//配列上の座標
-	F_VECTOR2 location;//オブジェクトの座標
 
-protected:
+    std::string name;
 
-	void SetArrayLocation(F_VECTOR2 array_location);
-
-	F_VECTOR2 GetArrayLocation()const;
-	void UpdateLocation();
+    int hp;
+    int mp;
+    int attack_power;
+    int defense_power;
+    int speed;
 
 public:
 
-	CharacterBase(F_VECTOR2 array_location, F_VECTOR2 tile_size);
-	~CharacterBase();
+    CharacterBase(const std::string& name, int hp, int mp, int attack_power, int defense_power, int speed);
+    ~CharacterBase();
 
-	virtual void Update(float delta_time) = 0;
-	virtual void Draw()const = 0;
+    virtual bool Update(float delta_time) = 0;
+    virtual void Draw() const = 0;
+
+    int GetHp()const;
+    int GetMp()const;
+    int SetHp(int hp);
+    int SetMp(int mp);
+    const char* GetName()const;
 };
-

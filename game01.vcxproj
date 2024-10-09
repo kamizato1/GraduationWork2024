@@ -19,55 +19,45 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Attack.h" />
-    <ClInclude Include="AttackManager.h" />
-    <ClInclude Include="BattleField.h" />
+    <ClInclude Include="Battle.h" />
+    <ClInclude Include="CharacterBase.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Field.h" />
-    <ClInclude Include="FieldBase.h" />
-    <ClInclude Include="CombatCharacterBase.h" />
     <ClInclude Include="CreditScene.h" />
     <ClInclude Include="define.h" />
-    <ClInclude Include="CharacterBase.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameClearScene.h" />
-    <ClInclude Include="HelpScene.h" />
+    <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="Message.h" />
+    <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="NpcBase.h" />
     <ClInclude Include="NpcManager.h" />
-    <ClInclude Include="PlayerBase.h" />
-    <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="GameMainScene.h" />
-    <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Tile.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Ui.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
-    <ClCompile Include="Attack.cpp" />
-    <ClCompile Include="AttackManager.cpp" />
-    <ClCompile Include="BattleField.cpp" />
-    <ClCompile Include="Field.cpp" />
-    <ClCompile Include="FieldBase.cpp" />
+    <ClCompile Include="Battle.cpp" />
     <ClCompile Include="CharacterBase.cpp" />
-    <ClCompile Include="CombatCharacterBase.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="Field.cpp" />
     <ClCompile Include="CreditScene.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameClearScene.cpp" />
-    <ClCompile Include="HelpScene.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="GameMainScene.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="Key.cpp" />
+    <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="NpcBase.cpp" />
     <ClCompile Include="NpcManager.cpp" />
-    <ClCompile Include="PlayerBase.cpp" />
-    <ClCompile Include="PlayerManager.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player.h" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Ui.cpp" />
   </ItemGroup>

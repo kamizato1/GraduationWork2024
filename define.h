@@ -15,6 +15,8 @@
 
 #define BLOCK_SIZE 36.0f //ブロックのサイズ
 
+#define ENEMY_TYPE_NUM 30
+
 struct F_VECTOR2 //座標,大きさ,スピードなどに使う(float型)
 {
     float x, y;
@@ -24,4 +26,6 @@ struct I_VECTOR2 //配列の座標などに使う(int型)
 {
     int x, y;
 };
+
+
 

@@ -1,50 +1,75 @@
-//#pragma once
-//#include <vector>
-//#include"define.h"
-//
-//#define ENEMY_NUM 5
-//
-//class EnemyManager
-//{
-//private:
-//
-//    enum ENEMY_TYPE
-//    {
-//        SLIME,//スライム
-//        FLOWER,//フラワー
-//        BIRD,//鳥
-//        FAIRY,//妖精
-//        BLACKMAGE, //ボス
-//
-//        END
-//    };
-//
-//    class Stage* stage;
-//    class PlayerManager* player_manager;
-//    class AttackManager* attack_manager;
-//
-//    std::vector<class EnemyBase*>enemy;
-//
-//    int enemy_image[ENEMY_TYPE::END][4][5];
-//
-//    bool dead_boss;
-//
-//    void SpawnEnemy(ENEMY_TYPE enemy_type, DATA location);
-//    void SetEnemy();
-//
-//public:
-//
-//    EnemyManager(); //呼び出したい敵と座標を
-//    ~EnemyManager();
-//
-//    void Initialize(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
-//
-//    void Update(float delta_time);
-//    void Draw() const;
-//    
-//    bool CheckHitDamage(class BoxCollider* bc, int attack_power);//攻撃が当たったか確かめる
-//    bool NextTransition();
-//
-//    class BoxCollider* GetEnemyData(int enemy_num)const;
-//    int GetEnemyNum()const;
-//};
+#pragma once
+#include"define.h"
+#include <string>
+
+#define ENEMY_MAX_RANK 10 //敵の最大ランク
+#define ENEMY_PER_RANK 3 //ランク当たりの敵の数
+
+class EnemyManager
+{
+private:
+
+    int enemy_image[ENEMY_PER_RANK][ENEMY_MAX_RANK];
+
+    struct ENEMY_DATA
+    {
+        std::string name;
+        int hp;
+        int mp;
+        int attack_power;
+        int defense_power;
+        int speed;
+    };
+
+    ENEMY_DATA enemy_data[ENEMY_PER_RANK][ENEMY_MAX_RANK] =
+    {
+        {
+            {"スライム", 10, 10, 5, 5, 3},
+            {"ハネワラ", 10, 10, 5, 5, 3},
+            {"グリムリ", 10, 10, 5, 5, 3},
+            {"くさりいぬ", 10, 10, 5, 5, 3},
+            {"ひとくいばな", 10, 10, 5, 5, 3},
+            {"うまへいし", 10, 10, 5, 5, 3},
+            {"ダイナックス", 10, 10, 5, 5, 3},
+            {"あ", 10, 10, 5, 5, 3},
+            {"け", 10, 10, 5, 5, 3},
+            {"こ", 10, 10, 5, 5, 3}
+        },
+        {
+            {"さ", 10, 10, 5, 5, 3},
+            {"し", 10, 10, 5, 5, 3},
+            {"す", 10, 10, 5, 5, 3},
+            {"せ", 10, 10, 5, 5, 3},
+            {"そ", 10, 10, 5, 5, 3},
+            {"た", 10, 10, 5, 5, 3},
+            {"ち", 10, 10, 5, 5, 3},
+            {"つ", 10, 10, 5, 5, 3},
+            {"て", 10, 10, 5, 5, 3},
+            {"と", 10, 10, 5, 5, 3}
+        },
+        {
+            {"な", 10, 10, 5, 5, 3},
+            {"に", 10, 10, 5, 5, 3},
+            {"ぬ", 10, 10, 5, 5, 3},
+            {"ね", 10, 10, 5, 5, 3},
+            {"の", 10, 10, 5, 5, 3},
+            {"は", 10, 10, 5, 5, 3},
+            {"ひ", 10, 10, 5, 5, 3},
+            {"ふ", 10, 10, 5, 5, 3},
+            {"へ", 10, 10, 5, 5, 3},
+            {"ほ", 10, 10, 5, 5, 3}
+        }
+    };
+
+    class EnemyBase* enemy;
+
+public:
+
+    EnemyManager();
+    ~EnemyManager();
+
+    void Initialize(int encount_enemy_rank);
+
+    bool Update(float delta_time);
+    void Draw() const;
+};

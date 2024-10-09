@@ -1,7 +1,6 @@
 #include"DxLib.h"
 #include"SceneManager.h"
 #include"TitleScene.h"
-#include"HelpScene.h"
 #include"CreditScene.h"
 #include"GameMainScene.h"
 #include"GameOverScene.h"
@@ -67,7 +66,7 @@ void SceneManager::Update()
 		SCENE_TYPE next_scene = current_scene->Update((float)delta_time / 1000);
 
 		//エンドが選択されていたらゲームを終了する
-		if (next_scene == SCENE_TYPE::GAME_END)break;
+		//if (next_scene == SCENE_TYPE::GAME_END)break;
 
 		//現在のシーンと次のシーンが違っていたらシーンを変える
 		if (next_scene != current_scene->GetNowScene())ChangeScene(next_scene);
@@ -160,19 +159,17 @@ SceneBase* SceneManager::CreateScene(SCENE_TYPE scene_type)
 	//引数（シーンタイプ）によって、生成するシーンを決定する
 	switch (scene_type)
 	{
-	case SCENE_TYPE::TITLE:
-		return new TitleScene;
-	case SCENE_TYPE::HELPSCENE:
-		return new HelpScene;
-	case SCENE_TYPE::CREDITSCENE:
-		return new CreditScene;
+	/*case SCENE_TYPE::TITLE:
+		return new TitleScene;*/
+	/*case SCENE_TYPE::CREDITSCENE:
+		return new CreditScene;*/
 	case SCENE_TYPE::MAIN:
 		return new GameMainScene;
-	case SCENE_TYPE::GAME_OVER:
+	/*case SCENE_TYPE::GAME_OVER:
 		return new GameOverScene;
 	case SCENE_TYPE::GAME_CLEAR:
 		return new GameClearScene;
-	case SCENE_TYPE::ENDING:
+	case SCENE_TYPE::ENDING:*/
 	default:
 		return nullptr;
 	}

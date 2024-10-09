@@ -19,6 +19,24 @@
     <Filter Include="ヘッダー ファイル\Scene">
       <UniqueIdentifier>{d8020643-a341-470d-935d-42b449bf13e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GameMain">
+      <UniqueIdentifier>{f9c3e87f-9df0-40c1-89d7-0069f798b62a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameMain\Field">
+      <UniqueIdentifier>{fb0ebd9d-617d-4cb6-b23a-2cb736a9babb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameMain\Battle">
+      <UniqueIdentifier>{02aaea19-2b50-421a-9c2f-6f86f7e6df35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameMain">
+      <UniqueIdentifier>{f01b1ca5-c1d1-46c7-877d-eb774415f4ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameMain\Field">
+      <UniqueIdentifier>{24409c52-5845-4aa2-b14b-6c13bfdc7ed5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameMain\Battle">
+      <UniqueIdentifier>{5699e5cb-2ef4-4311-917f-7a035b2c9542}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -30,9 +48,6 @@
     <ClInclude Include="GameMainScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="GameOverScene.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="SceneBase.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
@@ -42,20 +57,11 @@
     <ClInclude Include="TitleScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Attack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="AttackManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Ui.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Message.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="HelpScene.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="CreditScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
@@ -63,38 +69,32 @@
     <ClInclude Include="GameClearScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="NpcBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Battle.h">
+      <Filter>ヘッダー ファイル\GameMain\Battle</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="NpcManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BattleField.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CombatCharacterBase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterBase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="FieldBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
     </ClInclude>
     <ClInclude Include="Field.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
     </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="NpcBase.h">
+      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="NpcManager.h">
+      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>ヘッダー ファイル\GameMain\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterBase.h">
+      <Filter>ヘッダー ファイル\GameMain\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>ヘッダー ファイル\GameMain\Battle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -113,20 +113,11 @@
     <ClCompile Include="TitleScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Attack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="AttackManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Ui.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Message.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="HelpScene.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="CreditScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
@@ -134,41 +125,38 @@
     <ClCompile Include="GameClearScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="NpcBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="NpcManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BattleField.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CombatCharacterBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="AppMain.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Battle.cpp">
+      <Filter>ソース ファイル\GameMain\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>ソース ファイル\GameMain\Field</Filter>
+    </ClCompile>
     <ClCompile Include="Field.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\GameMain\Field</Filter>
     </ClCompile>
-    <ClCompile Include="FieldBase.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="NpcBase.cpp">
+      <Filter>ソース ファイル\GameMain\Field</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="NpcManager.cpp">
+      <Filter>ソース ファイル\GameMain\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>ソース ファイル\GameMain\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.h">
+      <Filter>ヘッダー ファイル\GameMain\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterBase.cpp">
+      <Filter>ソース ファイル\GameMain\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\GameMain\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>ソース ファイル\GameMain\Battle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
