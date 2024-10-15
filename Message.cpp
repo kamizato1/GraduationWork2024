@@ -4,34 +4,40 @@
 
 #define DRAW_TEXT_TIME 0.08f // 1文字表示するまでの時間
 #define FAST_DRAW_TEXT_TIME 0.02f // Aボタン長押し時の1文字表示するまでの時間
-
-#define DRAW_TEXT_LOCATION_X 50.0f
-#define DRAW_TEXT_LOCATION_Y 550.0f
-
 #define MAX_DRAW_TEXT_LINE 3 // 1度に表示できるメッセージの行数(最大)
-#define MAX_DRAW_TEXT_NUM 300 // 1度に表示できる文字数
 
-Message::Message(const char* text_data_name) : draw_text_time(0.0f), draw_line_text_num(0),
-update_text_line(0), update_line_text_num(0), draw_start_text_line(0), draw_arrow(false)
+Message::Message(const char* message_data, bool open_txt_file, F_VECTOR2 message_location)
 {
-    
+    draw_text_time = 0.0f;
+    draw_line_text_num = 0;
+    update_text_line = 0;
+    update_line_text_num = 0;
+    draw_start_text_line = 0;
+    this->message_location = message_location;
 
-
-    int text_data = NULL;
-    if ((text_data = FileRead_open(text_data_name)) == 0) throw("text_dataが読み込めません\n");
-
-    while (FileRead_eof(text_data) == 0)
+    if (open_txt_file)
     {
-        char text[256];
+        int text_data = NULL;
+        if ((text_data = FileRead_open(message_data)) == 0) throw("text_dataが読み込めません\n");
 
-        if (FileRead_gets(text, sizeof(text), text_data) != -1)
+        while (FileRead_eof(text_data) == 0)
         {
-            text_line.push_back(text);
-            text_line.back() += "\n";
+            char text[256];
+
+            if (FileRead_gets(text, sizeof(text), text_data) != -1)
+            {
+                text_line.push_back(text);
+                text_line.back() += "\n";
+            }
+            else break;
         }
-        else break;
+        FileRead_close(text_data);
     }
-    FileRead_close(text_data);
+    else
+    {
+        text_line.push_back(message_data);
+        text_line.back() += "\n";
+    }
 
     // 1行目の文字の数を数える
     update_line_text_num = GetLineTextNum(update_text_line);
@@ -41,19 +47,16 @@ Message::~Message()
 {
     text_line.clear();
     text_line.shrink_to_fit();
-
-    DeleteFontToHandle(font);
 }
 
 bool Message::Update(float delta_time)
 {
     // Aボタンが長押しされている場合の描画時間
-    float effective_draw_text_time = DRAW_TEXT_TIME;
-    if (Key::KeyPressed(KEY_TYPE::A))
-    {
-        effective_draw_text_time = FAST_DRAW_TEXT_TIME;
-    }
 
+    float effective_draw_text_time = DRAW_TEXT_TIME;
+
+    if (Key::KeyPressed(KEY_TYPE::A))effective_draw_text_time = FAST_DRAW_TEXT_TIME;
+   
     if (draw_line_text_num > update_line_text_num)
     {
         if (update_text_line >= text_line.size() - 1)
@@ -62,8 +65,7 @@ bool Message::Update(float delta_time)
         }
         else if ((update_text_line + 1) % MAX_DRAW_TEXT_LINE == 0)
         {
-            draw_arrow = true;
-            if (Key::KeyDown(KEY_TYPE::A)) UpdateTextLine(), draw_arrow = false;
+            if (Key::KeyDown(KEY_TYPE::A)) UpdateTextLine();
         }
         else UpdateTextLine();
     }
@@ -110,14 +112,11 @@ int Message::GetLineTextNum(int draw_text_line) const
 
 void Message::Draw() const
 {
-    DrawBox(0, 540, 1280, 720, 0x000000, TRUE);
-    DrawBox(0, 540, 1280, 720, 0xffffff, FALSE);
-
     // 現在表示できる文字数
     int draw_line_text_num = this->draw_line_text_num;
 
     // 文字の表示位置
-    F_VECTOR2 text_location = { DRAW_TEXT_LOCATION_X, DRAW_TEXT_LOCATION_Y };
+    F_VECTOR2 text_location = this->message_location;
 
     for (int i = draw_start_text_line; i < text_line.size(); i++)
     {
@@ -133,8 +132,8 @@ void Message::Draw() const
             {
                 // 改行文字の場合
                 text_location.y += FONT_SIZE + 5; // y座標を更新して改行
-                text_location.x = DRAW_TEXT_LOCATION_X; // x座標をリセット
-            }
+                text_location.x = 10; // x座標をリセット
+            }/////////////////////////////////////////////////////////
             else if (text_size == 1)
             {
                 // 半角文字の場合
@@ -151,11 +150,6 @@ void Message::Draw() const
                 j++;
             }
         }
-    }
-
-    if (draw_arrow)
-    {
-        // 矢印描画処理
     }
 
     //DrawFormatString(SCREEN_CENTER_X, 680, 0xffffff, "%f", draw_text_time);

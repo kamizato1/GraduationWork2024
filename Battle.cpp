@@ -8,7 +8,7 @@
 
 Battle::Battle(Player* player) : player(player), enemy_manager(new EnemyManager()), message(nullptr)
 {
-	if (LoadDivGraph("image/Battle/scenery.png", 12, 1, 12, 720, 96, scenery_image) == -1)throw("image/Battle/scenery.png‚ª“Ç‚Ýž‚ß‚Ü‚¹‚ñ\n");
+	if (LoadDivGraph("data/image/Battle/scenery.png", 12, 1, 12, 720, 96, scenery_image) == -1)throw("data/image/Battle/scenery.png‚ª“Ç‚Ýž‚ß‚Ü‚¹‚ñ\n");
 
 	Initialize(0);
 
@@ -38,7 +38,8 @@ bool Battle::Update(float delta_time)
 		{
 		case BATTLE_STATE::DRAW_ENEMY_NAME:
 		
-			//if (message != nullptr)message = new Message();
+			if (message == nullptr)message = new Message("gfgaafgaghshsfhsdfh", false, F_VECTOR2{ 10,10 });
+			else message->Update(delta_time);
 
 			break;
 

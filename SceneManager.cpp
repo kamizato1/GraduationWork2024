@@ -23,7 +23,7 @@ void SceneManager::Initialize()
 	SetWindowIconID(01);
 
 	//ウィンドウのタイトルを設定
-	SetMainWindowText("進め!!パーティ");
+	SetMainWindowText("RPG");
 
 	//ウィンドウモードで起動
 	if (ChangeWindowMode(TRUE) != DX_CHANGESCREEN_OK)
@@ -44,6 +44,9 @@ void SceneManager::Initialize()
 	{
 		throw("描画先の指定ができませんでした\n");
 	}
+
+	//フォントサイズ指定
+	SetFontSize(FONT_SIZE);
 
 	//タイトルシーンから始める
 	ChangeScene(SCENE_TYPE::MAIN);

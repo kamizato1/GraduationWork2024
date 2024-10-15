@@ -37,11 +37,9 @@ Field::Field(Player* player)
 {
 	this->player = player;
 
-	SetFontSize(10);
-
-	if (LoadDivGraph("image/Field/tile.png", TILE_TYPE_NUM, TILE_TYPE_NUM, 1, 16, 16, tile_image) == -1)throw("image/Field/tile.pngが読み込めません\n");
-	if (LoadDivGraph("image/Field/Player/walk.png", 5, 5, 1, 50, 50, player_image[1]) == -1)throw("image/Field/Player/walk.pngが読み込めません\n");
-	if (LoadDivGraph("image/Field/Player/wait.png", 5, 5, 1, 50, 50, player_image[0]) == -1)throw("image/Field/Player/wait.png.pngが読み込めません\n");
+	if (LoadDivGraph("data/image/Field/tile.png", TILE_TYPE_NUM, TILE_TYPE_NUM, 1, 16, 16, tile_image) == -1)throw("data/image/Field/tile.pngが読み込めません\n");
+	if (LoadDivGraph("data/image/Field/Player/walk.png", 5, 5, 1, 50, 50, player_image[1]) == -1)throw("data/image/Field/Player/walk.pngが読み込めません\n");
+	if (LoadDivGraph("data/image/Field/Player/wait.png", 5, 5, 1, 50, 50, player_image[0]) == -1)throw("data/image/Field/Player/wait.png.pngが読み込めません\n");
 
 	SetField();
 
@@ -72,11 +70,11 @@ void Field::SetField()
 	FILE* field_data = nullptr;//フィールド読み込み
 	FILE* enemy_rank_data = nullptr;//出現する敵のランク読み込み
 
-	errno_t error_field_data = fopen_s(&field_data, "data/field.txt", "r");
-	if (error_field_data != 0)throw("data/field.txtが読み込めません\n");//エラーチェック
+	errno_t error_field_data = fopen_s(&field_data, "data/map/field.txt", "r");
+	if (error_field_data != 0)throw("data/map/field.txtが読み込めません\n");//エラーチェック
 
-	errno_t error_enemy_rank_data = fopen_s(&enemy_rank_data, "data/enemyrank.txt", "r");
-	if (error_enemy_rank_data != 0)throw("data/enemyrank.txtが読み込めません\n");//エラーチェック
+	errno_t error_enemy_rank_data = fopen_s(&enemy_rank_data, "data/map/enemyrank.txt", "r");
+	if (error_enemy_rank_data != 0)throw("data/map/enemyrank.txtが読み込めません\n");//エラーチェック
 
 	for (int i = 0; i < FIELD_TILE_NUM_Y; i++)
 	{

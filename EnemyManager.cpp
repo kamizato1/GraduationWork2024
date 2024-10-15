@@ -4,9 +4,9 @@
 
 EnemyManager::EnemyManager() : enemy(nullptr)
 {
-	if (LoadDivGraph("image/Battle/enemy1.png", 10, 10, 1, 120, 160, enemy_image[0]) == -1)throw("image/Battle/enemy1.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
-	if (LoadDivGraph("image/Battle/enemy2.png", 10, 10, 1, 120, 160, enemy_image[1]) == -1)throw("image/Battle/enemy2.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
-	if (LoadDivGraph("image/Battle/enemy3.png", 10, 10, 1, 120, 160, enemy_image[2]) == -1)throw("image/Battle/enemy3.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
+	if (LoadDivGraph("data/image/Battle/enemy1.png", 10, 10, 1, 120, 160, enemy_image[0]) == -1)throw("data/image/Battle/enemy1.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
+	if (LoadDivGraph("data/image/Battle/enemy2.png", 10, 10, 1, 120, 160, enemy_image[1]) == -1)throw("data/image/Battle/enemy2.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
+	if (LoadDivGraph("data/image/Battle/enemy3.png", 10, 10, 1, 120, 160, enemy_image[2]) == -1)throw("data/image/Battle/enemy3.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
 
 	Initialize(0);
 
