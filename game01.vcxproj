@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Battle.h" />
     <ClInclude Include="CharacterBase.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="CreditScene.h" />
@@ -43,6 +44,7 @@
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Battle.cpp" />
     <ClCompile Include="CharacterBase.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="CreditScene.cpp" />

@@ -11,28 +11,18 @@ private:
 
     int enemy_image[ENEMY_PER_RANK][ENEMY_MAX_RANK];
 
-    struct ENEMY_DATA
-    {
-        std::string name;
-        int hp;
-        int mp;
-        int attack_power;
-        int defense_power;
-        int speed;
-    };
-
-    ENEMY_DATA enemy_data[ENEMY_PER_RANK][ENEMY_MAX_RANK] =
+    CHARACTER_DATA enemy_data[ENEMY_PER_RANK][ENEMY_MAX_RANK] =
     {
         {
-            {"ふはいぎょ", 10, 10, 5, 5, 3},
+            {"くさったさかな", 10, 10, 5, 5, 3},
             {"スライム", 10, 10, 5, 5, 3},
             {"ポイズンワーム", 10, 10, 5, 5, 3},
             {"いぬゾンビ", 10, 10, 5, 5, 3},
             {"ひとくいばな", 10, 10, 5, 5, 3},
-            {"やみの騎士", 10, 10, 5, 5, 3},
-            {"さつじん鬼", 10, 10, 5, 5, 3},
+            {"やみのきし", 10, 10, 5, 5, 3},
+            {"さつじんき", 10, 10, 5, 5, 3},
             {"あくのまもり", 10, 10, 5, 5, 3},
-            {"へびひめ", 10, 10, 5, 5, 3},
+            {"へびおうじょ", 10, 10, 5, 5, 3},
             {"こ", 10, 10, 5, 5, 3}
         },
         {
@@ -68,7 +58,12 @@ public:
     EnemyManager();
     ~EnemyManager();
 
-    std::string Initialize(int encount_enemy_rank);
+    void Initialize(int encount_enemy_rank);
+
+    int EnemyNum()const;
+    const char* GetEnemyName(int enemy_num)const;
+
+    int HitAttack(int enemy_num, int attack_power);
 
     bool Update(float delta_time);
     void Draw() const;

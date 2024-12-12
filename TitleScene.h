@@ -57,7 +57,7 @@
 //    void Initialize() override;
 //    void Finalize() override;
 //
-//    SCENE_TYPE Update(float delta_time) override;
+//    SCENE_TYPE Update(float time_count) override;
 //    void Draw() const override;
 //
 //    SCENE_TYPE GetNowScene() const override;

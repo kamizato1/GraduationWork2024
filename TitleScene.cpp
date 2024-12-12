@@ -110,7 +110,7 @@
 //    DeleteSoundMem(bgm);
 //}
 //
-//SCENE_TYPE TitleScene::Update(float delta_time)
+//SCENE_TYPE TitleScene::Update(float time_count)
 //{
 //    Key* key;
 //

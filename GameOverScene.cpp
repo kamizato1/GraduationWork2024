@@ -43,7 +43,7 @@
 //{
 //}
 //
-//SCENE_TYPE GameOverScene::Update(float delta_time)
+//SCENE_TYPE GameOverScene::Update(float time_count)
 //{
 //
 //
@@ -62,7 +62,7 @@
 //    else
 //    {
 //        // メッセージの更新
-//        if (!message_displayed && message->Update(delta_time))
+//        if (!message_displayed && message->Update(time_count))
 //        {
 //            // メッセージがすべて表示された後の処理
 //            message_displayed = true; // メッセージ表示フラグを設定

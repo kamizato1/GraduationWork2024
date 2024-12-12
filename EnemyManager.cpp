@@ -25,14 +25,26 @@ EnemyManager::~EnemyManager()
 	OutputDebugString("EnemyManagerデストラクタ呼ばれました。\n");
 }
 
-std::string EnemyManager::Initialize(int encount_enemy_rank)
+void EnemyManager::Initialize(int encount_enemy_rank)
 {
 	if (enemy != nullptr)delete enemy;
 	int enemy_type = GetRand(ENEMY_PER_RANK - 1);
-	this->enemy = new EnemyBase(enemy_data[enemy_type][encount_enemy_rank].name, enemy_data[enemy_type][encount_enemy_rank].hp, enemy_data[enemy_type][encount_enemy_rank].mp,
-		enemy_data[enemy_type][encount_enemy_rank].attack_power, enemy_data[enemy_type][encount_enemy_rank].defense_power, enemy_data[enemy_type][encount_enemy_rank].speed, enemy_image[enemy_type][encount_enemy_rank]);
+	this->enemy = new EnemyBase(enemy_data[enemy_type][encount_enemy_rank], enemy_image[enemy_type][encount_enemy_rank]);
+}
 
+int EnemyManager::EnemyNum()const
+{
+	return 1;
+}
+
+const char* EnemyManager::GetEnemyName(int enemy_num)const
+{
 	return enemy->GetName();
+}
+
+int EnemyManager::HitAttack(int enemy_num, int attack_power)
+{
+	return enemy->HitAttack(attack_power);
 }
 
 bool EnemyManager::Update(float delta_time)
@@ -45,5 +57,5 @@ void EnemyManager::Draw() const
 
 	enemy->Draw();
 
-	DrawFormatString(100, 0, 0xffffff, "%s", enemy->GetName());
+	//DrawFormatString(100, 0, 0xffffff, "%s", enemy->GetName());
 }

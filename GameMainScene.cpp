@@ -75,7 +75,7 @@ void GameMainScene::Draw() const
 		break;
 	}
 
-	DrawFormatString(0, 50, 0xffffff, "%s", player->GetName());
+	//DrawFormatString(0, 50, 0xffffff, "%s", player->GetName());
 	DrawString(0, 0, "gamemain", 0xffffff);
 }
 

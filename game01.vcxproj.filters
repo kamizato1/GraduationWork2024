@@ -96,6 +96,9 @@
     <ClInclude Include="EnemyManager.h">
       <Filter>ヘッダー ファイル\GameMain\Battle</Filter>
     </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>ヘッダー ファイル\GameMain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Key.cpp">
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
       <Filter>ソース ファイル\GameMain\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>ソース ファイル\GameMain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

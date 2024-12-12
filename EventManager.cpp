@@ -32,7 +32,7 @@
 //    }
 //}
 //
-//void EventManager::Update(float delta_time)
+//void EventManager::Update(float time_count)
 //{
 //    if (event_type == EVENT_TYPE::FIRST_CONVERSATION)
 //    {

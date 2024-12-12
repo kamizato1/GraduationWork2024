@@ -61,7 +61,7 @@
 //	DeleteSoundMem(bgm);
 //}
 //
-//SCENE_TYPE GameClearScene::Update(float delta_time)
+//SCENE_TYPE GameClearScene::Update(float time_count)
 //{
 //
 //	if (CheckSoundMem(bgm) != 1)
@@ -71,7 +71,7 @@
 //
 //
 //	// メッセージの更新処理を呼び出し、true が返されたらシーン遷移
-//	if (message->Update(delta_time))
+//	if (message->Update(time_count))
 //	{
 //		return SCENE_TYPE::TITLE;
 //	}

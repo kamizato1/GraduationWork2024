@@ -1,12 +1,11 @@
 #pragma once
+#include <string>
 
-#define FONT_SIZE 35 // 文字の大きさ
+#define FONT_SIZE 30 // 文字の大きさ
 
-#define SCREEN_SIZE_X 720 //横画面サイズ
-#define SCREEN_SIZE_Y 720 //縦画面サイズ
+#define SCREEN_SIZE 720 //画面サイズ
 
-#define HALF_SCREEN_SIZE_X 360
-#define HALF_SCREEN_SIZE_Y 360
+#define HALF_SCREEN_SIZE 360
 
 #define FIELD_TILE_NUM_X 256
 #define FIELD_TILE_NUM_Y 256
@@ -27,5 +26,14 @@ struct I_VECTOR2 //配列の座標などに使う(int型)
     int x, y;
 };
 
+struct CHARACTER_DATA
+{
+    std::string name;
+    int hp;
+    int mp;
+    int attack_power;
+    int defense_power;
+    int speed;
+};
 
 

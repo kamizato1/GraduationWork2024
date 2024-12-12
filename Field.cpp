@@ -44,8 +44,8 @@ Field::Field(Player* player)
 	SetField();
 
 	//プレイヤーの設定
-	field_player.target_tile_array.x = 166; //プレイヤー座標（配列）
-	field_player.target_tile_array.y = 60;
+	field_player.target_tile_array.x = 194; //プレイヤー座標（配列）
+	field_player.target_tile_array.y = 28;
 
 	field_player.position.x = (field_player.target_tile_array.x * TILE_SIZE_X) + (TILE_SIZE_X / 2); //プレイヤー座標
 	field_player.position.y = (field_player.target_tile_array.y * TILE_SIZE_Y) + (TILE_SIZE_Y / 2);
@@ -220,16 +220,16 @@ void Field::Draw() const
 			int draw_tile_array_x = WrapAround(field_player.target_tile_array.x - (DRAW_TILE_NUM_X / 2) + j, 0, FIELD_TILE_NUM_X - 1);
 			int draw_tile_array_y = WrapAround(field_player.target_tile_array.y - (DRAW_TILE_NUM_Y / 2) + i, 0, FIELD_TILE_NUM_Y - 1);
 
-			int x = WrapAround(tile[draw_tile_array_y][draw_tile_array_x].position.x - field_player.position.x + (SCREEN_SIZE_X / 2), -(TILE_SIZE_X / 2), tile[FIELD_TILE_NUM_Y - 1][FIELD_TILE_NUM_X - 1].position.x - 1);
-			int y = WrapAround(tile[draw_tile_array_y][draw_tile_array_x].position.y - field_player.position.y + (SCREEN_SIZE_Y / 2), -(TILE_SIZE_Y / 2), tile[FIELD_TILE_NUM_Y - 1][FIELD_TILE_NUM_X - 1].position.y - 1);
+			int x = WrapAround(tile[draw_tile_array_y][draw_tile_array_x].position.x - field_player.position.x + HALF_SCREEN_SIZE, -(TILE_SIZE_X / 2), tile[FIELD_TILE_NUM_Y - 1][FIELD_TILE_NUM_X - 1].position.x - 1);
+			int y = WrapAround(tile[draw_tile_array_y][draw_tile_array_x].position.y - field_player.position.y + HALF_SCREEN_SIZE, -(TILE_SIZE_Y / 2), tile[FIELD_TILE_NUM_Y - 1][FIELD_TILE_NUM_X - 1].position.y - 1);
 
 			DrawRotaGraph(x, y, 3, 0, tile_image[tile[draw_tile_array_y][draw_tile_array_x].type], FALSE);
 		}
 	}
 
-	DrawRotaGraph(SCREEN_SIZE_X / 2, SCREEN_SIZE_Y / 2, 2, 0, player_image[1][draw_player_image_index], TRUE);
-	DrawFormatString(0, 20, 0xffffff, "HP = %d", player->GetHp());
+	DrawRotaGraph(HALF_SCREEN_SIZE, HALF_SCREEN_SIZE, 2, 0, player_image[1][draw_player_image_index], TRUE);
+	//DrawFormatString(0, 20, 0xffffff, "HP = %d", player->GetHp());
 
 	//点滅の表示
-	if (is_encount_blinking)DrawBox(0, 0, SCREEN_SIZE_X, SCREEN_SIZE_Y, 0xffffff, TRUE);
+	if (is_encount_blinking)DrawBox(0, 0, SCREEN_SIZE, SCREEN_SIZE, 0xffffff, TRUE);
 }

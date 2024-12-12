@@ -24,7 +24,7 @@
 //
 //}
 //
-//SCENE_TYPE CreditScene::Update(float delta_time)
+//SCENE_TYPE CreditScene::Update(float time_count)
 //{
 //	if (Key::KeyDown(KEY_TYPE::B))
 //	{

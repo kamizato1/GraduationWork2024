@@ -6,28 +6,62 @@ class Battle
 {
 private:
 
-    enum class BATTLE_STATE
+    enum class BATTLE_STATE//バトルの状況
     {
-        DRAW_ENEMY_NAME,//戦闘開始時の敵の名前表示
-        PLAYER_ACTION_SELECT,//プレイヤーの行動選択
-        PLAYER_MAGIC_SELECT,//プレイヤーの魔法選択
-        PLAYER_ITEM_SELECT,//プレイヤーのアイテム選択
-        ENEMY_ACTION //敵キャラの行動
+        ENCOUNT_ANIMATION,//出現時の演出
+        PLAYER,//プレイヤーターン
+        ENEMY //敵キャラターン
     };
 
-    BATTLE_STATE battle_state;//バトルの状況
+    enum class ACTION_SELECT_STATE
+    {
+        ATTACK,//攻撃相手選択
+        MAGIC,//魔法選択
+        ITEM,//アイテム選択
+        ESCAPE,//逃げる
+        NONE,
+    };
 
+    enum class ACTION_STATE
+    {
+        ACTION_SELECT,//アクション選択
+        TARGET_SELECT,//ターゲット選択
+        PLAY_EFFECT,//エフェクト再生
+        DRAW_DAMAGE,//ダメージ表示
+        NONE,
+    };
+
+    //クラス
     class Player* player;
     class EnemyManager* enemy_manager;
-    class Message* message;
+    class Effect* effect;
 
-    std::string enemy_name;
+    //状態 enum class
+    BATTLE_STATE battle_state;
+    ACTION_SELECT_STATE action_select_state;
+    ACTION_STATE action_state;
 
-    float wait_time;
-    int scenery_image[12];//戦闘時の景色画像
-    int image_transparency;//画像の透過度
-    
-    bool EncountAnimation();
+    //変数
+    int action_select_index;
+    int target_select_index;
+    int screen_transparency_value; //画面の明るさ
+    int damage_value;
+
+    float delta_time;//時間管理に使う
+
+    //画像
+    int scenery_image[12];
+    int effect_image[10][10];
+
+    //フォント
+    int retro_font_48;
+
+    //関数
+    void PlayerAction(float delta_time);
+    void PlayerAttack(float delta_time);
+
+    void DrawPlayerAction()const;
+    void DrawPlayerAttack()const;
 
 public:
 

@@ -35,7 +35,7 @@
 //    npc.emplace_back(new King(DATA{ 150,400 }, DATA{ 50,50 }, stage, player_manager, "txt/kingcomment.txt"));
 //}
 //
-//void NpcManager::Update(float delta_time)
+//void NpcManager::Update(float time_count)
 //{
 //    float player_distance = MAX_CONVERSATION_DISTANCE;
 //    can_conversation = false;

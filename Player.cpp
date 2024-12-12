@@ -1,7 +1,7 @@
 #include"DxLib.h"
 #include"Player.h"
 
-Player::Player() : CharacterBase("かみざと", 20, 10, 5, 5, 5)
+Player::Player() : CharacterBase(CHARACTER_DATA{"かみざと", 20, 10, 5, 5, 5 })
 {
 	OutputDebugString("CharacterBaseコンストラクタ呼ばれました。\n");
 }
