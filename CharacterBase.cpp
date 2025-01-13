@@ -26,11 +26,24 @@ int CharacterBase::GetMp()const
 int CharacterBase::SetHp(int hp)
 {
 	character_data.hp = hp;
-	if (character_data.hp < 0)character_data.hp = 0;
+
+	if (character_data.hp > character_data.max_hp)character_data.hp = character_data.max_hp;
+	else if (character_data.hp < 0)character_data.hp = 0;
+	
 	return 0;
 }
 
 int CharacterBase::SetMp(int mp)
+{
+	return 0;
+}
+
+int CharacterBase::AddHp(int add_hp)
+{
+	return SetHp(character_data.hp + add_hp);
+}
+
+int CharacterBase::AddMp(int add_mp)
 {
 	return 0;
 }
@@ -45,9 +58,17 @@ const char* CharacterBase::GetName()const
 	return character_data.name.c_str();
 }
 
-int CharacterBase::HitAttack(int attack_power)
+int CharacterBase::GetImage()const
 {
-	int damage = (attack_power / 2) - (character_data.defense_power / 4);
-	SetHp(character_data.hp - damage);
+	return character_data.image;
+}
+
+int CharacterBase::Attack(CharacterBase* character_base)
+{
+	int damage = (character_data.attack_power / 2) - (character_base->character_data.defense_power / 4);
+	if (damage < 0)damage = 0;
+
+	character_base->AddHp(-damage);
+
 	return damage;
 }

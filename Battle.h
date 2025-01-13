@@ -36,13 +36,15 @@ private:
         TARGET_SELECT,//ターゲット選択
         PLAY_EFFECT,//エフェクト再生
         DRAW_DAMAGE,//ダメージ表示
+        DEAD,
         NONE,
     };
 
     //クラス
     class Player* player;
-    class EnemyManager* enemy_manager;
+    class EnemyBase* enemy;
     class Effect* effect;
+    class EnemyManager* enemy_manager;
 
     //状態 enum class
     BATTLE_STATE battle_state;
@@ -57,10 +59,11 @@ private:
     int target_select_index;
     int screen_transparency_value; //画面の明るさ
     int damage_value;
-    int font_color;
+    int font_color_value;
     float blinking_time;
-    int screen_amplitude;
-    int add_screen_amplitude;
+    bool draw_enemy;
+    int screen_amplitude_value;
+    int add_screen_amplitude_value;
 
     float delta_time;//時間管理に使う
 
@@ -75,14 +78,14 @@ private:
 
     void UpdateEncountAnimation(float delta_time);
 
-    void UpdatePlayerAction(float delta_time);
-    void UpdatePlayerAttack(float delta_time);
+    bool UpdatePlayerAction(float delta_time);
+    bool UpdatePlayerAttack(float delta_time);
 
     void UpdateEnemyAction(float delta_time);
     void UpdateEnemyAttack(float delta_time);
 
-    bool UpdateScreenAmplitude(float delta_time);
-
+    bool UpdateBlinking(float delta_time);
+    void UpdateScreenAmplitude();
 
     void DrawUi()const;
 

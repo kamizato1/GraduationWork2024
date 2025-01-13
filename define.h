@@ -31,9 +31,12 @@ struct CHARACTER_DATA
     std::string name;
     int hp;
     int mp;
+    int max_hp;
+    int max_mp;
     int attack_power;
     int defense_power;
     int speed;
+    int image;
 };
 
 

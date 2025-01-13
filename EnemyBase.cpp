@@ -2,7 +2,7 @@
 #include"EnemyBase.h"
 #include"define.h"
 
-EnemyBase::EnemyBase(CHARACTER_DATA enemy_data, int enemy_image) : CharacterBase(enemy_data), enemy_image(enemy_image)
+EnemyBase::EnemyBase(CHARACTER_DATA enemy_data) : CharacterBase(enemy_data)
 {
 	OutputDebugString("EnemyBaseコンストラクタ呼ばれました。\n");
 }
@@ -19,5 +19,5 @@ bool EnemyBase::Update(float delta_time)
 
 void EnemyBase::Draw() const
 {
-	DrawRotaGraph(HALF_SCREEN_SIZE, 300, 2.5, 0, enemy_image, TRUE);
+	DrawRotaGraph(HALF_SCREEN_SIZE, 300, 2.5, 0, GetImage(), TRUE);
 }

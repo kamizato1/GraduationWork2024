@@ -4,13 +4,9 @@
 
 class EnemyBase : public CharacterBase
 {
-private:
-
-    int enemy_image;
-
 public:
 
-    EnemyBase(CHARACTER_DATA enemy_data, int enemy_image);
+    EnemyBase(CHARACTER_DATA enemy_data);
     ~EnemyBase();
 
     bool Update(float delta_time);

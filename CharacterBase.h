@@ -19,7 +19,10 @@ public:
     int GetMp()const;
     int SetHp(int hp);
     int SetMp(int mp);
+    int AddHp(int add_hp);
+    int AddMp(int add_mp);
     int GetAttackPower()const;
-    int HitAttack(int attack_power);
+    int Attack(CharacterBase* character_base);
+    int GetImage()const;
     const char* GetName()const;
 };

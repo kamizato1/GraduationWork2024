@@ -24,17 +24,22 @@ Effect::~Effect()
 
 bool Effect::Update(float delta_time)
 {
+	if (draw_image_element == -1)return true;
+
 	if ((this->delta_time += delta_time) > image_change_time)
 	{
 		this->delta_time = 0.0f;
-		if (image[++draw_image_element] == NULL)return true;
+
+		draw_image_element++;
+
+		if ((image[draw_image_element] == NULL) || (draw_image_element == 10))draw_image_element = -1;
 	}
 	return false;
 }
 
 void Effect::Draw() const
 {
-	DrawRotaGraph(HALF_SCREEN_SIZE, 300, 3, 0, image[draw_image_element], TRUE);
+	if(draw_image_element != -1)DrawRotaGraph(HALF_SCREEN_SIZE, 300, 3, 0, image[draw_image_element], TRUE);
 }
 
 
