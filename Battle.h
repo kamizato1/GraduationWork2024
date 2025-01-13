@@ -6,11 +6,19 @@ class Battle
 {
 private:
 
+    struct DRAW_UI //message, player, enemy, action
+    {
+        bool message_box;
+        bool player_name_box;
+        bool enemy_name_box;
+        bool action_select_box;
+    };
+
     enum class BATTLE_STATE//バトルの状況
     {
         ENCOUNT_ANIMATION,//出現時の演出
-        PLAYER,//プレイヤーターン
-        ENEMY //敵キャラターン
+        PLAYER_TURN,//プレイヤーターン
+        ENEMY_TURN //敵キャラターン
     };
 
     enum class ACTION_SELECT_STATE
@@ -41,11 +49,18 @@ private:
     ACTION_SELECT_STATE action_select_state;
     ACTION_STATE action_state;
 
+    //構造体
+    DRAW_UI draw_ui;
+
     //変数
     int action_select_index;
     int target_select_index;
     int screen_transparency_value; //画面の明るさ
     int damage_value;
+    int font_color;
+    float blinking_time;
+    int screen_amplitude;
+    int add_screen_amplitude;
 
     float delta_time;//時間管理に使う
 
@@ -57,12 +72,25 @@ private:
     int retro_font_48;
 
     //関数
-    void PlayerAction(float delta_time);
-    void PlayerAttack(float delta_time);
 
-    void DrawPlayerAction()const;
-    void DrawPlayerAttack()const;
+    void UpdateEncountAnimation(float delta_time);
 
+    void UpdatePlayerAction(float delta_time);
+    void UpdatePlayerAttack(float delta_time);
+
+    void UpdateEnemyAction(float delta_time);
+    void UpdateEnemyAttack(float delta_time);
+
+    bool UpdateScreenAmplitude(float delta_time);
+
+
+    void DrawUi()const;
+
+    void DrawMessageBox()const;
+    void DrawPlayerNameBox()const;
+    void DrawEnemyNameBox()const;
+    void DrawActionSelectBox()const;
+    
 public:
 
     Battle(class Player* player);

@@ -55,6 +55,7 @@ bool EnemyManager::Update(float delta_time)
 void EnemyManager::Draw() const
 {
 
+
 	enemy->Draw();
 
 	//DrawFormatString(100, 0, 0xffffff, "%s", enemy->GetName());
