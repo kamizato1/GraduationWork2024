@@ -4,6 +4,8 @@
 
 class Player : public CharacterBase
 {
+private:
+
 public:
 
     Player();

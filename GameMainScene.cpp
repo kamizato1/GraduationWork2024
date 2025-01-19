@@ -11,7 +11,7 @@ GameMainScene::GameMainScene()
 	field = nullptr;
 	battle = nullptr;
 
-	game_scene_type = GAME_SCENE_TYPE::BATTLE;
+	game_scene_type = GAME_SCENE_TYPE::FIELD;
 }
 
 GameMainScene::~GameMainScene()

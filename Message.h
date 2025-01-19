@@ -15,14 +15,14 @@ private:
     int draw_line_text_max_num;//表示中のメッセージ桁の最大文字数
     int draw_text_line_num;//表示中のメッセージ桁
     int draw_start_text_line;
-    I_VECTOR2 location;
+    VECTOR2_I location;
 
     bool ProceedMessage(float delta_time);
     int GetLineTextNum(int draw_text_line_num)const;
     void UpdateTextLine();
 
 public:
-    Message(const char* message, bool open_txt_file, I_VECTOR2 location);
+    Message(const char* message, bool open_txt_file, VECTOR2_I location);
     ~Message();
 
     bool Update(float delta_time);

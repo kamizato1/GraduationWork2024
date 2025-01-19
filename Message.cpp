@@ -12,7 +12,7 @@
 #define MAX_DRAW_TEXT_NUM 300 // 1度に表示できる文字数
 
 
-Message::Message(const char* message_data, bool open_txt_file, I_VECTOR2 location) : location(location)
+Message::Message(const char* message_data, bool open_txt_file, VECTOR2_I location) : location(location)
 {
     draw_start_text_line = 0;
     draw_text_time = 0.0f;
@@ -124,7 +124,7 @@ void Message::Draw() const
     int draw_line_text_num = this->draw_line_text_num;
 
     // 文字の表示位置
-    I_VECTOR2 text_location = { DRAW_TEXT_LOCATION_X, DRAW_TEXT_LOCATION_Y };
+    VECTOR2_I text_location = { DRAW_TEXT_LOCATION_X, DRAW_TEXT_LOCATION_Y };
 
     for (int i = draw_start_text_line; i < text_line.size(); i++)
     {

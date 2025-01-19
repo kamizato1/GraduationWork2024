@@ -7,46 +7,54 @@ class Field
 {
 private:
 
-    char i = 0;
-
+    //クラス
     class Player* player;
 
-    struct PLAYER
-    {
-        I_VECTOR2 position;//プレイヤーの座標
-        I_VECTOR2 target_tile_array;//プレイヤーの移動先のタイルの配列番号
-        int speed;
-    };
+    //構造体宣言
 
-    PLAYER field_player;
+    struct FIELD_PLAYER
+    {
+        VECTOR2_I location;//プレイヤーの座標
+        VECTOR2_I location_index;//プレイヤーの移動先のタイルの配列番号
+    };
 
     struct TILE
     {
-        I_VECTOR2 position;//タイルの座標
+        VECTOR2_I location;//タイルの座標
         int type;//タイルの種類
         int enemy_rank;//タイルで出現する敵のランク
     };
 
-    TILE tile[FIELD_TILE_NUM_Y][FIELD_TILE_NUM_X];
+    //構造体
+    FIELD_PLAYER field_player;
+    TILE tile[FIELD_TILE_NUM][FIELD_TILE_NUM];
+
 
     //画像
     int tile_image[TILE_TYPE_NUM];
     int player_image[2][5];
 
-    int image_change_time;
-    int draw_player_image_index;
-    int encount_rate;
+    //変数
+    float player_image_change_time;//画像切り替え時間
+    int player_image_index;//プレイヤー画像要素数
+
+    int encount_rate;//
+
+    bool update_encount_animation;//エンカウントアニメーションを更新するか？
+    float screen_blinking_time;//点滅時間
+    int screen_blinking_count;//点滅回数
+    
+    //フォント
+    int retro_font_48;
 
     //関数
     void SetField();//フィールドを生成
-    void PlayerMovement();//プレイヤー移動処理
-    void PlayerScroll();//プレイヤースクロール処理
 
-    int EncountAnimation();//エンカウント時のアニメーション
+    void UpdateMovement();//プレイヤー移動処理
+    bool UpdateScroll();//プレイヤースクロール処理
+    bool UpdateAddScrollValue(int* player_location, int* tile_location);//スクロールの値の加算
 
-    int encount_blinking_count;//点滅回数
-    int encount_blinking_time_interval;//点滅時間
-    bool is_encount_blinking;//点滅させるか？
+    int UpdateEncountAnimation(float delta_time);//エンカウント時のアニメーション
 
 public:
     Field(class Player* player);

@@ -55,6 +55,7 @@ private:
     DRAW_UI draw_ui;
 
     //•Ï”
+    int scenery_image_index;
     int action_select_index;
     int target_select_index;
     int screen_transparency_value; //‰æ–Ê‚Ì–¾‚é‚³

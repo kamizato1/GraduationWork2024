@@ -3,20 +3,21 @@
 #include"Key.h"
 #include"Player.h"
 
-#define TILE_SIZE_X 48 //タイルの大きさ
-#define TILE_SIZE_Y 48
+#define TILE_SIZE 48 //タイルの大きさ
 
-#define DRAW_TILE_NUM_X 17 //表示するフィールドのタイルの数
-#define DRAW_TILE_NUM_Y 17
+#define DRAW_TILE_NUM 17 //表示するフィールドのタイルの数
+
+#define PLAYER_IMAGE_CHANGE_TIME 0.2f //画像切り替え時間
+#define PLAYER_IMAGE_INDEX 4 //プレイヤー画像配列数
 
 #define PLAYER_SPEED 2 //プレイヤーの移動速度
 
-#define CHANGE_IMAGE_TIME 10 //画像切り替え時間
 #define MAX_ENCOUNT_RATE 10 //最大エンカウント率(割合)
 #define MAX_WALK_ENCOUNT_RATE 7 //歩いているとき上がる最大エンカウント率（割合）
 #define SAFE_ENCOUNT_STEP 5 //エンカウントしない歩数
-#define ENCOUNT_BLINKING_TIME_INTERVAL 5 //エンカウントの画面点滅間隔
-#define ENCOUNT_BLINKING_COUNT 5 //エンカウントの点滅回数
+
+#define SCREEN_BLINKING_TIME 0.08f //画面点滅時間
+#define SCREEN_BLINKING_COUNT 5 //画面点滅回数
 
 int WrapAround(int value, int min, int max)//値が範囲外になったら一周するようにする
 {
@@ -41,26 +42,26 @@ Field::Field(Player* player)
 	if (LoadDivGraph("data/image/Field/Player/walk.png", 5, 5, 1, 50, 50, player_image[1]) == -1)throw("data/image/Field/Player/walk.pngが読み込めません\n");
 	if (LoadDivGraph("data/image/Field/Player/wait.png", 5, 5, 1, 50, 50, player_image[0]) == -1)throw("data/image/Field/Player/wait.png.pngが読み込めません\n");
 
+	//フォントの読み込み
+	retro_font_48 = LoadFontDataToHandle("data/font/DragonQuestFont48.dft", 0);
+
 	SetField();
 
 	//プレイヤーの設定
-	field_player.target_tile_array.x = 194; //プレイヤー座標（配列）
-	field_player.target_tile_array.y = 28;
+	field_player.location_index.x = 11; //プレイヤー座標（配列）
+	field_player.location_index.y = 106;
 
-	field_player.position.x = (field_player.target_tile_array.x * TILE_SIZE_X) + (TILE_SIZE_X / 2); //プレイヤー座標
-	field_player.position.y = (field_player.target_tile_array.y * TILE_SIZE_Y) + (TILE_SIZE_Y / 2);
+	field_player.location.x = tile[field_player.location_index.y][field_player.location_index.x].location.x;
+	field_player.location.y = tile[field_player.location_index.y][field_player.location_index.x].location.y;
 
-	field_player.speed = 0; //プレイヤースピード
+	//変数
+	player_image_change_time = 0.0f;
+	player_image_index = 0;
 
-	//////
-	image_change_time = 0; //画像切り替え時間
-	draw_player_image_index = 0; //表示する画像の配列番号
-	encount_rate = -SAFE_ENCOUNT_STEP; //エンカウントしない歩数
+	encount_rate = -SAFE_ENCOUNT_STEP;
 
-	//エンカウントアニメーション変数
-	encount_blinking_count = 0;//画面が点滅した回数
-	encount_blinking_time_interval = 0;//画面の点滅時間
-	is_encount_blinking = false;//画面を点滅させるか？
+	screen_blinking_time = 0.0f;
+	screen_blinking_count = 0;
 
     OutputDebugString("Fieldコンストラクタ呼ばれました。\n");
 }
@@ -76,12 +77,12 @@ void Field::SetField()
 	errno_t error_enemy_rank_data = fopen_s(&enemy_rank_data, "data/map/enemyrank.txt", "r");
 	if (error_enemy_rank_data != 0)throw("data/map/enemyrank.txtが読み込めません\n");//エラーチェック
 
-	for (int i = 0; i < FIELD_TILE_NUM_Y; i++)
+	for (int i = 0; i < FIELD_TILE_NUM; i++)
 	{
-		for (int j = 0; j < FIELD_TILE_NUM_X; j++)
+		for (int j = 0; j < FIELD_TILE_NUM; j++)
 		{
-			tile[i][j].position.x = (j * TILE_SIZE_X) + (TILE_SIZE_X / 2);
-			tile[i][j].position.y = (i * TILE_SIZE_Y) + (TILE_SIZE_Y / 2);
+			tile[i][j].location.x = (j * TILE_SIZE) + (TILE_SIZE / 2);
+			tile[i][j].location.y = (i * TILE_SIZE) + (TILE_SIZE / 2);
 			fscanf_s(field_data, "%d", &tile[i][j].type);
 			fscanf_s(enemy_rank_data, "%d", &tile[i][j].enemy_rank);
 		}
@@ -99,112 +100,96 @@ Field::~Field()
 
 int Field::Update(float delta_time)
 {
-	//エンカウントした場合
-	if (encount_rate >= MAX_ENCOUNT_RATE)return EncountAnimation();
-	
-	//エンカウントしていない場合
+	//エンカウントアニメーション
+	if (update_encount_animation)return UpdateEncountAnimation(delta_time);
 	else
 	{
-		//キャラのアニメーション
-
-		if (++image_change_time > CHANGE_IMAGE_TIME)
+		if ((player_image_change_time += delta_time) > PLAYER_IMAGE_CHANGE_TIME)
 		{
-			image_change_time = 0;
-			if (++draw_player_image_index > 3)draw_player_image_index = 0;
+			if (++player_image_index == PLAYER_IMAGE_INDEX)player_image_index = 0;
+			player_image_change_time = 0.0f;
 		}
 
-		//プレイヤーがマスの上で止まっている場合
+		UpdateMovement();
 
-		if ((field_player.position.x == tile[field_player.target_tile_array.y][field_player.target_tile_array.x].position.x) &&
-			(field_player.position.y == tile[field_player.target_tile_array.y][field_player.target_tile_array.x].position.y))
-		{
-
-			//敵とエンカウントするか？
-
-			if (field_player.speed != 0)
-			{
-				field_player.speed = 0;
-
-				if (++encount_rate > MAX_WALK_ENCOUNT_RATE)encount_rate = MAX_WALK_ENCOUNT_RATE;
-
-				if (encount_rate > 0)
-				{
-					if (GetRand(MAX_ENCOUNT_RATE - encount_rate) == 0)encount_rate = MAX_ENCOUNT_RATE;
-				}
-			}
-
-			//プレイヤー移動（マス単位の移動）
-			if(encount_rate != MAX_ENCOUNT_RATE)PlayerMovement();
-		}
-
-		//プレイヤーがマスをスクロールする処理
-		else PlayerScroll(); 
-
+		
 	}
 
     return -1;
 }
 
-void Field::PlayerMovement()
+void Field::UpdateMovement()
 {
-	I_VECTOR2 player_target_tile_array = field_player.target_tile_array;
+	if (field_player.location == tile[field_player.location_index.y][field_player.location_index.x].location)
+	{
+		VECTOR2_I location_index = field_player.location_index;
 
-	if (Key::KeyPressed(KEY_TYPE::UP))
-	{
-		field_player.target_tile_array.y = WrapAround(field_player.target_tile_array.y - 1, 0, FIELD_TILE_NUM_Y - 1), field_player.speed = -PLAYER_SPEED;
-	}
-	else if (Key::KeyPressed(KEY_TYPE::DOWN))
-	{
-		field_player.target_tile_array.y = WrapAround(field_player.target_tile_array.y + 1, 0, FIELD_TILE_NUM_Y - 1), field_player.speed = PLAYER_SPEED;
-	}
-	else if (Key::KeyPressed(KEY_TYPE::LEFT))
-	{
-		field_player.target_tile_array.x = WrapAround(field_player.target_tile_array.x - 1, 0, FIELD_TILE_NUM_X - 1), field_player.speed = -PLAYER_SPEED;
-	}
-	else if (Key::KeyPressed(KEY_TYPE::RIGHT))
-	{
-		field_player.target_tile_array.x = WrapAround(field_player.target_tile_array.x + 1, 0, FIELD_TILE_NUM_X - 1), field_player.speed = PLAYER_SPEED;
-	}
+		if (Key::KeyPressed(KEY_TYPE::UP))field_player.location_index.y = field_player.location_index.y - 1;
+		else if (Key::KeyPressed(KEY_TYPE::DOWN))field_player.location_index.y = field_player.location_index.y + 1;
+		else if (Key::KeyPressed(KEY_TYPE::LEFT))field_player.location_index.x = field_player.location_index.x - 1;
+		else if (Key::KeyPressed(KEY_TYPE::RIGHT))field_player.location_index.x = field_player.location_index.x + 1;
 
-	//当たり判定
-	if (tile[field_player.target_tile_array.y][field_player.target_tile_array.x].type >= 17)
-	{
-		field_player.target_tile_array = player_target_tile_array;
-		field_player.speed = 0;
-	}
-}
-
-void Field::PlayerScroll()
-{
-	if (field_player.position.x != tile[field_player.target_tile_array.y][field_player.target_tile_array.x].position.x)
-	{
-		field_player.position.x = WrapAround(field_player.position.x + field_player.speed, 0, (FIELD_TILE_NUM_X * TILE_SIZE_X) - 1);
+		//当たり判定
+		if (tile[field_player.location_index.y][field_player.location_index.x].type >= 17)field_player.location_index = location_index;
 	}
 	else
 	{
-		field_player.position.y = WrapAround(field_player.position.y + field_player.speed, 0, (FIELD_TILE_NUM_Y * TILE_SIZE_Y) - 1);
+		if (UpdateScroll())
+		{
+			if (++encount_rate > 0)
+			{
+				if (encount_rate > MAX_WALK_ENCOUNT_RATE)encount_rate = MAX_WALK_ENCOUNT_RATE;
+				if (GetRand(MAX_ENCOUNT_RATE - encount_rate) == 0)update_encount_animation = true;
+			}
+		}
 	}
 }
 
-int Field::EncountAnimation()
+bool Field::UpdateScroll()
 {
-	if (++encount_blinking_time_interval > ENCOUNT_BLINKING_TIME_INTERVAL)
-	{
-		is_encount_blinking = false;
+	if (UpdateAddScrollValue(&field_player.location.x, &tile[field_player.location_index.y][field_player.location_index.x].location.x))return true;
+	if (UpdateAddScrollValue(&field_player.location.y, &tile[field_player.location_index.y][field_player.location_index.x].location.y))return true;
+	
+	return false;
+}
 
-		if (encount_blinking_time_interval > (ENCOUNT_BLINKING_TIME_INTERVAL * 2))
+bool Field::UpdateAddScrollValue(int* player_location, int* tile_location)
+{
+	if (*player_location < *tile_location)
+	{
+		if ((*player_location += PLAYER_SPEED) >= *tile_location)
 		{
-			
-			is_encount_blinking = true;
-			encount_blinking_time_interval = 0;
-			
-			if (++encount_blinking_count == ENCOUNT_BLINKING_COUNT)
-			{
-				encount_rate = -SAFE_ENCOUNT_STEP;
-				encount_blinking_count = 0;
-				is_encount_blinking = false;
-				return tile[field_player.target_tile_array.y][field_player.target_tile_array.x].enemy_rank;
-			}
+			*player_location = *tile_location;
+			return true;
+		}
+	}
+	else if (*player_location > *tile_location)
+	{
+		if ((*player_location -= PLAYER_SPEED) <= *tile_location)
+		{
+			*player_location = *tile_location;
+			return true;
+		}
+	}
+	return false;
+}
+
+
+int Field::UpdateEncountAnimation(float delta_time)
+{
+	if ((screen_blinking_time += delta_time) >  SCREEN_BLINKING_TIME)
+	{
+		screen_blinking_time = 0.0f;
+
+		if (++screen_blinking_count > (SCREEN_BLINKING_COUNT * 2) - 1)
+		{
+			screen_blinking_count = 0;
+			update_encount_animation = false;
+			encount_rate = -SAFE_ENCOUNT_STEP;
+
+			//return -1;
+
+			return tile[field_player.location_index.y][field_player.location_index.x].enemy_rank;
 		}
 	}
 
@@ -213,23 +198,26 @@ int Field::EncountAnimation()
 
 void Field::Draw() const
 {
-	for (int i = 0; i < DRAW_TILE_NUM_Y; i++)//縦の繰り返し
+	for (int i = 0; i < DRAW_TILE_NUM; i++)//縦の繰り返し
 	{
-		for (int j = 0; j < DRAW_TILE_NUM_X; j++)//横の繰り返し
+		for (int j = 0; j < DRAW_TILE_NUM; j++)//横の繰り返し
 		{
-			int draw_tile_array_x = WrapAround(field_player.target_tile_array.x - (DRAW_TILE_NUM_X / 2) + j, 0, FIELD_TILE_NUM_X - 1);
-			int draw_tile_array_y = WrapAround(field_player.target_tile_array.y - (DRAW_TILE_NUM_Y / 2) + i, 0, FIELD_TILE_NUM_Y - 1);
+			int draw_tile_array_x = field_player.location_index.x - (DRAW_TILE_NUM / 2) + j;
+			int draw_tile_array_y = field_player.location_index.y - (DRAW_TILE_NUM / 2) + i;
 
-			int x = WrapAround(tile[draw_tile_array_y][draw_tile_array_x].position.x - field_player.position.x + HALF_SCREEN_SIZE, -(TILE_SIZE_X / 2), tile[FIELD_TILE_NUM_Y - 1][FIELD_TILE_NUM_X - 1].position.x - 1);
-			int y = WrapAround(tile[draw_tile_array_y][draw_tile_array_x].position.y - field_player.position.y + HALF_SCREEN_SIZE, -(TILE_SIZE_Y / 2), tile[FIELD_TILE_NUM_Y - 1][FIELD_TILE_NUM_X - 1].position.y - 1);
+			int add_x = tile[field_player.location_index.y][field_player.location_index.x].location.x - field_player.location.x;
+			int add_y = tile[field_player.location_index.y][field_player.location_index.x].location.y - field_player.location.y;
 
-			DrawRotaGraph(x, y, 3, 0, tile_image[tile[draw_tile_array_y][draw_tile_array_x].type], FALSE);
+			DrawRotaGraph((j * TILE_SIZE) - (TILE_SIZE / 2) + add_x, i * TILE_SIZE - (TILE_SIZE / 2) + add_y, 3, 0, tile_image[tile[draw_tile_array_y][draw_tile_array_x].type], FALSE);
 		}
 	}
 
-	DrawRotaGraph(HALF_SCREEN_SIZE, HALF_SCREEN_SIZE, 2, 0, player_image[1][draw_player_image_index], TRUE);
-	//DrawFormatString(0, 20, 0xffffff, "HP = %d", player->GetHp());
+	DrawRotaGraph(HALF_SCREEN_SIZE, HALF_SCREEN_SIZE, 2, 0, player_image[1][player_image_index], TRUE);
+	
+	DrawBox(5, 50, 525, 130, 0xffffff, TRUE);
+	DrawBox(10, 55, 520, 125, 0x000000, TRUE);
+	DrawFormatStringToHandle(25, 55, 0xffffff, retro_font_48, "%s  HP %3d MP %3d", player->GetName(), player->GetHp(), /*player->GetMp()*/encount_rate);
 
 	//点滅の表示
-	if (is_encount_blinking)DrawBox(0, 0, SCREEN_SIZE, SCREEN_SIZE, 0xffffff, TRUE);
+	if (screen_blinking_count % 2)DrawBox(0, 0, SCREEN_SIZE, SCREEN_SIZE, 0xffffff, TRUE);
 }
