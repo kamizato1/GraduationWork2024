@@ -49,6 +49,8 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="CreditScene.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="FieldBase.cpp" />
+    <ClCompile Include="FieldBase.h" />
     <ClCompile Include="GameClearScene.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="GameMainScene.cpp" />
@@ -61,6 +63,8 @@
     <ClCompile Include="Player.h" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="Town.cpp" />
+    <ClCompile Include="Town.h" />
     <ClCompile Include="Ui.cpp" />
   </ItemGroup>
   <ItemGroup>

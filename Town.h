@@ -1,62 +1,9 @@
-#pragma once
-#include"FieldBase.h"
-
-#define TILE_TYPE_NUM 23
-
-class Field : public FieldBase
-{
-private:
-
-    FIELD_TILE field_tile[FIELD_TILE_NUM][FIELD_TILE_NUM];
-
-    //画像
-    int tile_image[TILE_TYPE_NUM];
-
-    //変数
-    int encount_rate;
-    bool update_encount_animation;//エンカウントアニメーションを更新するか？
-    float screen_blinking_time;//点滅時間
-    int screen_blinking_count;//点滅回数
-    
-    //関数
-    void SetField()override;//フィールドを生成
-    int UpdateEncountAnimation(float delta_time);//エンカウント時のアニメーション
-
-public:
-    Field(class Player* player);
-    ~Field();
-
-    int Update(float delta_time)override;//戻り値あるよ！
-    void Draw() const override;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //#pragma once
 //#include"define.h"
 //
 //#define TILE_TYPE_NUM 23
 //
-//class Field
+//class Town
 //{
 //private:
 //
@@ -75,12 +22,11 @@ public:
 //    {
 //        VECTOR2_I location;//タイルの座標
 //        int type;//タイルの種類
-//        int enemy_rank;//タイルで出現する敵のランク
 //    };
 //
 //    //構造体
 //    FIELD_PLAYER field_player;
-//    TILE tile[FIELD_TILE_NUM][FIELD_TILE_NUM];
+//    TILE tile[30][30];
 //
 //
 //    //画像

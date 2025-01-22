@@ -164,6 +164,18 @@
     <ClCompile Include="Effect.cpp">
       <Filter>ソース ファイル\GameMain</Filter>
     </ClCompile>
+    <ClCompile Include="Town.h">
+      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="Town.cpp">
+      <Filter>ソース ファイル\GameMain\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldBase.h">
+      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldBase.cpp">
+      <Filter>ソース ファイル\GameMain\Field</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
