@@ -1,6 +1,7 @@
 #include"GameMainScene.h"
 #include"Player.h"
-#include"Field.h"
+#include"WorldMap.h"
+#include"TownMap.h"
 #include"Battle.h"
 #include"DxLib.h"
 
@@ -8,10 +9,11 @@ GameMainScene::GameMainScene()
 {
 	//クラスポインター
 	player = nullptr;
-	field = nullptr;
+	world_map = nullptr;
+	town_map = nullptr;
 	battle = nullptr;
 
-	game_scene_type = GAME_SCENE_TYPE::FIELD;
+	game_scene_type = GAME_SCENE_TYPE::WORLD_MAP;
 }
 
 GameMainScene::~GameMainScene()
@@ -22,7 +24,8 @@ GameMainScene::~GameMainScene()
 void GameMainScene::Initialize()
 {
 	player = new Player();
-	field = new Field(player);
+	world_map = new WorldMap(player);
+	town_map = new TownMap(player);
 	battle = new Battle(player);
 }
 
@@ -30,7 +33,8 @@ void GameMainScene::Initialize()
 void GameMainScene::Finalize()
 {
 	delete player;
-	delete field;
+	delete world_map;
+	delete town_map;
 	delete battle;
 }
 
@@ -39,23 +43,27 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 {
 	switch (game_scene_type)
 	{
-	case GAME_SCENE_TYPE::FIELD:
+	case GAME_SCENE_TYPE::WORLD_MAP:
 	{
-		int encount_enemy_rank = field->Update(delta_time);
+		int encount_enemy_rank = world_map->Update(delta_time);
 
 		if (encount_enemy_rank != -1)
 		{
-			game_scene_type = GAME_SCENE_TYPE::BATTLE;
-			battle->Initialize(encount_enemy_rank);
+			game_scene_type = GAME_SCENE_TYPE::TOWN_MAP;
+			//battle->Initialize(encount_enemy_rank);
 		}
 		break;
 	}
+	case GAME_SCENE_TYPE::TOWN_MAP:
+
+		if (town_map->Update(delta_time) != -1)game_scene_type = GAME_SCENE_TYPE::WORLD_MAP;
+
+		break;
+
 	case GAME_SCENE_TYPE::BATTLE:
 
-		if (battle->Update(delta_time))
-		{
-			game_scene_type = GAME_SCENE_TYPE::FIELD;
-		}
+		if (battle->Update(delta_time))game_scene_type = GAME_SCENE_TYPE::WORLD_MAP;
+
 		break;
 	}
 
@@ -67,11 +75,22 @@ void GameMainScene::Draw() const
 {
 	switch (game_scene_type)
 	{
-	case GAME_SCENE_TYPE::FIELD:
-		field->Draw();
+	case GAME_SCENE_TYPE::WORLD_MAP:
+
+		world_map->Draw();
 		break;
+
+	case GAME_SCENE_TYPE::TOWN_MAP:
+
+		town_map->Draw();
+
+		break;
+
+
 	case GAME_SCENE_TYPE::BATTLE:
+
 		battle->Draw();
+
 		break;
 	}
 

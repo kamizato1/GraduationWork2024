@@ -7,8 +7,6 @@
 
 #define HALF_SCREEN_SIZE 360
 
-#define FIELD_TILE_NUM 128
-
 #define ENEMY_TYPE_NUM 30
 
 struct F_VECTOR2 //座標,大きさ,スピードなどに使う(float型)

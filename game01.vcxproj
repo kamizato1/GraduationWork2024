@@ -23,7 +23,7 @@
     <ClInclude Include="CharacterBase.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="EnemyManager.h" />
-    <ClInclude Include="Field.h" />
+    <ClInclude Include="WorldMap.h" />
     <ClInclude Include="CreditScene.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="EventManager.h" />
@@ -46,11 +46,11 @@
     <ClCompile Include="CharacterBase.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
-    <ClCompile Include="Field.cpp" />
+    <ClCompile Include="WorldMap.cpp" />
     <ClCompile Include="CreditScene.cpp" />
     <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="FieldBase.cpp" />
-    <ClCompile Include="FieldBase.h" />
+    <ClCompile Include="MapBase.cpp" />
+    <ClCompile Include="MapBase.h" />
     <ClCompile Include="GameClearScene.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="GameMainScene.cpp" />
@@ -63,8 +63,8 @@
     <ClCompile Include="Player.h" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="Town.cpp" />
-    <ClCompile Include="Town.h" />
+    <ClCompile Include="TownMap.cpp" />
+    <ClCompile Include="TownMap.h" />
     <ClCompile Include="Ui.cpp" />
   </ItemGroup>
   <ItemGroup>

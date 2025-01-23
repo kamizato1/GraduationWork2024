@@ -1,9 +1,9 @@
 //#include"DxLib.h"
 //#include"Ui.h"
 //
-//Ui::Ui(PlayerBase** player_base) : field_player(player_base)
+//Ui::Ui(PlayerBase** player_base) : map_player(player_base)
 //{
-//    if (LoadDivGraph("image/Ui/field_player.png", 4, 4, 1, 50, 50, player_image[0]) == -1)throw("image/Ui/field_player.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
+//    if (LoadDivGraph("image/Ui/map_player.png", 4, 4, 1, 50, 50, player_image[0]) == -1)throw("image/Ui/map_player.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
 //    if (LoadDivGraph("image/Ui/playerselect.png", 4, 4, 1, 50, 50, player_image[1]) == -1)throw("image/Ui/playerselect.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
 //    if (LoadDivGraph("image/Ui/playerdead.png", 4, 4, 1, 50, 50, player_image[2]) == -1)throw("image/Ui/playerdead.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
 //
@@ -26,14 +26,14 @@
 //{
 //    for (int i = 0; i < 4; i++)
 //    {
-//        int player_job = static_cast<int>(field_player[i]->GetPlayerJob());
+//        int player_job = static_cast<int>(map_player[i]->GetPlayerJob());
 //
-//        draw_player_state[player_job].hp = field_player[i]->GetHp();
-//        draw_player_state[player_job].mp = field_player[i]->GetMp();
+//        draw_player_state[player_job].hp = map_player[i]->GetHp();
+//        draw_player_state[player_job].mp = map_player[i]->GetMp();
 //
 //        draw_player_state[player_job].image_type = 0;
-//        if (field_player[i]->GetIsLeader())draw_player_state[player_job].image_type = 1;
-//        if (field_player[i]->GetIsDead())draw_player_state[player_job].image_type = 2;
+//        if (map_player[i]->GetIsLeader())draw_player_state[player_job].image_type = 1;
+//        if (map_player[i]->GetIsDead())draw_player_state[player_job].image_type = 2;
 //    }
 //}
 //

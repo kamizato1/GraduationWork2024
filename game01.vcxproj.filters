@@ -22,20 +22,20 @@
     <Filter Include="ソース ファイル\GameMain">
       <UniqueIdentifier>{f9c3e87f-9df0-40c1-89d7-0069f798b62a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\GameMain\Field">
-      <UniqueIdentifier>{fb0ebd9d-617d-4cb6-b23a-2cb736a9babb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\GameMain\Battle">
       <UniqueIdentifier>{02aaea19-2b50-421a-9c2f-6f86f7e6df35}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\GameMain">
       <UniqueIdentifier>{f01b1ca5-c1d1-46c7-877d-eb774415f4ea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\GameMain\Field">
-      <UniqueIdentifier>{24409c52-5845-4aa2-b14b-6c13bfdc7ed5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\GameMain\Battle">
       <UniqueIdentifier>{5699e5cb-2ef4-4311-917f-7a035b2c9542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameMain\Map">
+      <UniqueIdentifier>{24409c52-5845-4aa2-b14b-6c13bfdc7ed5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameMain\Map">
+      <UniqueIdentifier>{fb0ebd9d-617d-4cb6-b23a-2cb736a9babb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,16 +76,16 @@
       <Filter>ヘッダー ファイル\GameMain\Battle</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
+      <Filter>ヘッダー ファイル\GameMain\Map</Filter>
     </ClInclude>
-    <ClInclude Include="Field.h">
-      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
+    <ClInclude Include="WorldMap.h">
+      <Filter>ヘッダー ファイル\GameMain\Map</Filter>
     </ClInclude>
     <ClInclude Include="NpcBase.h">
-      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
+      <Filter>ヘッダー ファイル\GameMain\Map</Filter>
     </ClInclude>
     <ClInclude Include="NpcManager.h">
-      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
+      <Filter>ヘッダー ファイル\GameMain\Map</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBase.h">
       <Filter>ヘッダー ファイル\GameMain\Battle</Filter>
@@ -135,16 +135,16 @@
       <Filter>ソース ファイル\GameMain\Battle</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>ソース ファイル\GameMain\Field</Filter>
+      <Filter>ソース ファイル\GameMain\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Field.cpp">
-      <Filter>ソース ファイル\GameMain\Field</Filter>
+    <ClCompile Include="WorldMap.cpp">
+      <Filter>ソース ファイル\GameMain\Map</Filter>
     </ClCompile>
     <ClCompile Include="NpcBase.cpp">
-      <Filter>ソース ファイル\GameMain\Field</Filter>
+      <Filter>ソース ファイル\GameMain\Map</Filter>
     </ClCompile>
     <ClCompile Include="NpcManager.cpp">
-      <Filter>ソース ファイル\GameMain\Field</Filter>
+      <Filter>ソース ファイル\GameMain\Map</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
       <Filter>ソース ファイル\GameMain\Battle</Filter>
@@ -164,17 +164,17 @@
     <ClCompile Include="Effect.cpp">
       <Filter>ソース ファイル\GameMain</Filter>
     </ClCompile>
-    <ClCompile Include="Town.h">
-      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
+    <ClCompile Include="TownMap.h">
+      <Filter>ヘッダー ファイル\GameMain\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Town.cpp">
-      <Filter>ソース ファイル\GameMain\Field</Filter>
+    <ClCompile Include="TownMap.cpp">
+      <Filter>ソース ファイル\GameMain\Map</Filter>
     </ClCompile>
-    <ClCompile Include="FieldBase.h">
-      <Filter>ヘッダー ファイル\GameMain\Field</Filter>
+    <ClCompile Include="MapBase.h">
+      <Filter>ヘッダー ファイル\GameMain\Map</Filter>
     </ClCompile>
-    <ClCompile Include="FieldBase.cpp">
-      <Filter>ソース ファイル\GameMain\Field</Filter>
+    <ClCompile Include="MapBase.cpp">
+      <Filter>ソース ファイル\GameMain\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

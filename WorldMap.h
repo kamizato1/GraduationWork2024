@@ -1,9 +1,63 @@
+#pragma once
+#include"MapBase.h"
+
+#define TILE_NUM 128
+#define TILE_TYPE_NUM 19
+
+class WorldMap : public MapBase
+{
+private:
+
+    TILE tile[TILE_NUM][TILE_NUM];
+
+    //画像
+    int tile_image[TILE_TYPE_NUM];
+
+    //変数
+    int encount_rate;
+    bool update_encount_animation;//エンカウントアニメーションを更新するか？
+    float screen_blinking_time;//点滅時間
+    int screen_blinking_count;//点滅回数
+    
+    //関数
+    void SetMap()override;//フィールドを生成
+    int UpdateEncountAnimation(float delta_time);//エンカウント時のアニメーション
+
+public:
+    WorldMap(class Player* player);
+    ~WorldMap();
+
+    int Update(float delta_time)override;//戻り値あるよ！
+    void Draw() const override;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //#pragma once
 //#include"define.h"
 //
 //#define TILE_TYPE_NUM 23
 //
-//class Town
+//class WorldMap
 //{
 //private:
 //
@@ -12,7 +66,7 @@
 //
 //    //構造体宣言
 //
-//    struct FIELD_PLAYER
+//    struct PLAYER
 //    {
 //        VECTOR2_I location;//プレイヤーの座標
 //        VECTOR2_I location_index;//プレイヤーの移動先のタイルの配列番号
@@ -22,11 +76,12 @@
 //    {
 //        VECTOR2_I location;//タイルの座標
 //        int type;//タイルの種類
+//        int enemy_rank;//タイルで出現する敵のランク
 //    };
 //
 //    //構造体
-//    FIELD_PLAYER field_player;
-//    TILE tile[30][30];
+//    PLAYER map_player;
+//    TILE tile[MAP_TILE_NUM][MAP_TILE_NUM];
 //
 //
 //    //画像
@@ -47,7 +102,7 @@
 //    int retro_font_48;
 //
 //    //関数
-//    void SetField();//フィールドを生成
+//    void SetMap();//フィールドを生成
 //
 //    void UpdateMovement();//プレイヤー移動処理
 //    bool UpdateScroll();//プレイヤースクロール処理
@@ -56,8 +111,8 @@
 //    int UpdateEncountAnimation(float delta_time);//エンカウント時のアニメーション
 //
 //public:
-//    Field(class Player* player);
-//    ~Field();
+//    WorldMap(class Player* player);
+//    ~WorldMap();
 //
 //    int Update(float delta_time);//戻り値あるよ！
 //    void Draw() const;

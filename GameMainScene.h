@@ -7,14 +7,16 @@ private:
 
 	enum class GAME_SCENE_TYPE
 	{
-		FIELD, //フィールド
+		WORLD_MAP, //ワールドマップ
+		TOWN_MAP,
 		BATTLE //バトル
 	};
 
 	GAME_SCENE_TYPE game_scene_type;
 
 	class Player* player;
-	class Field* field;
+	class WorldMap* world_map;
+	class TownMap* town_map;
 	class Battle* battle;
 	
 public:
