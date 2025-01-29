@@ -26,6 +26,14 @@ public:
     {
         return ((this->x == other.x) && (this->y == other.y));
     }
+
+    VECTOR2_I operator+= (VECTOR2_I& other)
+    {
+        this->x += other.x;
+        this->y += other.y;
+
+        return *this;
+    }
 };
 
 struct CHARACTER_DATA
@@ -39,6 +47,13 @@ struct CHARACTER_DATA
     int defense_power;
     int speed;
     int image;
+};
+
+enum class GAME_SCENE_TYPE
+{
+    WORLD_MAP, //ワールドマップ
+    TOWN_MAP,
+    BATTLE //バトル
 };
 
 

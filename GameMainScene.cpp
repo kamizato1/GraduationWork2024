@@ -27,6 +27,8 @@ void GameMainScene::Initialize()
 	world_map = new WorldMap(player);
 	town_map = new TownMap(player);
 	battle = new Battle(player);
+
+	world_map->Initialize();
 }
 
 //I—¹Žžˆ—
@@ -45,24 +47,32 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 	{
 	case GAME_SCENE_TYPE::WORLD_MAP:
 	{
-		int encount_enemy_rank = world_map->Update(delta_time);
+		GAME_SCENE_TYPE next_game_scene_type = world_map->Update(delta_time);
 
-		if (encount_enemy_rank != -1)
-		{
-			game_scene_type = GAME_SCENE_TYPE::TOWN_MAP;
-			//battle->Initialize(encount_enemy_rank);
-		}
+		if (next_game_scene_type == GAME_SCENE_TYPE::TOWN_MAP)town_map->Initialize();
+		else if (next_game_scene_type == GAME_SCENE_TYPE::BATTLE)battle->Initialize(world_map->GetEnemyRank(), world_map->GetTileType());
+
+		game_scene_type = next_game_scene_type;
+
 		break;
 	}
 	case GAME_SCENE_TYPE::TOWN_MAP:
+	{
+		GAME_SCENE_TYPE next_game_scene_type = town_map->Update(delta_time);
 
-		if (town_map->Update(delta_time) != -1)game_scene_type = GAME_SCENE_TYPE::WORLD_MAP;
+		if (next_game_scene_type == GAME_SCENE_TYPE::WORLD_MAP)world_map->Initialize();
+
+		game_scene_type = next_game_scene_type;
 
 		break;
-
+	}
 	case GAME_SCENE_TYPE::BATTLE:
 
-		if (battle->Update(delta_time))game_scene_type = GAME_SCENE_TYPE::WORLD_MAP;
+		if (battle->Update(delta_time))
+		{
+			game_scene_type = GAME_SCENE_TYPE::WORLD_MAP;
+			world_map->Initialize();
+		}
 
 		break;
 	}

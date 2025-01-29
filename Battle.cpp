@@ -34,7 +34,7 @@ Battle::Battle(Player* player)
 	enemy_manager = new EnemyManager();
 
 	//‰Šú‰»
-	Initialize(0);
+	Initialize(0, 0);
 
 	OutputDebugString("BattleƒRƒ“ƒXƒgƒ‰ƒNƒ^ŒÄ‚Î‚ê‚Ü‚µ‚½B\n");
 }
@@ -57,7 +57,7 @@ Battle::~Battle()
 	OutputDebugString("BattleƒfƒXƒgƒ‰ƒNƒ^ŒÄ‚Î‚ê‚Ü‚µ‚½B\n");
 }
 
-void Battle::Initialize(int encount_enemy_rank)
+void Battle::Initialize(int encount_enemy_rank, int scenery_image_index)
 {
 	//state
 	battle_state = BATTLE_STATE::ENCOUNT_ANIMATION;
@@ -75,6 +75,8 @@ void Battle::Initialize(int encount_enemy_rank)
 	draw_enemy = true;
 	screen_amplitude_value = 0;
 	add_screen_amplitude_value = ADD_SCREEN_AMPLITUDE;
+
+	this->scenery_image_index = scenery_image_index;
 
 	draw_ui = { false, false, false, false };
 
@@ -342,7 +344,7 @@ void Battle::Draw() const
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, screen_transparency_value);
 
-		DrawGraph(0, 0, scenery_image[0], TRUE);//”wŒi‰æ‘œ
+		DrawGraph(0, 0, scenery_image[scenery_image_index], TRUE);//”wŒi‰æ‘œ
 		enemy->Draw();//“G
 		DrawMessageBox();
 		if (screen_transparency_value == MAX_TRANSPARENCY)DrawFormatStringToHandle(55, 505, 0xffffff, retro_font_48, "%s‚ª ‚ ‚ç‚í‚ê‚½I", enemy->GetName());
@@ -351,7 +353,7 @@ void Battle::Draw() const
 	}
 	else
 	{
-		DrawGraph(0, 0, scenery_image[0], TRUE);//”wŒi‰æ‘œ
+		DrawGraph(0, 0, scenery_image[scenery_image_index], TRUE);//”wŒi‰æ‘œ
 
 		if (draw_enemy)enemy->Draw();
 

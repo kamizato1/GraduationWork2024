@@ -1,16 +1,10 @@
 #pragma once
 #include"SceneBase.h"
+#include"define.h"
 
 class GameMainScene :public SceneBase
 {
 private:
-
-	enum class GAME_SCENE_TYPE
-	{
-		WORLD_MAP, //ワールドマップ
-		TOWN_MAP,
-		BATTLE //バトル
-	};
 
 	GAME_SCENE_TYPE game_scene_type;
 

@@ -28,5 +28,5 @@
 9 D 6 O 6 6 6 E E D 0 0 0 0 3 3 6 6 6 9 9 D Q R 6 6 6 Q R D D 9
 9 D 6 6 6 6 6 6 6 D 3 0 0 0 0 3 6 6 6 9 9 D Q R 6 6 6 Q R D D 9
 9 D 6 6 6 6 6 6 6 D 3 0 0 0 0 3 6 6 6 9 9 D D D D D D D D D D 9
-9 E E E E E E E E E 3 3 0 0 0 0 6 6 6 3 9 D D D D D D D D D D 9
+9 E E E E E E E E E 3 3 0 0 0 0 6 6 6 3 9 E E E E E E E E E E 9
 9 9 9 9 9 9 9 9 9 9 9 9 3 0 0 0 6 6 6 3 9 9 9 9 9 9 9 9 9 9 9 9

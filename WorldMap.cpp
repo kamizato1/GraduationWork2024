@@ -1,7 +1,11 @@
 #include"DxLib.h"
 #include"WorldMap.h"
+#include"NpcBase.h"
+#include"Player.h"
 
-#define START_PLAYER_LOCATION_X 11
+#define COLLIDE_TILE_TYPE 25//ぶつかるタイル
+
+#define START_PLAYER_LOCATION_X 15
 #define START_PLAYER_LOCATION_Y 106
 
 #define MAX_ENCOUNT_RATE 10 //最大エンカウント率(割合)
@@ -18,14 +22,11 @@ WorldMap::WorldMap(Player* player) : MapBase(player)
 	
 	SetMap();
 
-	//変数
-	encount_rate = -SAFE_ENCOUNT_STEP;
-	screen_blinking_time = 0.0f;
-	screen_blinking_count = 0;
+	Initialize();
 
     OutputDebugString("WorldMapコンストラクタ呼ばれました。\n");
 
-	SetFontSize(15);
+	//SetFontSize(15);
 }
 
 void WorldMap::SetMap()
@@ -53,13 +54,25 @@ void WorldMap::SetMap()
 	}
 
 	fclose(map_data);
-	
-	//プレイヤーの設定
-	map_player.location_index.x = START_PLAYER_LOCATION_X; //プレイヤー座標（配列）
-	map_player.location_index.y = START_PLAYER_LOCATION_Y;
 
-	map_player.location.x = tile[map_player.location_index.y][map_player.location_index.x].location.x;
-	map_player.location.y = tile[map_player.location_index.y][map_player.location_index.x].location.y;
+	player_location = tile[START_PLAYER_LOCATION_Y][START_PLAYER_LOCATION_X].location;
+	player_location_index = VECTOR2_I{ START_PLAYER_LOCATION_X,  START_PLAYER_LOCATION_Y };
+
+}
+
+void WorldMap::Initialize()
+{
+	player->SetLocation(player_location);
+	player->SetLocationIndex(player_location_index);
+
+	image_index_change_time = 0.0f;
+	image_index = 0;
+	add_image_index = 1;
+
+	update_encount_animation = false;
+	encount_rate = -SAFE_ENCOUNT_STEP;
+	screen_blinking_time = 0.0f;
+	screen_blinking_count = 0;
 }
 
 WorldMap::~WorldMap()
@@ -68,18 +81,26 @@ WorldMap::~WorldMap()
 }
 
 
-int WorldMap::Update(float delta_time)
+GAME_SCENE_TYPE WorldMap::Update(float delta_time)
 {
 	//エンカウントアニメーション
-	if (update_encount_animation)return UpdateEncountAnimation(delta_time);
+	if (update_encount_animation)
+	{
+		if (UpdateEncountAnimation(delta_time))return GAME_SCENE_TYPE::BATTLE;
+	}
 	else
 	{
-		UpdatePlayerImageIndex(delta_time);
+		UpdateImageIndex(delta_time);
 
-		if (UpdateScroll(tile[map_player.location_index.y][map_player.location_index.x],
-			UpdateMovement(tile[map_player.location_index.y][map_player.location_index.x].location)))
+		if (player->UpdateScroll(tile[player->GetLocationIndex().y][player->GetLocationIndex().x].type, COLLIDE_TILE_TYPE,
+			player->UpdateMovement(tile[player->GetLocationIndex().y][player->GetLocationIndex().x].location), 
+			tile[player->GetLocationIndex().y][player->GetLocationIndex().x].location))
 		{
-			if (++encount_rate > 0)
+			if (tile[player->GetLocationIndex().y][player->GetLocationIndex().x].type >= 15)
+			{
+				return GAME_SCENE_TYPE::TOWN_MAP;
+			}
+			else if (++encount_rate > 0)
 			{
 				if (encount_rate > MAX_WALK_ENCOUNT_RATE)encount_rate = MAX_WALK_ENCOUNT_RATE;
 				if (GetRand(MAX_ENCOUNT_RATE - encount_rate) == 0)update_encount_animation = true;
@@ -87,10 +108,10 @@ int WorldMap::Update(float delta_time)
 		}
 	}
 
-    return -1;
+    return GAME_SCENE_TYPE::WORLD_MAP;
 }
 
-int WorldMap::UpdateEncountAnimation(float delta_time)
+bool WorldMap::UpdateEncountAnimation(float delta_time)
 {
 	if ((screen_blinking_time += delta_time) >  SCREEN_BLINKING_TIME)
 	{
@@ -98,17 +119,23 @@ int WorldMap::UpdateEncountAnimation(float delta_time)
 
 		if (++screen_blinking_count > (SCREEN_BLINKING_COUNT * 2) - 1)
 		{
-			screen_blinking_count = 0;
-			update_encount_animation = false;
-			encount_rate = -SAFE_ENCOUNT_STEP;
-
-			//return -1;
-
-			return tile[map_player.location_index.y][map_player.location_index.x].enemy_rank;
+			player_location = player->GetLocation();
+			player_location_index = player->GetLocationIndex();
+			return true;
 		}
 	}
 
-	return -1;
+	return false;
+}
+
+int WorldMap::GetTileType()const
+{
+	return tile[player->GetLocationIndex().y][player->GetLocationIndex().x].type;
+}
+
+int WorldMap::GetEnemyRank()const
+{
+	return tile[player->GetLocationIndex().y][player->GetLocationIndex().x].enemy_rank;
 }
 
 void WorldMap::Draw() const
@@ -117,29 +144,31 @@ void WorldMap::Draw() const
 	{
 		for (int j = 0; j < DRAW_TILE_NUM; j++)//横の繰り返し
 		{
-			int draw_tile_array_x = map_player.location_index.x - (DRAW_TILE_NUM / 2) + j;
-			int draw_tile_array_y = map_player.location_index.y - (DRAW_TILE_NUM / 2) + i;
+			int draw_tile_array_x = player->GetLocationIndex().x - (DRAW_TILE_NUM / 2) + j;
+			int draw_tile_array_y = player->GetLocationIndex().y - (DRAW_TILE_NUM / 2) + i;
 
-			int add_x = tile[map_player.location_index.y][map_player.location_index.x].location.x - map_player.location.x;
-			int add_y = tile[map_player.location_index.y][map_player.location_index.x].location.y - map_player.location.y;
+			int draw_tile_location_x = tile[draw_tile_array_y][draw_tile_array_x].location.x - player->GetLocation().x + HALF_SCREEN_SIZE;
+			int draw_tile_location_y = tile[draw_tile_array_y][draw_tile_array_x].location.y - player->GetLocation().y + HALF_SCREEN_SIZE;
 
 			if ((draw_tile_array_y < 0) || (draw_tile_array_y >= TILE_NUM) || (draw_tile_array_x < 0) || (draw_tile_array_x >= TILE_NUM))
 			{
-				//マップの外は海の画像
-				DrawRotaGraph((j * TILE_SIZE) - (TILE_SIZE / 2) + add_x, i * TILE_SIZE - (TILE_SIZE / 2) + add_y, 3, 0, tile_image[18], FALSE);
+				DrawRotaGraph(draw_tile_location_x, draw_tile_location_y, 3, 0, tile_image[0], FALSE);
 			}
-			else DrawRotaGraph((j * TILE_SIZE) - (TILE_SIZE / 2) + add_x, i * TILE_SIZE - (TILE_SIZE / 2) + add_y, 3, 0, tile_image[tile[draw_tile_array_y][draw_tile_array_x].type], FALSE);
-
+			else DrawRotaGraph(draw_tile_location_x, draw_tile_location_y, 3, 0, tile_image[tile[draw_tile_array_y][draw_tile_array_x].type], FALSE);
 
 			//DrawFormatString((j * TILE_SIZE) - (TILE_SIZE / 2) + add_x - 20, i * TILE_SIZE - (TILE_SIZE / 2) + add_y, 0xffffff, "%d", tile[draw_tile_array_y][draw_tile_array_x].enemy_rank);
 		}
 	}
 
-	DrawRotaGraph(HALF_SCREEN_SIZE, HALF_SCREEN_SIZE, 2, 0, player_image[1][player_image_index], TRUE);
-	
+	player->Draw(image_index);
+
 	DrawBox(5, 50, 525, 130, 0xffffff, TRUE);
 	DrawBox(10, 55, 520, 125, 0x000000, TRUE);
 	//DrawFormatStringToHandle(25, 55, 0xffffff, retro_font_48, "%s  HP %3d MP %3d", player->GetName(), player->GetHp(), /*player->GetMp()*/encount_rate);
+
+	DrawFormatString(0, 30, 0xffffff, "%d = x, %d = y", player->GetLocation().x, player->GetLocation().y);
+	DrawFormatString(0, 50, 0xffffff, "%d = x, %d = y", player->GetLocationIndex().x, player->GetLocationIndex().y);
+
 
 	//点滅の表示
 	if (screen_blinking_count % 2)DrawBox(0, 0, SCREEN_SIZE, SCREEN_SIZE, 0xffffff, TRUE);

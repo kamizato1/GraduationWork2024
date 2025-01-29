@@ -1,8 +1,9 @@
 #pragma once
 #include"CharacterBase.h"
+#include"NpcBase.h"
 #include"define.h"
 
-class Player : public CharacterBase
+class Player : public CharacterBase, public NpcBase
 {
 private:
 
@@ -13,4 +14,9 @@ public:
 
     bool Update(float delta_time) override;//ñﬂÇËílÇ†ÇÈÇÊÅI
     void Draw() const override;
+
+    void Draw(int image_index) const;
+
+    VECTOR2_I UpdateMovement(VECTOR2_I tile_location)override;
+
 };

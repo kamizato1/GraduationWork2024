@@ -100,7 +100,7 @@ public:
     Battle(class Player* player);
     ~Battle();
 
-    void Initialize(int encount_enemy_rank); //‰Šú‰»
+    void Initialize(int encount_enemy_rank, int scenery_image_index); //‰Šú‰»
 
     bool Update(float delta_time);
     void Draw() const;
