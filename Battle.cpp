@@ -142,10 +142,7 @@ bool Battle::UpdatePlayerAction(float delta_time)
 
 		if (Key::KeyDown(KEY_TYPE::A))
 		{
-			action_select_state = ACTION_SELECT_STATE::ATTACK;
-			//action_select_state = static_cast<ACTION_SELECT_STATE>(action_select_index);
-
-			font_color_value = 0x808080;
+			action_select_state = static_cast<ACTION_SELECT_STATE>(action_select_index);
 		}
 
 		break;
@@ -153,6 +150,12 @@ bool Battle::UpdatePlayerAction(float delta_time)
 	case ACTION_SELECT_STATE::ATTACK:
 
 		return UpdatePlayerAttack(delta_time);
+
+		break;
+
+	case ACTION_SELECT_STATE::MAGIC:
+
+		return UpdatePlayerMagic(delta_time);
 
 		break;
 
@@ -172,6 +175,7 @@ bool Battle::UpdatePlayerAttack(float delta_time)
 	{
 	case ACTION_STATE::NONE:
 
+		font_color_value = 0x808080;
 		action_state = ACTION_STATE::TARGET_SELECT;
 
 		break;
@@ -242,6 +246,29 @@ bool Battle::UpdatePlayerAttack(float delta_time)
 		{
 			this->delta_time = 0.0f;
 			return true;
+		}
+
+		break;
+	}
+
+	return false;
+}
+
+bool Battle::UpdatePlayerMagic(float delta_time)
+{
+	switch (action_state)
+	{
+	case ACTION_STATE::NONE:
+
+		draw_ui = { true, true, false, false };
+
+		if ((this->delta_time += delta_time) > 1.0f)
+		{
+			action_select_state = ACTION_SELECT_STATE::NONE;
+			action_select_index = 0;
+			this->delta_time = 0.0f;
+
+			draw_ui = { false, true, true, true };
 		}
 
 		break;
@@ -379,7 +406,17 @@ void Battle::Draw() const
 				DrawStringToHandle(200, 505, "„", 0xffffff, retro_font_48);
 
 				break;
+
+			case ACTION_STATE::NONE:
+
+				if (action_select_state == ACTION_SELECT_STATE::MAGIC)DrawFormatStringToHandle(55, 505, 0xffffff, retro_font_48, "‚¶‚ã‚à‚ñ‚ð ‚¨‚Ú‚¦‚Ä‚¢‚È‚¢I", player->GetName());
+
+
+				break;
+
 			}
+
+
 
 		}
 		else if (battle_state == BATTLE_STATE::ENEMY_TURN)

@@ -76,6 +76,7 @@ private:
     
     //ƒNƒ‰ƒX
     class NpcBase* npc[10];
+    class Message* message;
 
     //‰æ‘œ
     int tile_image[TILE_TYPE_NUM];

@@ -81,6 +81,7 @@ private:
 
     bool UpdatePlayerAction(float delta_time);
     bool UpdatePlayerAttack(float delta_time);
+    bool UpdatePlayerMagic(float delta_time);
 
     void UpdateEnemyAction(float delta_time);
     void UpdateEnemyAttack(float delta_time);
@@ -93,6 +94,7 @@ private:
     void DrawMessageBox()const;
     void DrawPlayerNameBox()const;
     void DrawEnemyNameBox()const;
+
     void DrawActionSelectBox()const;
     
 public:

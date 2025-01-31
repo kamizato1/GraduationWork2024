@@ -4,7 +4,7 @@
 #define SPEED 2
 #define DIRECTION_CHANGE_TIME 5.0f
 
-NpcBase::NpcBase(VECTOR2_I location, VECTOR2_I location_index, int* image)
+NpcBase::NpcBase(VECTOR2_I location, VECTOR2_I location_index, int* image, const char* message)
 {
     this->location = location;
     this->location_index = location_index;
@@ -18,7 +18,7 @@ NpcBase::NpcBase(VECTOR2_I location, VECTOR2_I location_index, int* image)
 	image_direction_index = 0;
 	direction_change_time = 0.0f;
 
-    //this->text_data_name = new std::string(text_data_name);
+	strcpy_s(this->message,sizeof(this->message), message);
    
     OutputDebugString("NpcBaseコンストラクタ呼ばれました。\n");
 }
@@ -122,7 +122,7 @@ void NpcBase::SetLocation(VECTOR2_I location)
 }
 
 
-//std::string NpcBase::GetTextDataName()const
-//{
-//    return *text_data_name;
-//}
+const char* NpcBase::GetNpcMessage()const
+{
+    return message;
+}

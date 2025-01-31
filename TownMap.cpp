@@ -1,6 +1,7 @@
 #include"DxLib.h"
 #include"TownMap.h"
 #include"Player.h"
+#include"Message.h"
 
 #define COLLIDE_TILE_TYPE 9
 
@@ -11,6 +12,8 @@ TownMap::TownMap(Player* player) : MapBase(player)
 {
 	if (LoadDivGraph("data/TownMap/tile.png", TILE_TYPE_NUM, TILE_TYPE_NUM, 1, 16, 16, tile_image) == -1)throw("data/image/TownMap/tile.pngÇ™ì«Ç›çûÇﬂÇ‹ÇπÇÒ\n");
 	if (LoadDivGraph("data/TownMap/npc2.png", 252, 12, 21, 16, 16, npc_image) == -1)throw("data/TownMap/npc1.pngÇ™ì«Ç›çûÇﬂÇ‹ÇπÇÒ\n");
+
+	message = nullptr;
 
 	SetMap();
 
@@ -46,12 +49,13 @@ void TownMap::SetMap()
 			}
 			else if (npc_count < 10)
 			{
-				npc[npc_count] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)));
+				npc[npc_count] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "Ç±ÇÒÇ…ÇøÇÕ\nÇ›Ç»Ç≥ÇÒ\nÇ´ÇÂÇ§ÇÕ\nÇ¢Ç¢ÇƒÇÒÇ´\nÇ≈Ç∑ÇÀÅB");
 				npc_count++;
 			}
 
 		}
 	}
+	message = new Message(npc[0]->GetNpcMessage());
 
 }
 
@@ -59,6 +63,12 @@ void TownMap::Initialize()
 {
 	player->SetLocation(tile[START_PLAYER_LOCATION_Y][START_PLAYER_LOCATION_X].location);
 	player->SetLocationIndex(VECTOR2_I{ START_PLAYER_LOCATION_X,  START_PLAYER_LOCATION_Y });
+
+	/*if (message != nullptr)
+	{
+		delete message;
+		message = nullptr;
+	}*/
 
 	image_index_change_time = 0.0f;
 	image_index = 0;
@@ -99,6 +109,15 @@ GAME_SCENE_TYPE TownMap::Update(float delta_time)
 		}
 	}
 
+	if (message != nullptr)
+	{
+		if (message->Update(delta_time))
+		{
+			delete message;
+			message = nullptr;
+		}
+	}
+
 	return GAME_SCENE_TYPE::TOWN_MAP;
 }
 
@@ -131,6 +150,7 @@ void TownMap::Draw() const
 	char moji = '0';
 	DrawFormatString(0, 70, 0xffffff, "%d", moji);
 
+	if(message != nullptr)message->Draw();
 
 	for (int i = 0; i < 10; i++)
 	{

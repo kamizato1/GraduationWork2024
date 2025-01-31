@@ -3,7 +3,7 @@
 #include"Key.h"
 
 Player::Player() : CharacterBase(CHARACTER_DATA{"‚©‚İ‚´‚Æ", 200, 100,200, 100, 25, 25, 5 }), 
-NpcBase(VECTOR2_I{0, 0}, VECTOR2_I{0, 0} , nullptr)
+NpcBase(VECTOR2_I{0, 0}, VECTOR2_I{0, 0} , nullptr, "a")
 {
 	//ƒvƒŒƒCƒ„[‰æ‘œ“Ç‚İ‚İ
 	if (LoadDivGraph("data/MapBase/image.png", 16, 4, 4, 16, 16, image) == -1)throw("data/MapBase/player_image.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
