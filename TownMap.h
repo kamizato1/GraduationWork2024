@@ -85,6 +85,7 @@ private:
 
     //関数
     void SetMap()override;//フィールドを生成
+    void SetMessage();
 
 public:
     TownMap(class Player* player);

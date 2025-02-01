@@ -21,16 +21,27 @@ bool Player::Update(float delta_time)
 	return false;
 }
 
+VECTOR2_I Player::GetDirectionIndex()const
+{
+	if (is_it_moving)return location_index;
+
+	if (image_direction_index == 0)return VECTOR2_I{ location_index.x, location_index.y - 1 };
+	if (image_direction_index == 1)return VECTOR2_I{ location_index.x, location_index.y + 1 };
+	if (image_direction_index == 2)return VECTOR2_I{ location_index.x - 1, location_index.y };
+	if (image_direction_index == 3)return VECTOR2_I{ location_index.x + 1, location_index.y };
+
+}
+
 VECTOR2_I Player::UpdateMovement(VECTOR2_I tile_location)
 {
 	VECTOR2_I location_index = this->location_index;
 
 	if (location == tile_location)
 	{
-		if (Key::KeyPressed(KEY_TYPE::UP))this->location_index.y -= 1, image_direction_index = 0;
-		else if (Key::KeyPressed(KEY_TYPE::DOWN))this->location_index.y += 1, image_direction_index = 1;
-		else if (Key::KeyPressed(KEY_TYPE::LEFT))this->location_index.x -= 1, image_direction_index = 2;
-		else if (Key::KeyPressed(KEY_TYPE::RIGHT))this->location_index.x += 1, image_direction_index = 3;
+		if (Key::KeyPressed(KEY_TYPE::UP))this->location_index.y -= 1, image_direction_index = 0, is_it_moving = true;
+		else if (Key::KeyPressed(KEY_TYPE::DOWN))this->location_index.y += 1, image_direction_index = 1, is_it_moving = true;
+		else if (Key::KeyPressed(KEY_TYPE::LEFT))this->location_index.x -= 1, image_direction_index = 2, is_it_moving = true;
+		else if (Key::KeyPressed(KEY_TYPE::RIGHT))this->location_index.x += 1, image_direction_index = 3, is_it_moving = true;
 	}
 
 	return location_index;

@@ -18,6 +18,8 @@ NpcBase::NpcBase(VECTOR2_I location, VECTOR2_I location_index, int* image, const
 	image_direction_index = 0;
 	direction_change_time = 0.0f;
 
+	is_it_moving = false;
+
 	strcpy_s(this->message,sizeof(this->message), message);
    
     OutputDebugString("NpcBaseコンストラクタ呼ばれました。\n");
@@ -52,7 +54,11 @@ VECTOR2_I NpcBase::UpdateMovement(VECTOR2_I tile_location)
 		else if (direction == 2)this->location_index.x -= 1;
 		else if (direction == 3)this->location_index.x += 1;
 
-		if (direction < 4) image_direction_index = direction;
+		if (direction < 4)
+		{
+			image_direction_index = direction;
+			is_it_moving = true;
+		}
 	}
 
 	return location_index;
@@ -61,36 +67,41 @@ VECTOR2_I NpcBase::UpdateMovement(VECTOR2_I tile_location)
 
 bool NpcBase::UpdateScroll(int tile_type, int collide_tile_type, VECTOR2_I location_index, VECTOR2_I tile_location)
 {
-	if (tile_type >= collide_tile_type)this->location_index = location_index;
-	else return UpdateAddScrollValue(tile_location);
+	if (is_it_moving)
+	{
+		if (tile_type >= collide_tile_type)
+		{
+			this->location_index = location_index;
+			is_it_moving = false;
+		}
+		else return UpdateAddScrollValue(tile_location);
+	}
 
 	return false;
 }
 
 bool NpcBase::UpdateAddScrollValue(VECTOR2_I tile_location)
 {
-	bool set_location = false;
-
 	if (location.x < tile_location.x)
 	{
-		if ((location.x += SPEED) >= tile_location.x)set_location = true;
+		if ((location.x += SPEED) >= tile_location.x)is_it_moving = false;
 	}
 	else if (location.x > tile_location.x)
 	{
-		if ((location.x -= SPEED) <= tile_location.x)set_location = true;
+		if ((location.x -= SPEED) <= tile_location.x)is_it_moving = false;
 	}
 	else if (location.y < tile_location.y)
 	{
-		if ((location.y += SPEED) >= tile_location.y)set_location = true;
+		if ((location.y += SPEED) >= tile_location.y)is_it_moving = false;
 	}
 	else if (location.y > tile_location.y)
 	{
-		if ((location.y -= SPEED) <= tile_location.y)set_location = true;
+		if ((location.y -= SPEED) <= tile_location.y)is_it_moving = false;
 	}
 
-	if(set_location)location = tile_location;
-
-	return set_location;
+	if (!is_it_moving)location = tile_location;
+	
+	return !is_it_moving;
 }
 
 

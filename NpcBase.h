@@ -10,7 +10,7 @@ protected:
 
     VECTOR2_I location;//NPCーの座標
     VECTOR2_I location_index;//NPCの移動先のタイルの配列番号 
-
+    bool is_it_moving;//移動中か？
     int image[16];
     int image_direction_index;
     float direction_change_time;
@@ -32,6 +32,8 @@ public:
     VECTOR2_I GetLocation()const;
     void SetLocationIndex(VECTOR2_I location_index);
     void SetLocation(VECTOR2_I location);
+
+    bool GetIsItMoving()const;
 
     const char* GetNpcMessage()const;
 };

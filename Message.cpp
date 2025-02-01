@@ -113,6 +113,8 @@ void Message::Draw() const
     DrawBox(5 , 500 , 715 , 715 , 0xffffff, TRUE);
     DrawBox(10 , 505 , 710 , 710 , 0x000000, TRUE);
 
+    //DrawFormatStringToHandle(DRAW_TEXT_LOCATION_X, DRAW_TEXT_LOCATION_Y, 0xff00ff, retro_font_48, "＊「ここは ローデンの むらです。");
+
     // 現在表示できる文字数
     int draw_line_text_num = this->draw_line_text_num;
 
@@ -139,7 +141,7 @@ void Message::Draw() const
             {
                 // 半角文字の場合
                 DrawFormatStringToHandle(text_location.x, text_location.y, 0xffffff, retro_font_48, "%c", *(text_line[i].c_str() + j));
-                text_location.x += 10; // X座標を更新
+                text_location.x += 25; // X座標を更新
                 if (i == update_text_line) draw_line_text_num--;
             }
             else if (text_size == 2)
@@ -153,5 +155,7 @@ void Message::Draw() const
         }
     }
 
+
+    
     //DrawFormatString(SCREEN_CENTER_X, 680, 0xffffff, "%f", draw_text_time);
 }

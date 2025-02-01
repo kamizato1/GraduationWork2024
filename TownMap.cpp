@@ -2,6 +2,7 @@
 #include"TownMap.h"
 #include"Player.h"
 #include"Message.h"
+#include"Key.h"
 
 #define COLLIDE_TILE_TYPE 9
 
@@ -49,14 +50,12 @@ void TownMap::SetMap()
 			}
 			else if (npc_count < 10)
 			{
-				npc[npc_count] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "こんにちは\nみなさん\nきょうは\nいいてんき\nですね。");
+				npc[npc_count] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "＊「ここは ローデンの むらです。\nみなさん\nきょうは\nいいてんき\nですね。");
 				npc_count++;
 			}
 
 		}
 	}
-	message = new Message(npc[0]->GetNpcMessage());
-
 }
 
 void TownMap::Initialize()
@@ -92,6 +91,8 @@ GAME_SCENE_TYPE TownMap::Update(float delta_time)
 		if (town_map_data[player->GetLocationIndex().y][player->GetLocationIndex().x][1] == '0')return GAME_SCENE_TYPE::WORLD_MAP;
 	}
 
+	if (Key::KeyDown(KEY_TYPE::A))SetMessage();
+
 	for (int i = 0; i < 10; i++)
 	{
 		if (npc[i] != nullptr)
@@ -119,6 +120,23 @@ GAME_SCENE_TYPE TownMap::Update(float delta_time)
 	}
 
 	return GAME_SCENE_TYPE::TOWN_MAP;
+}
+
+void TownMap::SetMessage()
+{
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (npc[i] != nullptr)
+		{
+			if ((npc[i]->GetLocationIndex().x == player->GetDirectionIndex().x) &&
+				(npc[i]->GetLocationIndex().y == player->GetDirectionIndex().y))
+			{
+				message = new Message(npc[i]->GetNpcMessage());
+				break;
+			}
+		}
+	}
 }
 
 void TownMap::Draw() const

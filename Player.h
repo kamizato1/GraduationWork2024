@@ -13,6 +13,8 @@ public:
     ~Player();
 
     bool Update(float delta_time) override;//–ß‚è’l‚ ‚é‚æI
+
+    VECTOR2_I GetDirectionIndex()const;
     void Draw() const override;
 
     void Draw(int image_index) const;
