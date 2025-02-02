@@ -25,4 +25,5 @@ public:
     int Attack(CharacterBase* character_base);
     int GetImage()const;
     const char* GetName()const;
+    void SetName(const char* name);
 };

@@ -8,6 +8,7 @@ private:
 
 	GAME_SCENE_TYPE game_scene_type;
 
+	class NameInput* name_input;
 	class Player* player;
 	class WorldMap* world_map;
 	class TownMap* town_map;

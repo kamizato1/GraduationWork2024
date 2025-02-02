@@ -3,6 +3,7 @@
 #include"WorldMap.h"
 #include"TownMap.h"
 #include"Battle.h"
+#include"NameInput.h"
 #include"DxLib.h"
 
 GameMainScene::GameMainScene()
@@ -12,8 +13,9 @@ GameMainScene::GameMainScene()
 	world_map = nullptr;
 	town_map = nullptr;
 	battle = nullptr;
+	name_input = nullptr;
 
-	game_scene_type = GAME_SCENE_TYPE::WORLD_MAP;
+	game_scene_type = GAME_SCENE_TYPE::NAME_INPUT;
 }
 
 GameMainScene::~GameMainScene()
@@ -27,6 +29,7 @@ void GameMainScene::Initialize()
 	world_map = new WorldMap(player);
 	town_map = new TownMap(player);
 	battle = new Battle(player);
+	name_input = new NameInput();
 
 	world_map->Initialize();
 }
@@ -45,6 +48,16 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 {
 	switch (game_scene_type)
 	{
+	case GAME_SCENE_TYPE::NAME_INPUT:
+
+		if (name_input->Update(delta_time))
+		{
+			player->SetName(name_input->GetName());
+			game_scene_type = GAME_SCENE_TYPE::WORLD_MAP;
+		}
+
+		break;
+
 	case GAME_SCENE_TYPE::WORLD_MAP:
 	{
 		GAME_SCENE_TYPE next_game_scene_type = world_map->Update(delta_time);
@@ -85,6 +98,11 @@ void GameMainScene::Draw() const
 {
 	switch (game_scene_type)
 	{
+	case GAME_SCENE_TYPE::NAME_INPUT:
+
+		name_input->Draw();
+		break;
+
 	case GAME_SCENE_TYPE::WORLD_MAP:
 
 		world_map->Draw();

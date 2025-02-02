@@ -51,6 +51,7 @@ struct CHARACTER_DATA
 
 enum class GAME_SCENE_TYPE
 {
+    NAME_INPUT,
     WORLD_MAP, //ワールドマップ
     TOWN_MAP,
     BATTLE //バトル

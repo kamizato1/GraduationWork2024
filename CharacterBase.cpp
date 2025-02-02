@@ -58,6 +58,11 @@ const char* CharacterBase::GetName()const
 	return character_data.name.c_str();
 }
 
+void CharacterBase::SetName(const char* name)
+{
+	character_data.name = name;
+}
+
 int CharacterBase::GetImage()const
 {
 	return character_data.image;

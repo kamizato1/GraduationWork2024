@@ -46,6 +46,8 @@
     <ClCompile Include="CharacterBase.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="NameInput.cpp" />
+    <ClCompile Include="NameInput.h" />
     <ClCompile Include="WorldMap.cpp" />
     <ClCompile Include="CreditScene.cpp" />
     <ClCompile Include="EventManager.cpp" />

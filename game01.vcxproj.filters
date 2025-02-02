@@ -176,6 +176,12 @@
     <ClCompile Include="MapBase.cpp">
       <Filter>ソース ファイル\GameMain\Map</Filter>
     </ClCompile>
+    <ClCompile Include="NameInput.h">
+      <Filter>ヘッダー ファイル\GameMain</Filter>
+    </ClCompile>
+    <ClCompile Include="NameInput.cpp">
+      <Filter>ソース ファイル\GameMain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
