@@ -5,8 +5,8 @@
 
 #define COLLIDE_TILE_TYPE 25//ぶつかるタイル
 
-#define START_PLAYER_LOCATION_X 15
-#define START_PLAYER_LOCATION_Y 106
+#define START_PLAYER_LOCATION_X 12
+#define START_PLAYER_LOCATION_Y 107
 
 #define MAX_ENCOUNT_RATE 10 //最大エンカウント率(割合)
 #define MAX_WALK_ENCOUNT_RATE 7 //歩いているとき上がる最大エンカウント率（割合）
@@ -96,10 +96,14 @@ GAME_SCENE_TYPE WorldMap::Update(float delta_time)
 		VECTOR2_I player_location_index = player->UpdateLocationIndex();
 
 		if (player->UpdateMovement(player_location_index, (tile[player_location_index.y][player_location_index.x].type >= COLLIDE_TILE_TYPE),
-			tile[player->GetLocationIndex().y][player->GetLocationIndex().x].location));
+			tile[player->GetLocationIndex().y][player->GetLocationIndex().x].location))
 		{
-			if (tile[player->GetLocationIndex().y][player->GetLocationIndex().x].type >= 15)
+			if ((tile[player->GetLocationIndex().y][player->GetLocationIndex().x].type == 15) || (tile[player->GetLocationIndex().y][player->GetLocationIndex().x].type == 16))
 			{
+
+				player_location = tile[player->GetLocationIndex().y + 1][player->GetLocationIndex().x].location;
+				this->player_location_index = { player->GetLocationIndex().x, player->GetLocationIndex().y + 1 };
+
 				return GAME_SCENE_TYPE::TOWN_MAP;
 			}
 			else if (++encount_rate > 0)
@@ -168,7 +172,7 @@ void WorldMap::Draw() const
 	DrawBox(10, 55, 520, 125, 0x000000, TRUE);
 	//DrawFormatStringToHandle(25, 55, 0xffffff, retro_font_48, "%s  HP %3d MP %3d", player->GetName(), player->GetHp(), /*player->GetMp()*/encount_rate);
 
-	DrawFormatString(0, 30, 0xffffff, "%d = x, %d = y", player->GetLocation().x, player->GetLocation().y);
+	DrawFormatString(0, 30, 0xffffff, "%d", encount_rate);
 	DrawFormatString(0, 50, 0xffffff, "%d = x, %d = y", player->GetLocationIndex().x, player->GetLocationIndex().y);
 
 

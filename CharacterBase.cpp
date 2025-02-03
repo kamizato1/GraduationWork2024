@@ -71,6 +71,7 @@ int CharacterBase::GetImage()const
 int CharacterBase::Attack(CharacterBase* character_base)
 {
 	int damage = (character_data.attack_power / 2) - (character_base->character_data.defense_power / 4);
+	damage = damage - (damage / 5) + GetRand((damage / 5) * 2);
 	if (damage < 0)damage = 0;
 
 	character_base->AddHp(-damage);

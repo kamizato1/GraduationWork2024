@@ -4,7 +4,7 @@
 class NpcBase
 {
 private:
-    char message[256];//メッセージ1桁
+    char message[1000];//メッセージ1桁
 
 protected:
 
@@ -14,6 +14,7 @@ protected:
     int image[16];
     int image_direction_index;
     float direction_change_time;
+    bool can_move;
 
 public:
 
@@ -33,4 +34,7 @@ public:
     void SetLocationIndex(VECTOR2_I location_index);
     void SetLocation(VECTOR2_I location);
     const char* GetNpcMessage()const;
+    void SetCanMove(bool can_move);
+    int GetImageDirectionIndex()const;
+    void SetImageDirectionIndex(int image_direction_index);
 };

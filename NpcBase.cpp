@@ -2,7 +2,7 @@
 #include"NpcBase.h"
 
 #define SPEED 2
-#define DIRECTION_CHANGE_TIME 1.0f
+#define DIRECTION_CHANGE_TIME 5.0f
 
 NpcBase::NpcBase(VECTOR2_I location, VECTOR2_I location_index, int* image, const char* message)
 {
@@ -19,6 +19,7 @@ NpcBase::NpcBase(VECTOR2_I location, VECTOR2_I location_index, int* image, const
 	direction_change_time = 0.0f;
 
 	is_it_moving = false;
+	can_move = true;
 
 	strcpy_s(this->message,sizeof(this->message), message);
    
@@ -32,10 +33,13 @@ NpcBase::~NpcBase()
 
 bool NpcBase::Update(float delta_time)
 {
-	if ((direction_change_time += delta_time) > DIRECTION_CHANGE_TIME)
+	if (can_move)
 	{
-		direction_change_time = 0.0f;
-		return true;
+		if ((direction_change_time += delta_time) > DIRECTION_CHANGE_TIME)
+		{
+			direction_change_time = 0.0f;
+			return true;
+		}
 	}
 
 	return false;
@@ -47,7 +51,7 @@ VECTOR2_I NpcBase::UpdateLocationIndex()
 
 	if (!is_it_moving)
 	{
-		int direction = GetRand(3);
+		int direction = GetRand(10);
 
 		if (direction == 0)this->location_index.y -= 1, image_direction_index = direction, is_it_moving = true;
 		else if (direction == 1)this->location_index.y += 1, image_direction_index = direction, is_it_moving = true;
@@ -72,6 +76,11 @@ bool NpcBase::UpdateMovement(VECTOR2_I location_index, bool hit_object, VECTOR2_
 	}
 
 	return false;
+}
+
+void NpcBase::SetCanMove(bool can_move)
+{
+	this->can_move = can_move;
 }
 
 bool NpcBase::UpdateLocation(VECTOR2_I tile_location)
@@ -104,7 +113,15 @@ void NpcBase::Draw(VECTOR2_I add_location, int image_index)const
     DrawRotaGraph(location.x + add_location.x, location.y + add_location.y, 3, 0, image[(image_direction_index * 3) + image_index], TRUE);
 }
 
+int NpcBase::GetImageDirectionIndex()const
+{
+	return image_direction_index;
+}
 
+void NpcBase::SetImageDirectionIndex(int image_direction_index)
+{
+	this->image_direction_index = image_direction_index;
+}
 
 VECTOR2_I NpcBase::GetLocationIndex()const
 {

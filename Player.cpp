@@ -2,7 +2,7 @@
 #include"Player.h"
 #include"Key.h"
 
-Player::Player() : CharacterBase(CHARACTER_DATA{ "Ç†", 200, 100,200, 100, 25, 25, 5 }),
+Player::Player() : CharacterBase(CHARACTER_DATA{ "Ç†", 25, 10, 25, 10, 25, 25, 5 }),
 NpcBase(VECTOR2_I{0, 0}, VECTOR2_I{0, 0} , nullptr, "a")
 {
 	//ÉvÉåÉCÉÑÅ[âÊëúì«Ç›çûÇ›
@@ -55,4 +55,6 @@ void Player::Draw() const
 void Player::Draw(int image_index) const
 {
 	DrawRotaGraph(HALF_SCREEN_SIZE, HALF_SCREEN_SIZE, 3, 0, image[(image_direction_index * 4) + image_index], TRUE);
+
+
 }
