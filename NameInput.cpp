@@ -96,7 +96,7 @@ bool NameInput::Update(float delta_time)
 		else if (moji_count < 4)
 		{
 			std::memcpy(name + (moji_count * 2), moji[cursor_location_index.y][cursor_location_index.x], 2);
-			moji_count++;
+			if (++moji_count == 4)cursor_location_index = { 10,4 };
 		}
 	}
 
@@ -128,6 +128,5 @@ void NameInput::Draw()const
 		}
 	}
 
-	
 	DrawFormatStringToHandle(305, 155,0xffffff, retro_font_48, "%s", name);
 }

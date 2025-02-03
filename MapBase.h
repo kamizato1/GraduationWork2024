@@ -30,7 +30,7 @@ protected:
     //関数
     virtual void SetMap() = 0; //フィールドを生成
     void UpdateImageIndex(float delta_time);
-    
+
 public:
 
     MapBase(class Player* player);

@@ -14,8 +14,6 @@ GameMainScene::GameMainScene()
 	town_map = nullptr;
 	battle = nullptr;
 	name_input = nullptr;
-
-	game_scene_type = GAME_SCENE_TYPE::NAME_INPUT;
 }
 
 GameMainScene::~GameMainScene()
@@ -31,7 +29,8 @@ void GameMainScene::Initialize()
 	battle = new Battle(player);
 	name_input = new NameInput();
 
-	world_map->Initialize();
+	game_scene_type = GAME_SCENE_TYPE::NAME_INPUT;
+	//world_map->Initialize();
 }
 
 //I—¹Žžˆ—
@@ -53,7 +52,8 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 		if (name_input->Update(delta_time))
 		{
 			player->SetName(name_input->GetName());
-			game_scene_type = GAME_SCENE_TYPE::WORLD_MAP;
+			game_scene_type = GAME_SCENE_TYPE::TOWN_MAP;
+			town_map->Initialize();
 		}
 
 		break;

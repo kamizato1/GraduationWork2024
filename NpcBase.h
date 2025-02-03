@@ -23,17 +23,14 @@ public:
     bool Update(float delta_time);
     void Draw(VECTOR2_I add_location, int image_index)const;
 
-    virtual VECTOR2_I UpdateMovement(VECTOR2_I tile_location);
+    virtual VECTOR2_I UpdateLocationIndex();
 
-    bool UpdateScroll(int tile_type, int collide_tile_type, VECTOR2_I location_index, VECTOR2_I tile_location);
-    bool UpdateAddScrollValue(VECTOR2_I tile_location);
+    bool UpdateMovement(VECTOR2_I location_index, bool hit_object, VECTOR2_I tile_location);
+    bool UpdateLocation(VECTOR2_I tile_location);
 
     VECTOR2_I GetLocationIndex()const;
     VECTOR2_I GetLocation()const;
     void SetLocationIndex(VECTOR2_I location_index);
     void SetLocation(VECTOR2_I location);
-
-    bool GetIsItMoving()const;
-
     const char* GetNpcMessage()const;
 };

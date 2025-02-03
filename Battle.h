@@ -82,6 +82,8 @@ private:
     bool UpdatePlayerAction(float delta_time);
     bool UpdatePlayerAttack(float delta_time);
     bool UpdatePlayerMagic(float delta_time);
+    bool UpdatePlayerItem(float delta_time);
+    bool UpdatePlayerEscape(float delta_time);
 
     void UpdateEnemyAction(float delta_time);
     void UpdateEnemyAttack(float delta_time);

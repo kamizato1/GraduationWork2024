@@ -84,8 +84,9 @@ GAME_SCENE_TYPE TownMap::Update(float delta_time)
 {
 	UpdateImageIndex(delta_time);
 
-	if (player->UpdateScroll(tile[player->GetLocationIndex().y][player->GetLocationIndex().x].type, COLLIDE_TILE_TYPE,
-		player->UpdateMovement(tile[player->GetLocationIndex().y][player->GetLocationIndex().x].location),
+	VECTOR2_I player_location_index = player->UpdateLocationIndex();
+
+	if (player->UpdateMovement(player_location_index, CheckHitObject(player->GetLocationIndex(), -1),
 		tile[player->GetLocationIndex().y][player->GetLocationIndex().x].location))
 	{
 		if (town_map_data[player->GetLocationIndex().y][player->GetLocationIndex().x][1] == '0')return GAME_SCENE_TYPE::WORLD_MAP;
@@ -101,11 +102,10 @@ GAME_SCENE_TYPE TownMap::Update(float delta_time)
 
 			if (npc[i]->Update(delta_time))
 			{
-				npc[i]->UpdateMovement(tile[npc[i]->GetLocationIndex().y][npc[i]->GetLocationIndex().x].location);
+				npc[i]->UpdateLocationIndex();
 			}
 
-			npc[i]->UpdateScroll(tile[npc[i]->GetLocationIndex().y][npc[i]->GetLocationIndex().x].type, COLLIDE_TILE_TYPE,
-				npc_location_index,
+			npc[i]->UpdateMovement(npc_location_index, CheckHitObject(npc[i]->GetLocationIndex(), i),
 				tile[npc[i]->GetLocationIndex().y][npc[i]->GetLocationIndex().x].location);
 		}
 	}
@@ -139,6 +139,26 @@ void TownMap::SetMessage()
 	}
 }
 
+bool TownMap::CheckHitObject(VECTOR2_I character_location_index, int npc_index)
+{
+	for (int i = 0; i < 10; i++)
+	{
+		if (npc[i] != nullptr)
+		{
+			if (npc_index != -1)
+			{
+				if (player->GetLocationIndex() == character_location_index)return true;
+			}
+			if (i != npc_index)
+			{
+				if (npc[i]->GetLocationIndex() == character_location_index)return true;
+			}
+		}
+	}
+
+	return (tile[character_location_index.y][character_location_index.x].type >= COLLIDE_TILE_TYPE);
+}
+
 void TownMap::Draw() const
 {
 	for (int i = 0; i < DRAW_TILE_NUM; i++)//c‚ÌŒJ‚è•Ô‚µ
@@ -163,8 +183,8 @@ void TownMap::Draw() const
 
 	player->Draw(image_index);
 
-	DrawFormatString(0, 30, 0xffffff, "%d = x, %d = y", npc[0]->GetLocation().x, npc[0]->GetLocation().y);
-	DrawFormatString(0, 50, 0xffffff, "%d = x, %d = y", npc[0]->GetLocationIndex().x, npc[0]->GetLocationIndex().y);
+	DrawFormatString(0, 30, 0xffffff, "%d = x, %d = y", player->GetLocation().x, player->GetLocation().y);
+	DrawFormatString(0, 50, 0xffffff, "%d = x, %d = y", player->GetLocationIndex().x, player->GetLocationIndex().y);
 	char moji = '0';
 	DrawFormatString(0, 70, 0xffffff, "%d", moji);
 

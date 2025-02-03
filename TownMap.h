@@ -86,6 +86,7 @@ private:
     //関数
     void SetMap()override;//フィールドを生成
     void SetMessage();
+    bool CheckHitObject(VECTOR2_I character_location_index, int npc_index);
 
 public:
     TownMap(class Player* player);

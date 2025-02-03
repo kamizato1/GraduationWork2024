@@ -2,7 +2,7 @@
 #include"NpcBase.h"
 
 #define SPEED 2
-#define DIRECTION_CHANGE_TIME 5.0f
+#define DIRECTION_CHANGE_TIME 1.0f
 
 NpcBase::NpcBase(VECTOR2_I location, VECTOR2_I location_index, int* image, const char* message)
 {
@@ -41,46 +41,40 @@ bool NpcBase::Update(float delta_time)
 	return false;
 }
 
-VECTOR2_I NpcBase::UpdateMovement(VECTOR2_I tile_location)
+VECTOR2_I NpcBase::UpdateLocationIndex()
 {
 	VECTOR2_I location_index = this->location_index;
 
-	if (location == tile_location)
+	if (!is_it_moving)
 	{
-		int direction = GetRand(10);
+		int direction = GetRand(3);
 
-		if (direction == 0)this->location_index.y -= 1;
-		else if (direction == 1)this->location_index.y += 1;
-		else if (direction == 2)this->location_index.x -= 1;
-		else if (direction == 3)this->location_index.x += 1;
-
-		if (direction < 4)
-		{
-			image_direction_index = direction;
-			is_it_moving = true;
-		}
+		if (direction == 0)this->location_index.y -= 1, image_direction_index = direction, is_it_moving = true;
+		else if (direction == 1)this->location_index.y += 1, image_direction_index = direction, is_it_moving = true;
+		else if (direction == 2)this->location_index.x -= 1, image_direction_index = direction, is_it_moving = true;
+		else if (direction == 3)this->location_index.x += 1, image_direction_index = direction, is_it_moving = true;
 	}
 
 	return location_index;
 }
 
 
-bool NpcBase::UpdateScroll(int tile_type, int collide_tile_type, VECTOR2_I location_index, VECTOR2_I tile_location)
+bool NpcBase::UpdateMovement(VECTOR2_I location_index, bool hit_object, VECTOR2_I tile_location)
 {
 	if (is_it_moving)
 	{
-		if (tile_type >= collide_tile_type)
+		if (hit_object)
 		{
 			this->location_index = location_index;
 			is_it_moving = false;
 		}
-		else return UpdateAddScrollValue(tile_location);
+		else return UpdateLocation(tile_location);
 	}
 
 	return false;
 }
 
-bool NpcBase::UpdateAddScrollValue(VECTOR2_I tile_location)
+bool NpcBase::UpdateLocation(VECTOR2_I tile_location)
 {
 	if (location.x < tile_location.x)
 	{

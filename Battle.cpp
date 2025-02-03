@@ -77,6 +77,7 @@ void Battle::Initialize(int encount_enemy_rank, int scenery_image_index)
 	add_screen_amplitude_value = ADD_SCREEN_AMPLITUDE;
 
 	this->scenery_image_index = scenery_image_index;
+	if (scenery_image_index > 11)this->scenery_image_index = 0;
 
 	draw_ui = { false, false, false, false };
 
@@ -159,9 +160,16 @@ bool Battle::UpdatePlayerAction(float delta_time)
 
 		break;
 
+	case ACTION_SELECT_STATE::ITEM:
+
+		return UpdatePlayerItem(delta_time);
+
+		break;
+
 	case ACTION_SELECT_STATE::ESCAPE:
 
-		
+		return UpdatePlayerEscape(delta_time);
+
 
 		break;
 	}
@@ -269,6 +277,54 @@ bool Battle::UpdatePlayerMagic(float delta_time)
 			this->delta_time = 0.0f;
 
 			draw_ui = { false, true, true, true };
+		}
+
+		break;
+	}
+
+	return false;
+}
+
+
+
+bool Battle::UpdatePlayerItem(float delta_time)
+{
+	switch (action_state)
+	{
+	case ACTION_STATE::NONE:
+
+		draw_ui = { true, true, false, false };
+
+		if ((this->delta_time += delta_time) > 1.0f)
+		{
+			action_select_state = ACTION_SELECT_STATE::NONE;
+			action_select_index = 0;
+			this->delta_time = 0.0f;
+
+			draw_ui = { false, true, true, true };
+		}
+
+		break;
+	}
+
+	return false;
+}
+
+
+bool Battle::UpdatePlayerEscape(float delta_time)
+{
+	switch (action_state)
+	{
+	case ACTION_STATE::NONE:
+
+		draw_ui = { true, true, false, false };
+
+		if ((this->delta_time += delta_time) > 1.0f)
+		{
+			action_select_state = ACTION_SELECT_STATE::NONE;
+			action_select_index = 0;
+			this->delta_time = 0.0f;
+			return true;
 		}
 
 		break;
@@ -409,8 +465,9 @@ void Battle::Draw() const
 
 			case ACTION_STATE::NONE:
 
-				if (action_select_state == ACTION_SELECT_STATE::MAGIC)DrawFormatStringToHandle(55, 505, 0xffffff, retro_font_48, "じゅもんを おぼえていない！", player->GetName());
-
+				if (action_select_state == ACTION_SELECT_STATE::MAGIC)DrawStringToHandle(55, 505, "じゅもんを おぼえていない！", 0xffffff, retro_font_48);
+				else if (action_select_state == ACTION_SELECT_STATE::ITEM)DrawStringToHandle(55, 505, "どうぐを もっていない！", 0xffffff, retro_font_48);
+				else if (action_select_state == ACTION_SELECT_STATE::ESCAPE)DrawFormatStringToHandle(55, 505, 0xffffff, retro_font_48, "%sは にげだした！", player->GetName());
 
 				break;
 

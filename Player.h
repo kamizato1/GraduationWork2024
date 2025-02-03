@@ -19,6 +19,6 @@ public:
 
     void Draw(int image_index) const;
 
-    VECTOR2_I UpdateMovement(VECTOR2_I tile_location)override;
+    VECTOR2_I UpdateLocationIndex()override;
 
 };

@@ -43,11 +43,12 @@ void WorldMap::SetMap()
 			tile[i][j].location.x = (j * TILE_SIZE) + (TILE_SIZE / 2);
 			tile[i][j].location.y = (i * TILE_SIZE) + (TILE_SIZE / 2);
 
-			char c_map_data[3];
+			char c_map_data[4];
 			fscanf_s(map_data, "%2s ", c_map_data, 3);
 
 			char set_c_map_data = c_map_data[0];
 			tile[i][j].type = strtol(&set_c_map_data, NULL, 36);
+
 			set_c_map_data = c_map_data[1];
 			tile[i][j].enemy_rank = strtol(&set_c_map_data, NULL, 36);
 		}
@@ -92,9 +93,10 @@ GAME_SCENE_TYPE WorldMap::Update(float delta_time)
 	{
 		UpdateImageIndex(delta_time);
 
-		if (player->UpdateScroll(tile[player->GetLocationIndex().y][player->GetLocationIndex().x].type, COLLIDE_TILE_TYPE,
-			player->UpdateMovement(tile[player->GetLocationIndex().y][player->GetLocationIndex().x].location), 
-			tile[player->GetLocationIndex().y][player->GetLocationIndex().x].location))
+		VECTOR2_I player_location_index = player->UpdateLocationIndex();
+
+		if (player->UpdateMovement(player_location_index, (tile[player_location_index.y][player_location_index.x].type >= COLLIDE_TILE_TYPE),
+			tile[player->GetLocationIndex().y][player->GetLocationIndex().x].location));
 		{
 			if (tile[player->GetLocationIndex().y][player->GetLocationIndex().x].type >= 15)
 			{

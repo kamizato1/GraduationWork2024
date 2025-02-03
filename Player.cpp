@@ -32,11 +32,11 @@ VECTOR2_I Player::GetDirectionIndex()const
 
 }
 
-VECTOR2_I Player::UpdateMovement(VECTOR2_I tile_location)
+VECTOR2_I Player::UpdateLocationIndex()
 {
 	VECTOR2_I location_index = this->location_index;
 
-	if (location == tile_location)
+	if (!is_it_moving)
 	{
 		if (Key::KeyPressed(KEY_TYPE::UP))this->location_index.y -= 1, image_direction_index = 0, is_it_moving = true;
 		else if (Key::KeyPressed(KEY_TYPE::DOWN))this->location_index.y += 1, image_direction_index = 1, is_it_moving = true;
