@@ -2,7 +2,7 @@
 #include"Player.h"
 #include"Key.h"
 
-Player::Player() : CharacterBase(CHARACTER_DATA{ "‚ ", 25, 10, 25, 10, 25, 25, 5 }),
+Player::Player() : CharacterBase(CHARACTER_DATA{ "‚ ", 5, 10, 25, 10, 25, 25, 5 }),
 NpcBase(VECTOR2_I{0, 0}, VECTOR2_I{0, 0} , nullptr, "a")
 {
 	//ƒvƒŒƒCƒ„[‰æ‘œ“Ç‚İ‚İ

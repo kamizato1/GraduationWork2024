@@ -65,6 +65,7 @@ private:
     bool draw_enemy;
     int screen_amplitude_value;
     int add_screen_amplitude_value;
+    int text_box_color_value;
 
     float delta_time;//ŠÔŠÇ—‚Ég‚¤
 
@@ -85,8 +86,8 @@ private:
     bool UpdatePlayerItem(float delta_time);
     bool UpdatePlayerEscape(float delta_time);
 
-    void UpdateEnemyAction(float delta_time);
-    void UpdateEnemyAttack(float delta_time);
+    bool UpdateEnemyAction(float delta_time);
+    bool UpdateEnemyAttack(float delta_time);
 
     bool UpdateBlinking(float delta_time);
     void UpdateScreenAmplitude();
@@ -106,6 +107,6 @@ public:
 
     void Initialize(int encount_enemy_rank, int scenery_image_index); //‰Šú‰»
 
-    bool Update(float delta_time);
+    GAME_SCENE_TYPE Update(float delta_time);
     void Draw() const;
 };

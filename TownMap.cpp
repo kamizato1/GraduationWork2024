@@ -7,18 +7,20 @@
 #define COLLIDE_TILE_TYPE 9
 
 #define START_PLAYER_LOCATION_X 31
-#define START_PLAYER_LOCATION_Y 45
+#define START_PLAYER_LOCATION_Y 45 
 
 TownMap::TownMap(Player* player) : MapBase(player)
 {
 	if (LoadDivGraph("data/TownMap/tile.png", TILE_TYPE_NUM, TILE_TYPE_NUM, 1, 16, 16, tile_image) == -1)throw("data/image/TownMap/tile.pngが読み込めません\n");
 	if (LoadDivGraph("data/TownMap/npc2.png", 252, 12, 21, 16, 16, npc_image) == -1)throw("data/TownMap/npc1.pngが読み込めません\n");
 
+	player_start_location_index = VECTOR2_I{ 37, 20 };
+
 	message = nullptr;
 
-	image_index_change_time = 0.0f;
-	image_index = 0;
-	add_image_index = 1;
+	char message[1000];
+	sprintf_s(message, sizeof(message), "＊「おお %s！ よくきてくれた！\n\n\n＊「おまえも しっているだろうが\n　 さいきん むらのひとが\n　 つぎつぎと いなくなっておる…\n＊「ひがしのどうくつが あやしいとおもうのだが\n 　なにが おきているか しらべてきてくれんか？\n", player->GetName());
+	this->message = new Message(message);
 
 	SetMap();
 
@@ -40,56 +42,57 @@ void TownMap::SetMap()
 			char set_c_map_data = town_map_data[i][j][0];
 			tile[i][j].type = strtol(&set_c_map_data, NULL, 36);
 
+			if ((player_start_location_index.x == j) && (player_start_location_index.y == i))
+			{
+				player_start_location = tile[i][j].location;
+
+				player->SetLocation(player_start_location);
+				player->SetLocationIndex(player_start_location_index);
+			}
+
 			set_c_map_data = town_map_data[i][j][1];
 			int npc_data = strtol(&set_c_map_data, NULL, 36);
 
-			if (npc_data == 0){}
-			else if (npc_data == 1){}
-			else if (npc_data == 2)
+			if (npc_data >= 3)
 			{
-				player->SetLocation(tile[i][j].location);
-				player->SetLocationIndex(VECTOR2_I{ j,  i });
-			}
-			else if (npc_count < 10)
-			{
-				if (npc_count == 0)
-				{
-					npc[0] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "＊「ひがしの どうくつだぞ。");
-					npc[0]->SetCanMove(false);
-					npc[0]->SetImageDirectionIndex(1);
-				}
-				else if (npc_count == 1)
-				{
-					npc[1] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "＊「おみせは じゅんびちゅう です。");
-					npc[1]->SetCanMove(false);
-					npc[1]->SetImageDirectionIndex(1);
-				}
-				else if (npc_count == 2)
-				{
-					npc[2] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "＊「ここは エルムの むらです。");
-					npc[2]->SetImageDirectionIndex(1);
-				}
-				else if (npc_count == 3)
-				{
-					npc[3] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "＊「おみせは じゅんびちゅう です。");
-					npc[3]->SetCanMove(false);
-					npc[3]->SetImageDirectionIndex(2);
-				}
-				else if (npc_count == 4)
-				{
-					npc[4] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "＊「ぼくのあいする ハニーに\n　 もう ふつかも あってないよ…\n");
-					npc[4]->SetImageDirectionIndex(1);
-				}
 
-				npc_count++;
+				if (npc_count < 10)
+				{
+					if (npc_count == 0)
+					{
+						npc[0] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "＊「ひがしの どうくつだぞ。");
+						npc[0]->SetCanMove(false);
+						npc[0]->SetImageDirectionIndex(1);
+					}
+					else if (npc_count == 1)
+					{
+						npc[1] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "＊「おみせは じゅんびちゅう です。");
+						npc[1]->SetCanMove(false);
+						npc[1]->SetImageDirectionIndex(1);
+					}
+					else if (npc_count == 2)
+					{
+						npc[2] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "＊「ここは エルムの むらです。");
+						npc[2]->SetImageDirectionIndex(1);
+					}
+					else if (npc_count == 3)
+					{
+						npc[3] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "＊「おみせは じゅんびちゅう です。");
+						npc[3]->SetCanMove(false);
+						npc[3]->SetImageDirectionIndex(2);
+					}
+					else if (npc_count == 4)
+					{
+						npc[4] = new NpcBase(tile[i][j].location, VECTOR2_I{ j,  i }, npc_image + (12 * (npc_data - 3)), "＊「ぼくのあいする ハニーに\n　 もう ふつかも あってないよ…\n");
+						npc[4]->SetImageDirectionIndex(1);
+					}
+
+					npc_count++;
+				}
 			}
 
 		}
 	}
-
-	char message[1000];
-	sprintf_s(message, sizeof(message), "＊「おお %s！ よくきてくれた！\n\n\n＊「おまえも しっているだろうが\n　 さいきん むらのひとが\n　 つぎつぎと いなくなっておる…\n＊「ひがしのどうくつが あやしいとおもうのだが\n 　なにが おきているか しらべてきてくれんか？\n", player->GetName());
-	this->message = new Message(message);
 }
 
 void TownMap::Initialize()
@@ -100,6 +103,19 @@ void TownMap::Initialize()
 	image_index_change_time = 0.0f;
 	image_index = 0;
 	add_image_index = 1;
+}
+
+void TownMap::SetRevival()
+{
+	player->SetLocation(player_start_location);
+	player->SetLocationIndex(player_start_location_index);
+
+	player->SetHp(999);
+	player->SetImageDirectionIndex(0);
+
+	char message[1000];
+	sprintf_s(message, sizeof(message), "＊「おお %s！ しんでしまうとは…\n\n\n＊「もう こんなことが ないように\n　 きを つけるんだぞ\n", player->GetName());
+	this->message = new Message(message);
 }
 
 TownMap::~TownMap()
@@ -230,10 +246,9 @@ void TownMap::Draw() const
 
 	player->Draw(image_index);
 
-	DrawFormatString(0, 30, 0xffffff, "%d = x, %d = y", player->GetLocation().x, player->GetLocation().y);
-	DrawFormatString(0, 50, 0xffffff, "%d = x, %d = y", player->GetLocationIndex().x, player->GetLocationIndex().y);
-	char moji = '0';
-	DrawFormatString(0, 70, 0xffffff, "%d", moji);
+	//DrawFormatString(0, 30, 0xffffff, "%d = x, %d = y", player->GetLocation().x, player->GetLocation().y);
+	//DrawFormatString(0, 50, 0xffffff, "%d = x, %d = y", player->GetLocationIndex().x, player->GetLocationIndex().y);
+	
 
 	for (int i = 0; i < 10; i++)
 	{

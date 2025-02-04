@@ -75,6 +75,7 @@ void Battle::Initialize(int encount_enemy_rank, int scenery_image_index)
 	draw_enemy = true;
 	screen_amplitude_value = 0;
 	add_screen_amplitude_value = ADD_SCREEN_AMPLITUDE;
+	text_box_color_value = 0xffffff;
 
 	this->scenery_image_index = scenery_image_index;
 	if (scenery_image_index > 11)this->scenery_image_index = 0;
@@ -88,7 +89,7 @@ void Battle::Initialize(int encount_enemy_rank, int scenery_image_index)
 	effect = nullptr;
 }
 
-bool Battle::Update(float delta_time)
+GAME_SCENE_TYPE Battle::Update(float delta_time)
 {
 	switch (battle_state)
 	{
@@ -99,16 +100,16 @@ bool Battle::Update(float delta_time)
 
 	case BATTLE_STATE::PLAYER_TURN:
 
-		return UpdatePlayerAction(delta_time);
+		if (UpdatePlayerAction(delta_time))return GAME_SCENE_TYPE::WORLD_MAP;
 		break;
 
 	case BATTLE_STATE::ENEMY_TURN:
 
-		UpdateEnemyAction(delta_time);
+		if (UpdateEnemyAction(delta_time))return GAME_SCENE_TYPE::TOWN_MAP;
 		break;
 	}
 
-	return false;
+	return GAME_SCENE_TYPE::BATTLE;
 }
 
 void Battle::UpdateEncountAnimation(float delta_time)
@@ -345,7 +346,7 @@ bool Battle::UpdateBlinking(float delta_time)
 }
 
 
-void Battle::UpdateEnemyAction(float delta_time)
+bool Battle::UpdateEnemyAction(float delta_time)
 {
 	switch (action_select_state)
 	{
@@ -357,14 +358,16 @@ void Battle::UpdateEnemyAction(float delta_time)
 
 	case ACTION_SELECT_STATE::ATTACK:
 
-		UpdateEnemyAttack(delta_time);
+		return UpdateEnemyAttack(delta_time);
 
 		break;
 	}
+
+	return false;
 }
 
 
-void Battle::UpdateEnemyAttack(float delta_time)
+bool Battle::UpdateEnemyAttack(float delta_time)
 {
 	switch (action_state)
 	{
@@ -401,16 +404,43 @@ void Battle::UpdateEnemyAttack(float delta_time)
 			screen_amplitude_value = 0;
 			add_screen_amplitude_value = ADD_SCREEN_AMPLITUDE;
 
+			//プレイヤーが死んだ場合
+			if (player->GetHp() == 0)
+			{
+				action_state = ACTION_STATE::DEAD;
+				text_box_color_value = 0xff0000;
+			}
+			else
+			{
+				battle_state = BATTLE_STATE::PLAYER_TURN;
+				action_state = ACTION_STATE::NONE;
+				action_select_state = ACTION_SELECT_STATE::NONE;
+				draw_ui = { false, true, true, true };
+			}
+
+			this->delta_time = 0.0f;
+			damage_value = 0;
+		}
+
+		break;
+
+	case ACTION_STATE::DEAD:
+
+		if ((this->delta_time += delta_time) > 3.0f)
+		{
 			battle_state = BATTLE_STATE::PLAYER_TURN;
 			action_state = ACTION_STATE::NONE;
 			action_select_state = ACTION_SELECT_STATE::NONE;
-			this->delta_time = 0.0f;
-			damage_value = 0;
 			draw_ui = { false, true, true, true };
+			this->delta_time = 0.0f;
+			text_box_color_value = 0xffffff;
+			return true;
 		}
 
 		break;
 	}
+
+	return false;
 }
 
 
@@ -488,6 +518,10 @@ void Battle::Draw() const
 				DrawFormatStringToHandle(55, 505, 0xffffff, retro_font_48, "%sの こうげき！", enemy->GetName());
 				DrawFormatStringToHandle(55, 550, 0xffffff, retro_font_48, "%sは %dの ダメージを うけた！", player->GetName(), damage_value);
 			}
+			else if (action_state == ACTION_STATE::DEAD)
+			{
+				DrawFormatStringToHandle(55, 505, 0xff0000, retro_font_48, "%sは しんでしまった！", player->GetName());
+			}
 
 		}
 
@@ -506,16 +540,16 @@ void Battle::DrawUi()const
 void Battle::DrawMessageBox()const
 {
 	//テキストボックスの表示
-	DrawBox(5 + screen_amplitude_value, 500 + screen_amplitude_value, 715 + screen_amplitude_value, 715 + screen_amplitude_value, 0xffffff, TRUE);
+	DrawBox(5 + screen_amplitude_value, 500 + screen_amplitude_value, 715 + screen_amplitude_value, 715 + screen_amplitude_value, text_box_color_value, TRUE);
 	DrawBox(10 + screen_amplitude_value, 505 + screen_amplitude_value, 710 + screen_amplitude_value, 710 + screen_amplitude_value, 0x000000, TRUE);
 }
 
 void Battle::DrawPlayerNameBox()const
 {
-	DrawBox(5 + screen_amplitude_value, 50 + screen_amplitude_value, 525 + screen_amplitude_value, 130 + screen_amplitude_value, 0xffffff, TRUE);
+	DrawBox(5 + screen_amplitude_value, 50 + screen_amplitude_value, 525 + screen_amplitude_value, 130 + screen_amplitude_value, text_box_color_value, TRUE);
 	DrawBox(10 + screen_amplitude_value, 55 + screen_amplitude_value, 520 + screen_amplitude_value, 125 + screen_amplitude_value, 0x000000, TRUE);
 
-	DrawFormatStringToHandle(25, 55, 0xffffff, retro_font_48, "%s  HP %3d MP %3d", player->GetName(), player->GetHp(), player->GetMp());
+	DrawFormatStringToHandle(25, 55, text_box_color_value, retro_font_48, "%s  HP %3d MP %3d", player->GetName(), player->GetHp(), player->GetMp());
 }
 
 void Battle::DrawActionSelectBox()const
@@ -536,9 +570,9 @@ void Battle::DrawActionSelectBox()const
 void Battle::DrawEnemyNameBox()const
 {
 	//敵テキストボックス
-	DrawBox(185, 500, 715, 580, 0xffffff, TRUE);
+	DrawBox(185, 500, 715, 580, text_box_color_value, TRUE);
 	DrawBox(190, 505, 710, 575, 0x000000, TRUE);
 
-	DrawFormatStringToHandle(235, 505, 0xffffff, retro_font_48, "%s", enemy->GetName());
+	DrawFormatStringToHandle(235, 505, text_box_color_value, retro_font_48, "%s", enemy->GetName());
 
 }

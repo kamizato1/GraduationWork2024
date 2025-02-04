@@ -78,6 +78,9 @@ private:
     class NpcBase* npc[10];
     class Message* message;
 
+    VECTOR2_I player_start_location;
+    VECTOR2_I player_start_location_index;
+
     //‰æ‘œ
     int tile_image[TILE_TYPE_NUM];
 
@@ -92,6 +95,8 @@ public:
     TownMap(class Player* player);
     ~TownMap();
     void Initialize()override;
+
+    void SetRevival();
 
     GAME_SCENE_TYPE Update(float delta_time)override;//–ß‚è’l‚ ‚é‚æI
     void Draw() const override;

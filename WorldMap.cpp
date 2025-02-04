@@ -161,8 +161,6 @@ void WorldMap::Draw() const
 				DrawRotaGraph(draw_tile_location_x, draw_tile_location_y, 3, 0, tile_image[0], FALSE);
 			}
 			else DrawRotaGraph(draw_tile_location_x, draw_tile_location_y, 3, 0, tile_image[tile[draw_tile_array_y][draw_tile_array_x].type], FALSE);
-
-			//DrawFormatString((j * TILE_SIZE) - (TILE_SIZE / 2) + add_x - 20, i * TILE_SIZE - (TILE_SIZE / 2) + add_y, 0xffffff, "%d", tile[draw_tile_array_y][draw_tile_array_x].enemy_rank);
 		}
 	}
 
@@ -170,11 +168,11 @@ void WorldMap::Draw() const
 
 	DrawBox(5, 50, 525, 130, 0xffffff, TRUE);
 	DrawBox(10, 55, 520, 125, 0x000000, TRUE);
-	//DrawFormatStringToHandle(25, 55, 0xffffff, retro_font_48, "%s  HP %3d MP %3d", player->GetName(), player->GetHp(), /*player->GetMp()*/encount_rate);
+	
+	//DrawFormatString(0, 30, 0xffffff, "%d = x, %d = y", player->GetLocation().x, player->GetLocation().y);
+	//DrawFormatString(0, 50, 0xffffff, "%d = x, %d = y", player->GetLocationIndex().x, player->GetLocationIndex().y);
 
-	DrawFormatString(0, 30, 0xffffff, "%d", encount_rate);
-	DrawFormatString(0, 50, 0xffffff, "%d = x, %d = y", player->GetLocationIndex().x, player->GetLocationIndex().y);
-
+	DrawFormatStringToHandle(25, 55, 0xffffff, retro_font_48, "%s  HP %3d MP %3d", player->GetName(), player->GetHp(), player->GetMp());
 
 	//“_–Å‚Ì•\Ž¦
 	if (screen_blinking_count % 2)DrawBox(0, 0, SCREEN_SIZE, SCREEN_SIZE, 0xffffff, TRUE);
