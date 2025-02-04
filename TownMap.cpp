@@ -19,7 +19,7 @@ TownMap::TownMap(Player* player) : MapBase(player)
 	message = nullptr;
 
 	char message[1000];
-	sprintf_s(message, sizeof(message), "＊「おお %s！ よくきてくれた！\n\n\n＊「おまえも しっているだろうが\n　 さいきん むらのひとが\n　 つぎつぎと いなくなっておる…\n＊「ひがしのどうくつが あやしいとおもうのだが\n 　なにが おきているか しらべてきてくれんか？\n", player->GetName());
+	sprintf_s(message, sizeof(message), "＊「おお %s！ よくきてくれた！\n\n\n＊「おまえも しっているだろうが\n　 さいきん むらのひとが\n　 つぎつぎと すがたを けしておる…\n＊「ひがしのどうくつが あやしいとおもうのだが\n 　なにが おきているか しらべてきてくれんか？\n", player->GetName());
 	this->message = new Message(message);
 
 	SetMap();
@@ -29,6 +29,8 @@ TownMap::TownMap(Player* player) : MapBase(player)
 
 void TownMap::SetMap()
 {
+	bright_value = 255;
+
 	for (int i = 0; i < 10; i++)npc[i] = nullptr;
 	int npc_count = 0;
 
@@ -103,6 +105,7 @@ void TownMap::Initialize()
 	image_index_change_time = 0.0f;
 	image_index = 0;
 	add_image_index = 1;
+	bright_value = 255;
 }
 
 void TownMap::SetRevival()
@@ -126,44 +129,56 @@ TownMap::~TownMap()
 
 GAME_SCENE_TYPE TownMap::Update(float delta_time)
 {
-	UpdateImageIndex(delta_time);
-
-	if (message == nullptr)
+	if (bright_value == 255)
 	{
-		VECTOR2_I player_location_index = player->UpdateLocationIndex();
+		UpdateImageIndex(delta_time);
 
-		if (player->UpdateMovement(player_location_index, CheckHitObject(player->GetLocationIndex(), -1),
-			tile[player->GetLocationIndex().y][player->GetLocationIndex().x].location))
+		if (message == nullptr)
 		{
-			if (town_map_data[player->GetLocationIndex().y][player->GetLocationIndex().x][1] == '0')return GAME_SCENE_TYPE::WORLD_MAP;
-		}
+			VECTOR2_I player_location_index = player->UpdateLocationIndex();
 
-		for (int i = 0; i < 10; i++)
-		{
-			if (npc[i] != nullptr)
+			if (player->UpdateMovement(player_location_index, CheckHitObject(player->GetLocationIndex(), -1),
+				tile[player->GetLocationIndex().y][player->GetLocationIndex().x].location))
 			{
-				VECTOR2_I npc_location_index = npc[i]->GetLocationIndex();
-
-				if (npc[i]->Update(delta_time))
+				if (town_map_data[player->GetLocationIndex().y][player->GetLocationIndex().x][1] == '0')
 				{
-					npc[i]->UpdateLocationIndex();
+					bright_value--;
 				}
+			}
 
-				npc[i]->UpdateMovement(npc_location_index, CheckHitObject(npc[i]->GetLocationIndex(), i),
-					tile[npc[i]->GetLocationIndex().y][npc[i]->GetLocationIndex().x].location);
+			for (int i = 0; i < 10; i++)
+			{
+				if (npc[i] != nullptr)
+				{
+					VECTOR2_I npc_location_index = npc[i]->GetLocationIndex();
+
+					if (npc[i]->Update(delta_time))
+					{
+						npc[i]->UpdateLocationIndex();
+					}
+
+					npc[i]->UpdateMovement(npc_location_index, CheckHitObject(npc[i]->GetLocationIndex(), i),
+						tile[npc[i]->GetLocationIndex().y][npc[i]->GetLocationIndex().x].location);
+				}
+			}
+
+			if (Key::KeyDown(KEY_TYPE::A))SetMessage();
+
+		}
+		else
+		{
+			if (message->Update(delta_time))
+			{
+				delete message;
+				message = nullptr;
 			}
 		}
-
-		if (Key::KeyDown(KEY_TYPE::A))SetMessage();
-
 	}
-	else
+	else if ((bright_value -= 10) < -200)
 	{
-		if (message->Update(delta_time))
-		{
-			delete message;
-			message = nullptr;
-		}
+		SetDrawBright(255, 255, 255);
+		bright_value = 255;
+		return GAME_SCENE_TYPE::WORLD_MAP;
 	}
 
 	return GAME_SCENE_TYPE::TOWN_MAP;
@@ -246,7 +261,7 @@ void TownMap::Draw() const
 
 	player->Draw(image_index);
 
-	//DrawFormatString(0, 30, 0xffffff, "%d = x, %d = y", player->GetLocation().x, player->GetLocation().y);
+	//DrawFormatString(0, 0, 0xffffff, "%d ", bright_value);
 	//DrawFormatString(0, 50, 0xffffff, "%d = x, %d = y", player->GetLocationIndex().x, player->GetLocationIndex().y);
 	
 
@@ -262,4 +277,13 @@ void TownMap::Draw() const
 
 
 	if (message != nullptr)message->Draw();
+
+	if (bright_value != 255)
+	{
+		int bright_value = this->bright_value;
+		if (bright_value < 0)bright_value = 0;
+
+		SetDrawBright(bright_value, bright_value, bright_value);
+	}
+
 }

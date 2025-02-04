@@ -8,6 +8,7 @@ NameInput::NameInput()
 	retro_font_48 = LoadFontDataToHandle("data/font/DragonQuestFont48.dft", 0);
 	cursor_location_index = { 0, 0 };
 	moji_count = 0;
+	bright_value = 255;
 
 	OutputDebugString("NameInputコンストラクタ呼ばれました。\n");
 }
@@ -20,84 +21,94 @@ NameInput::~NameInput()
 
 bool NameInput::Update(float delta_time)
 {
+	if (bright_value == 255)
+	{
+		if (Key::KeyDown(KEY_TYPE::UP))
+		{
+			if (--cursor_location_index.y < 0)cursor_location_index.y = 4;
+		}
+		if (Key::KeyDown(KEY_TYPE::DOWN))
+		{
+			if (++cursor_location_index.y > 4)cursor_location_index.y = 0;
+		}
+		if (Key::KeyDown(KEY_TYPE::LEFT))
+		{
+			if (--cursor_location_index.x < 0)cursor_location_index.x = 10;
+		}
+		if (Key::KeyDown(KEY_TYPE::RIGHT))
+		{
+			if (++cursor_location_index.x > 10)cursor_location_index.x = 0;
+		}
+		if (Key::KeyDown(KEY_TYPE::A))
+		{
 
-	if (Key::KeyDown(KEY_TYPE::UP))
-	{
-		if (--cursor_location_index.y < 0)cursor_location_index.y = 4;
-	}
-	if (Key::KeyDown(KEY_TYPE::DOWN))
-	{
-		if (++cursor_location_index.y > 4)cursor_location_index.y = 0;
-	}
-	if (Key::KeyDown(KEY_TYPE::LEFT))
-	{
-		if (--cursor_location_index.x < 0)cursor_location_index.x = 10;
-	}
-	if (Key::KeyDown(KEY_TYPE::RIGHT))
-	{
-		if (++cursor_location_index.x > 10)cursor_location_index.x = 0;
-	}
-	if (Key::KeyDown(KEY_TYPE::A))
-	{
-		if ((cursor_location_index.x == 10) && (cursor_location_index.y == 0))
-		{
-			if (moji_count != 0)
+
+			if ((cursor_location_index.x == 10) && (cursor_location_index.y == 0))
 			{
-				char moji[4] = {'\0'};
-				memcpy(moji, name + (moji_count - 1) * 2, 2);
-				if (strcmp(moji, "か") == 0)memcpy(name + ((moji_count - 1) * 2), "が", 2);
-				else if (strcmp(moji, "き") == 0)memcpy(name + ((moji_count - 1) * 2), "ぎ", 2);
-				else if (strcmp(moji, "く") == 0)memcpy(name + ((moji_count - 1) * 2), "ぐ", 2);
-				else if (strcmp(moji, "け") == 0)memcpy(name + ((moji_count - 1) * 2), "げ", 2);
-				else if (strcmp(moji, "こ") == 0)memcpy(name + ((moji_count - 1) * 2), "ご", 2);
-				else if (strcmp(moji, "さ") == 0)memcpy(name + ((moji_count - 1) * 2), "ざ", 2);
-				else if (strcmp(moji, "し") == 0)memcpy(name + ((moji_count - 1) * 2), "じ", 2);
-				else if (strcmp(moji, "す") == 0)memcpy(name + ((moji_count - 1) * 2), "ず", 2);
-				else if (strcmp(moji, "せ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぜ", 2);
-				else if (strcmp(moji, "そ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぞ", 2);
-				else if (strcmp(moji, "た") == 0)memcpy(name + ((moji_count - 1) * 2), "だ", 2);
-				else if (strcmp(moji, "ち") == 0)memcpy(name + ((moji_count - 1) * 2), "ぢ", 2);
-				else if (strcmp(moji, "つ") == 0)memcpy(name + ((moji_count - 1) * 2), "づ", 2);
-				else if (strcmp(moji, "て") == 0)memcpy(name + ((moji_count - 1) * 2), "で", 2);
-				else if (strcmp(moji, "と") == 0)memcpy(name + ((moji_count - 1) * 2), "ど", 2);
-				else if (strcmp(moji, "は") == 0)memcpy(name + ((moji_count - 1) * 2), "ば", 2);
-				else if (strcmp(moji, "ひ") == 0)memcpy(name + ((moji_count - 1) * 2), "び", 2);
-				else if (strcmp(moji, "ふ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぶ", 2);
-				else if (strcmp(moji, "へ") == 0)memcpy(name + ((moji_count - 1) * 2), "べ", 2);
-				else if (strcmp(moji, "ほ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぼ", 2);
+				if (moji_count != 0)
+				{
+					char moji[4] = { '\0' };
+					memcpy(moji, name + (moji_count - 1) * 2, 2);
+					if (strcmp(moji, "か") == 0)memcpy(name + ((moji_count - 1) * 2), "が", 2);
+					else if (strcmp(moji, "き") == 0)memcpy(name + ((moji_count - 1) * 2), "ぎ", 2);
+					else if (strcmp(moji, "く") == 0)memcpy(name + ((moji_count - 1) * 2), "ぐ", 2);
+					else if (strcmp(moji, "け") == 0)memcpy(name + ((moji_count - 1) * 2), "げ", 2);
+					else if (strcmp(moji, "こ") == 0)memcpy(name + ((moji_count - 1) * 2), "ご", 2);
+					else if (strcmp(moji, "さ") == 0)memcpy(name + ((moji_count - 1) * 2), "ざ", 2);
+					else if (strcmp(moji, "し") == 0)memcpy(name + ((moji_count - 1) * 2), "じ", 2);
+					else if (strcmp(moji, "す") == 0)memcpy(name + ((moji_count - 1) * 2), "ず", 2);
+					else if (strcmp(moji, "せ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぜ", 2);
+					else if (strcmp(moji, "そ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぞ", 2);
+					else if (strcmp(moji, "た") == 0)memcpy(name + ((moji_count - 1) * 2), "だ", 2);
+					else if (strcmp(moji, "ち") == 0)memcpy(name + ((moji_count - 1) * 2), "ぢ", 2);
+					else if (strcmp(moji, "つ") == 0)memcpy(name + ((moji_count - 1) * 2), "づ", 2);
+					else if (strcmp(moji, "て") == 0)memcpy(name + ((moji_count - 1) * 2), "で", 2);
+					else if (strcmp(moji, "と") == 0)memcpy(name + ((moji_count - 1) * 2), "ど", 2);
+					else if (strcmp(moji, "は") == 0)memcpy(name + ((moji_count - 1) * 2), "ば", 2);
+					else if (strcmp(moji, "ひ") == 0)memcpy(name + ((moji_count - 1) * 2), "び", 2);
+					else if (strcmp(moji, "ふ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぶ", 2);
+					else if (strcmp(moji, "へ") == 0)memcpy(name + ((moji_count - 1) * 2), "べ", 2);
+					else if (strcmp(moji, "ほ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぼ", 2);
+				}
 			}
-		}
-		else if ((cursor_location_index.x == 10) && (cursor_location_index.y == 1))
-		{
-			if (moji_count != 0)
+			else if ((cursor_location_index.x == 10) && (cursor_location_index.y == 1))
 			{
-				char moji[4] = { '\0' };
-				memcpy(moji, name + (moji_count - 1) * 2, 2);
-				if (strcmp(moji, "は") == 0)memcpy(name + ((moji_count - 1) * 2), "ぱ", 2);
-				else if (strcmp(moji, "ひ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぴ", 2);
-				else if (strcmp(moji, "ふ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぷ", 2);
-				else if (strcmp(moji, "へ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぺ", 2);
-				else if (strcmp(moji, "ほ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぽ", 2);
+				if (moji_count != 0)
+				{
+					char moji[4] = { '\0' };
+					memcpy(moji, name + (moji_count - 1) * 2, 2);
+					if (strcmp(moji, "は") == 0)memcpy(name + ((moji_count - 1) * 2), "ぱ", 2);
+					else if (strcmp(moji, "ひ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぴ", 2);
+					else if (strcmp(moji, "ふ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぷ", 2);
+					else if (strcmp(moji, "へ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぺ", 2);
+					else if (strcmp(moji, "ほ") == 0)memcpy(name + ((moji_count - 1) * 2), "ぽ", 2);
+				}
 			}
-		}
-		else if ((cursor_location_index.x == 10) && (cursor_location_index.y == 3))
-		{
-			if (moji_count != 0)
+			else if ((cursor_location_index.x == 10) && (cursor_location_index.y == 3))
 			{
-				name[(moji_count * 2) - 1] = '\0';
-				name[(moji_count * 2) - 2] = '\0';
-				moji_count--;
+				if (moji_count != 0)
+				{
+					name[(moji_count * 2) - 1] = '\0';
+					name[(moji_count * 2) - 2] = '\0';
+					moji_count--;
+				}
 			}
+			else if ((cursor_location_index.x == 10) && (cursor_location_index.y == 4))
+			{
+				if (moji_count != 0)bright_value--;
+			}
+			else if (moji_count < 4)
+			{
+				std::memcpy(name + (moji_count * 2), moji[cursor_location_index.y][cursor_location_index.x], 2);
+				if (++moji_count == 4)cursor_location_index = { 10,4 };
+			}
+
 		}
-		else if ((cursor_location_index.x == 10) && (cursor_location_index.y == 4))
-		{
-			if (moji_count != 0)return true;
-		}
-		else if (moji_count < 4)
-		{
-			std::memcpy(name + (moji_count * 2), moji[cursor_location_index.y][cursor_location_index.x], 2);
-			if (++moji_count == 4)cursor_location_index = { 10,4 };
-		}
+	}
+	else if ((bright_value -= 10) <= -200)
+	{
+		SetDrawBright(255, 255, 255);
+		return true;
 	}
 
 	return false;
@@ -129,4 +140,9 @@ void NameInput::Draw()const
 	}
 
 	DrawFormatStringToHandle(305, 155,0xffffff, retro_font_48, "%s", name);
+
+	int bright_value = this->bright_value;
+	if (bright_value < 0)bright_value = 0;
+
+	SetDrawBright(bright_value, bright_value, bright_value);
 }

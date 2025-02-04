@@ -86,6 +86,8 @@ private:
 
     int npc_image[252];
 
+    int bright_value;
+
     //関数
     void SetMap()override;//フィールドを生成
     void SetMessage();

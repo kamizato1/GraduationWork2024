@@ -1,10 +1,7 @@
 #include"DxLib.h"
 #include"SceneManager.h"
 #include"TitleScene.h"
-#include"CreditScene.h"
 #include"GameMainScene.h"
-#include"GameOverScene.h"
-#include"GameClearScene.h"
 #include"Key.h"
 
 
@@ -49,7 +46,7 @@ void SceneManager::Initialize()
 	SetFontSize(FONT_SIZE);
 
 	//タイトルシーンから始める
-	ChangeScene(SCENE_TYPE::MAIN);
+	ChangeScene(SCENE_TYPE::TITLE);
 }
 
 //シーンマネージャー機能:更新処理
@@ -69,7 +66,7 @@ void SceneManager::Update()
 		SCENE_TYPE next_scene = current_scene->Update((float)delta_time / 1000);
 
 		//エンドが選択されていたらゲームを終了する
-		//if (next_scene == SCENE_TYPE::GAME_END)break;
+		if (next_scene == SCENE_TYPE::GAME_END)break;
 
 		//現在のシーンと次のシーンが違っていたらシーンを変える
 		if (next_scene != current_scene->GetNowScene())ChangeScene(next_scene);
@@ -81,35 +78,6 @@ void SceneManager::Update()
 		delta_time = GetNowCount() - start_time;
 	}
 
-
-
-	//int start_time = GetNowCount();//処理開始時の時間
-
-	//while (ProcessMessage() != -1)//メインループ
-	//{
-	//	int now_time = GetNowCount();//現在時間を取得
-
-	//	if ((now_time - start_time) >= delta_second)
-	//	{
-	//		// 入力更新
-	//		Key::Update();
-
-	//		//更新処理
-	//		SCENE_TYPE next_scene = current_scene->Update((float)(now_time - start_time) / 1000);
-
-	//		start_time = now_time;//フレーム開始時間を更新
-
-	//		//エンドが選択されていたらゲームを終了する
-	//		if (next_scene == SCENE_TYPE::GAME_END)break;
-
-	//		//現在のシーンと次のシーンが違っていたらシーンを変える
-	//		if (next_scene != current_scene->GetNowScene())ChangeScene(next_scene);
-
-	//		//描画処理
-	//		Draw();
-
-	//	}
-	//}
 
 }
 
@@ -162,17 +130,12 @@ SceneBase* SceneManager::CreateScene(SCENE_TYPE scene_type)
 	//引数（シーンタイプ）によって、生成するシーンを決定する
 	switch (scene_type)
 	{
-	/*case SCENE_TYPE::TITLE:
-		return new TitleScene;*/
-	/*case SCENE_TYPE::CREDITSCENE:
-		return new CreditScene;*/
+	case SCENE_TYPE::TITLE:
+		return new TitleScene;
+
 	case SCENE_TYPE::MAIN:
 		return new GameMainScene;
-	/*case SCENE_TYPE::GAME_OVER:
-		return new GameOverScene;
-	case SCENE_TYPE::GAME_CLEAR:
-		return new GameClearScene;
-	case SCENE_TYPE::ENDING:*/
+	
 	default:
 		return nullptr;
 	}

@@ -20,6 +20,8 @@ private:
     char name[13] = {'\0'};
     int moji_count;
 
+    int bright_value;
+
     VECTOR2_I cursor_location_index;
 
 public:

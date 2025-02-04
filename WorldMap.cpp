@@ -56,8 +56,7 @@ void WorldMap::SetMap()
 
 	fclose(map_data);
 
-	player_location = tile[START_PLAYER_LOCATION_Y][START_PLAYER_LOCATION_X].location;
-	player_location_index = VECTOR2_I{ START_PLAYER_LOCATION_X,  START_PLAYER_LOCATION_Y };
+	SetPlayerStartLocation();
 
 }
 
@@ -74,6 +73,7 @@ void WorldMap::Initialize()
 	encount_rate = -SAFE_ENCOUNT_STEP;
 	screen_blinking_time = 0.0f;
 	screen_blinking_count = 0;
+	bright_value = 255;
 }
 
 WorldMap::~WorldMap()
@@ -81,6 +81,11 @@ WorldMap::~WorldMap()
     OutputDebugString("WorldMapデストラクタが呼ばれました。\n");
 }
 
+void WorldMap::SetPlayerStartLocation()
+{
+	player_location = tile[START_PLAYER_LOCATION_Y][START_PLAYER_LOCATION_X].location;
+	player_location_index = VECTOR2_I{ START_PLAYER_LOCATION_X,  START_PLAYER_LOCATION_Y };
+}
 
 GAME_SCENE_TYPE WorldMap::Update(float delta_time)
 {
@@ -89,7 +94,7 @@ GAME_SCENE_TYPE WorldMap::Update(float delta_time)
 	{
 		if (UpdateEncountAnimation(delta_time))return GAME_SCENE_TYPE::BATTLE;
 	}
-	else
+	else if(bright_value == 255)
 	{
 		UpdateImageIndex(delta_time);
 
@@ -100,11 +105,7 @@ GAME_SCENE_TYPE WorldMap::Update(float delta_time)
 		{
 			if ((tile[player->GetLocationIndex().y][player->GetLocationIndex().x].type == 15) || (tile[player->GetLocationIndex().y][player->GetLocationIndex().x].type == 16))
 			{
-
-				player_location = tile[player->GetLocationIndex().y + 1][player->GetLocationIndex().x].location;
-				this->player_location_index = { player->GetLocationIndex().x, player->GetLocationIndex().y + 1 };
-
-				return GAME_SCENE_TYPE::TOWN_MAP;
+				bright_value--;
 			}
 			else if (++encount_rate > 0)
 			{
@@ -112,6 +113,14 @@ GAME_SCENE_TYPE WorldMap::Update(float delta_time)
 				if (GetRand(MAX_ENCOUNT_RATE - encount_rate) == 0)update_encount_animation = true;
 			}
 		}
+	}
+	else if ((bright_value -= 10) < -200)
+	{
+		bright_value = 255;
+		player_location = tile[player->GetLocationIndex().y + 1][player->GetLocationIndex().x].location;
+		this->player_location_index = { player->GetLocationIndex().x, player->GetLocationIndex().y + 1 };
+		SetDrawBright(255, 255, 255);
+		return GAME_SCENE_TYPE::TOWN_MAP;
 	}
 
     return GAME_SCENE_TYPE::WORLD_MAP;
@@ -169,11 +178,19 @@ void WorldMap::Draw() const
 	DrawBox(5, 50, 525, 130, 0xffffff, TRUE);
 	DrawBox(10, 55, 520, 125, 0x000000, TRUE);
 	
-	//DrawFormatString(0, 30, 0xffffff, "%d = x, %d = y", player->GetLocation().x, player->GetLocation().y);
+	//DrawFormatString(0, 30, 0xffffff, "%d", bright_value);
 	//DrawFormatString(0, 50, 0xffffff, "%d = x, %d = y", player->GetLocationIndex().x, player->GetLocationIndex().y);
 
 	DrawFormatStringToHandle(25, 55, 0xffffff, retro_font_48, "%s  HP %3d MP %3d", player->GetName(), player->GetHp(), player->GetMp());
 
 	//点滅の表示
 	if (screen_blinking_count % 2)DrawBox(0, 0, SCREEN_SIZE, SCREEN_SIZE, 0xffffff, TRUE);
+
+	if (bright_value != 255)
+	{
+		int bright_value = this->bright_value;
+		if (bright_value < 0)bright_value = 0;
+
+		SetDrawBright(bright_value, bright_value, bright_value);
+	}
 }

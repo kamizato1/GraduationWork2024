@@ -100,6 +100,7 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 		{
 			town_map->Initialize();
 			town_map->SetRevival();
+			world_map->SetPlayerStartLocation();
 		}
 
 		game_scene_type = next_game_scene_type;

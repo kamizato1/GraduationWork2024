@@ -22,6 +22,8 @@ private:
     VECTOR2_I player_location;
     VECTOR2_I player_location_index;
     
+    int bright_value;
+
     //関数
     void SetMap()override;//フィールドを生成
     bool UpdateEncountAnimation(float delta_time);//エンカウント時のアニメーション
@@ -33,6 +35,7 @@ public:
 
     int GetTileType()const;
     int GetEnemyRank()const;
+    void SetPlayerStartLocation();
 
     GAME_SCENE_TYPE Update(float delta_time)override;//戻り値あるよ！
 

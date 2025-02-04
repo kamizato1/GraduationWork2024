@@ -4,10 +4,8 @@
 enum SCENE_TYPE
 {
 	TITLE,
-	CREDITSCENE,
 	MAIN,
-	GAME_OVER,
-	GAME_CLEAR,
+	GAME_END
 };
 
 //基底シーンクラス
